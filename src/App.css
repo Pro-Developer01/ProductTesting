@@ -1,9 +1,18 @@
+:root {
+  --fill: 0;
+  --white: #ffffff;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Lato', sans-serif;
 }
-
+body
+{
+  background-color: #F9F9F9;
+}
 .main-container {
   display: flex;
 }
@@ -17,12 +26,18 @@ main {
   place-items: center;
 }
 
+
 /* Sidebar */
 .sidebar {
-  background: rgb(0, 7, 61);
-  color: white;
+  background: #FFFFFF;
+  color: #717171;
   height: 100vh;
   overflow-y: auto;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: baseline;
+  overflow: hidden;
 }
 
 .top_section {
@@ -37,6 +52,9 @@ main {
 }
 .bars {
   width: 30px;
+  cursor: pointer;
+  margin-left: 16px;
+  margin-bottom: 21px;
 }
 .hide {
   display: none;
@@ -55,7 +73,7 @@ main {
   border-radius: 5px;
   background: rgb(238, 238, 238);
 
-  color: white;
+  color: #717171;
 }
 
 .routes {
@@ -66,34 +84,71 @@ main {
 }
 .link {
   display: flex;
-  color: white;
+  color: #717171;
   gap: 10px;
   padding: 5px 10px;
+  --fill:0;
   border-right: 4px solid transparent;
-  transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  /* transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
+}
+.linkCollapsible{
+  display: flex;
+  flex-flow: column;
+  color: #717171;
+  align-items: center;
+  gap: 1px;
+  padding: 6px 4px;
+  --fill:0;
+  border-right: 4px solid transparent;
+  /* transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
+}
+.linkCollapsible:hover {
+  border-right: 4px solid white;
+  background: #E3E3E3 ;
+  border-radius: 24px;
+  --fill:1;
+  /* transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
 .link:hover {
   border-right: 4px solid white;
-  background: rgb(45, 51, 89);
-  transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  background: #E3E3E3 ;
+  border-radius: 24px;
+  --fill:1;
+  /* transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
 .active {
   border-right: 4px solid white;
-  background: rgb(45, 51, 89);
+  background: #E3E3E3 ;
+  --fill:1;
+  border-radius: 24px;
+}
+.activeCollapsible {
+  border-right: 4px solid white;
+  background: #E3E3E3 ;
+  --fill:1;
 }
 .link_text {
   white-space: nowrap;
   font-size: 15px;
+  background-color: transparent;
 }
-
+.link_text_collapse
+{
+  white-space: nowrap;
+  font-size: 10px;
+  background-color: transparent;
+}
 .menu {
   display: flex;
-  color: white;
+  color: #717171;
 
   padding: 5px 10px;
   border-right: 4px solid transparent;
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
   justify-content: space-between;
+}
+.menu :hover{
+  --fill:1;
 }
 .menu_item {
   display: flex;
@@ -106,4 +161,17 @@ main {
 .menu_container .link {
   padding-left: 20px;
   border-bottom: #fff 0.5px solid;
+}
+
+.icon svg 
+{
+  background-color: transparent;
+ /* fill: 0; */
+}
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' var(--fill),
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
 }
