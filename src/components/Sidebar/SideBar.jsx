@@ -1,10 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { FaBars, FaLock, FaMoneyBill, FaUser } from "react-icons/fa";
 import {  BiSearch } from "react-icons/bi";
-
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
+import DrawerModal from "../DrawerModal/DrawerModal";
 const routes = [
   {
     path: "/",
@@ -30,23 +30,23 @@ const routes = [
     path: "/file-manager",
     name: "Filter",
     icon: 'filter_alt',
-    subRoutes: [
-      {
-        path: "/settings/profile",
-        name: "Profile ",
-        icon: <FaUser />,
-      },
-      {
-        path: "/settings/2fa",
-        name: "2FA",
-        icon: <FaLock />,
-      },
-      {
-        path: "/settings/billing",
-        name: "Billing",
-        icon: <FaMoneyBill />,
-      },
-    ],
+    // subRoutes: [
+    //   {
+    //     path: "/settings/profile",
+    //     name: "Profile ",
+    //     icon: <FaUser />,
+    //   },
+    //   {
+    //     path: "/settings/2fa",
+    //     name: "2FA",
+    //     icon: <FaLock />,
+    //   },
+    //   {
+    //     path: "/settings/billing",
+    //     name: "Billing",
+    //     icon: <FaMoneyBill />,
+    //   },
+    // ],
   },
   {
     path: "/order",
@@ -56,8 +56,25 @@ const routes = [
 ];
 
 const SideBar = ({ children }) => {
+  const [title, setTitle] = useState(null);
+  const [tiggerModal, setTiggerModal] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+  
+
+  const handleNavigationButtons=(name)=>{
+    if(name!=='Home')
+    {
+      setTitle(name);
+      setTiggerModal(!tiggerModal);
+      setIsOpen(false);
+    }
+    else{
+      
+      setTitle(null);
+    }
+  }
+ 
   const inputAnimation = {
     hidden: {
       width: 0,
@@ -112,7 +129,7 @@ const SideBar = ({ children }) => {
 
           <div className="top_section">
             <AnimatePresence>
-              {isOpen && (
+              {isOpen ?(
                 <motion.h1
                   variants={showAnimation}
                   initial="hidden"
@@ -122,7 +139,16 @@ const SideBar = ({ children }) => {
                 >
                   Deep Read Logo
                 </motion.h1>
-              )}
+              ):
+              <motion.span
+                  variants={showAnimation}
+                  initial="hidden"
+                  animate="show"
+                  exit="hidden"
+                  // className="logo"
+                >
+                 Logo
+                </motion.span>}
             </AnimatePresence>
 
           
@@ -158,14 +184,13 @@ const SideBar = ({ children }) => {
               }
 
               return (
-                <NavLink
-                  to={route.path}
+                <button
                   key={index}
                   className={isOpen ? "link" : "linkCollapsible"}
-                  activeClassName={isOpen ? "active" : "activeCollapsible"}
+                  // id={isOpen ? "active" : "activeCollapsible"}
+                  onClick={()=>handleNavigationButtons(route.name)}
                 >
                   <span class="material-symbols-outlined">   {route.icon}</span>
-                  {/* <div className="icon">{route.icon}</div> */}
                   <AnimatePresence>
                     {isOpen? (
                       <motion.div
@@ -189,7 +214,7 @@ const SideBar = ({ children }) => {
                       </motion.div>
                     }
                   </AnimatePresence>
-                </NavLink>
+                </button>
               );
             })}
           </section>
@@ -200,8 +225,9 @@ const SideBar = ({ children }) => {
             </div>
           </div>
         </motion.div>
-
-        <main>{children}</main>
+        {title&&  <div className="sidebarLayer2">
+         <DrawerModal title={title} setTitle={setTitle}/>
+        </div>}
       </div>
     </>
   );

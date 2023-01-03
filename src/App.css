@@ -1,17 +1,25 @@
 :root {
   --fill: 0;
   --white: #ffffff;
+  --fontColor: #717171;
+  --HoverOver: #EDEDED;
+  --ClickState: #E3E3E3;
+  --BackgroundColor: #F9F9F9;
+  --NavigationBackgroundColor: #FFFFFF;
+  --fontSizeRegular:14px;
+  --borderColors: #e5e4e4;
+  --fontSizeHeading:21px;
+  --inputBorderColor:#e5e4e4;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
 }
-body
-{
-  background-color: #F9F9F9;
+body {
+  background-color: var(--BackgroundColor);
 }
 .main-container {
   display: flex;
@@ -26,11 +34,10 @@ main {
   place-items: center;
 }
 
-
 /* Sidebar */
 .sidebar {
-  background: #FFFFFF;
-  color: #717171;
+  background: var(--NavigationBackgroundColor);
+  color: var(--fontColor);
   height: 100vh;
   overflow-y: auto;
   display: flex;
@@ -73,7 +80,7 @@ main {
   border-radius: 5px;
   background: rgb(238, 238, 238);
 
-  color: #717171;
+  color: var(--BackgroundColor);
 }
 
 .routes {
@@ -84,56 +91,66 @@ main {
 }
 .link {
   display: flex;
-  color: #717171;
-  gap: 10px;
+  color: var(--fontColor);
+  background: var(--NavigationBackgroundColor);
+  gap: 19px;
   padding: 5px 10px;
-  --fill:0;
-  border-right: 4px solid transparent;
+  --fill: 0;
+  border: none;
+  cursor: pointer;
+  align-items: center;
+  margin: 9px 0px;
   /* transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
-.linkCollapsible{
+.linkCollapsible {
   display: flex;
   flex-flow: column;
-  color: #717171;
+  color: var(--fontColor);
+  background: var(--NavigationBackgroundColor);
   align-items: center;
   gap: 1px;
   padding: 6px 4px;
-  --fill:0;
-  border-right: 4px solid transparent;
+  --fill: 0;
+  border: none;
+  cursor: pointer;
+  margin: 9px 0px;
   /* transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
 .linkCollapsible:hover {
-  border-right: 4px solid white;
-  background: #E3E3E3 ;
+  border: none;
+  background: var(--HoverOver);
   border-radius: 24px;
-  --fill:1;
+  --fill: 1;
   /* transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
 .link:hover {
-  border-right: 4px solid white;
-  background: #E3E3E3 ;
+  border: none;
+  background: var(--HoverOver);
   border-radius: 24px;
-  --fill:1;
+  --fill: 1;
   /* transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
-.active {
-  border-right: 4px solid white;
-  background: #E3E3E3 ;
-  --fill:1;
+.link:active {
+  border: none;
+  background: var(--ClickState);
+  --fill: 1;
   border-radius: 24px;
+  transform: scale(0.98);
+  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.24);
 }
-.activeCollapsible {
-  border-right: 4px solid white;
-  background: #E3E3E3 ;
-  --fill:1;
+.linkCollapsible:active {
+  border: none;
+  background: var(--ClickState);
+  --fill: 1;
+  transform: scale(0.98);
+  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.24);
 }
 .link_text {
   white-space: nowrap;
-  font-size: 15px;
+  font-size: var(--fontSizeRegular);
   background-color: transparent;
 }
-.link_text_collapse
-{
+.link_text_collapse {
   white-space: nowrap;
   font-size: 10px;
   background-color: transparent;
@@ -147,8 +164,8 @@ main {
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
   justify-content: space-between;
 }
-.menu :hover{
-  --fill:1;
+.menu :hover {
+  --fill: 1;
 }
 .menu_item {
   display: flex;
@@ -163,15 +180,15 @@ main {
   border-bottom: #fff 0.5px solid;
 }
 
-.icon svg 
-{
+.icon svg {
   background-color: transparent;
- /* fill: 0; */
+  /* fill: 0; */
 }
 .material-symbols-outlined {
-  font-variation-settings:
-  'FILL' var(--fill),
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 48
+  font-variation-settings: "FILL" var(--fill), "wght" 400, "GRAD" 0, "opsz" 48;
+}
+
+.sidebarLayer2
+{
+  width: 30%;
 }

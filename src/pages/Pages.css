@@ -1,0 +1,26 @@
+.NavigationMenu .radioInputs {
+  margin-left: 45px;
+}
+
+.SearchMenu .search {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  height: 30px;
+  padding: 10px;
+  border: 1px solid var(--inputBorderColor);
+  border-radius: 33px;
+  justify-content: space-between;
+}
+.SearchMenu .search input {
+  border: none;
+  margin-left: 10px;
+  border-radius: 5px;
+  background: var(--NavigationBackgroundColor);
+  color: var(--fontColor);
+}
+
+ input:focus {
+  outline-offset: 0px !important;
+  outline: none !important;
+}
