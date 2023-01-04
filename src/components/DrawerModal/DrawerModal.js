@@ -2,6 +2,9 @@ import React from 'react'
 import './DrawerModal.css'
 import Navigation from '../../pages/Navigation';
 import SearchMenu from '../../pages/SearchMenu';
+import ShowMenu from '../../pages/ShowMenu';
+import Filter from '../../pages/Filter';
+import Template from '../../pages/Template';
 
 export default function DrawerModal({title, setTitle}) {
   const closeHandle=()=>{
@@ -17,13 +20,13 @@ export default function DrawerModal({title, setTitle}) {
         return <SearchMenu/>;
       case 'Show':
         // code block
-        break;
+     return <ShowMenu/>;
       case 'Filter':
         // code block
-        break;
+        return <Filter/>;
       case 'Template':
         // code block
-        break;
+       return <Template/>;
       default:
         return <span>Please Select Proper tab</span>
     }

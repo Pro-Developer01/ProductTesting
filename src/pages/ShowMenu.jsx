@@ -6,50 +6,71 @@ import './Pages.css'
 const routes = [
   {
     path: "/",
-    name: "Feed",
-    icon: "dynamic_feed",
+    name: "Highlights",
+    icon: "album",
   },
   {
     path: "/users",
-    name: "My Previous Session",
-    icon: 'skip_previous',
+    name: "Idea Cards",
+    icon: 'lightbulb',
+    subRoutes: [
+        {
+          name: "Keywords",
+          icon: 'vpn_key',
+          state: true
+        },
+        {
+          name: "Main claims",
+          icon: 'double_arrow',
+          state: true
+        },
+        {
+          name: "Quotes",
+          icon: 'format_quote',
+          state: true
+        },
+        {
+          name: "Arguments",
+          icon: 'auto_stories',
+          state: true
+        },
+        {
+          name: "Action Items",
+          icon: 'campaign',
+          state: true
+        },
+        {
+          name: "Custom1",
+          icon: 'settings',
+          state: true
+        },
+        {
+          name: "Custom2",
+          icon: 'settings',
+          state: true
+        },
+        {
+          name: "Custom3",
+          icon: 'settings',
+          state: true
+        },
+        
+      ],
   },
   {
     path: "/messages",
-    name: "My current book",
-    icon: 'local_library',
+    name: "Books",
+    icon: 'menu_book',
   },
   {
     path: "/analytics",
-    name: "My Library",
-    icon: 'library_books',
+    name: "Tags",
+    icon: 'tag',
   },
-  {
-    path: "/file-manager",
-    name: "My Bookmarks",
-    icon: 'bookmarks',
-    subRoutes: [
-      {
-        name: "Page1",
-      },
-      {
-        name: "Page2",
-      },
-      {
-        name: "Page3",
-      },
-      {
-        name: "Page4",
-      },
-      {
-        name: "Page5",
-      },
-    ],
-  },
-  
+    
 ];
 
-const Navigation = () => {
+const ShowMenu = () => {
   const [title, setTitle] = useState(null);
   const [tiggerModal, setTiggerModal] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -63,6 +84,9 @@ const Navigation = () => {
   }
  const bookmarkClicked=()=>{
   setBookmarkState(!bookmarkState);
+ }
+ const CardsClicked=()=>{
+    
  }
   const inputAnimation = {
     hidden: {
@@ -128,12 +152,27 @@ const Navigation = () => {
             {bookmarkState&& <div className="radioInputs">
               {route.subRoutes?.map((item,i)=>{
                 return (
-                  <>
-                  <span className="link" >
-                  <input type="radio" id={item.name} name="bookmarPage" value={item.name} />
-                  <label for={item.name}>{item.name}</label>
-                  </span>
-                  </>
+                    <button
+                    key={index}
+                    className={isOpen ? "linkCollapsible" : "link"}
+                    // id={isOpen ? "active" : "activeCollapsible"}
+                    onClick={CardsClicked}
+                  >
+                    <AnimatePresence>
+                    <span class="material-symbols-outlined">   {item.icon}</span>
+                        <motion.div
+                          variants={showAnimation}
+                          initial="hidden"
+                          animate="show"
+                          exit="hidden"
+                          className="link_text"
+                        >
+                          {item.name}
+                        
+                        </motion.div>
+                       
+                    </AnimatePresence>
+                  </button>
                 )
               })}
             </div>
@@ -170,4 +209,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default ShowMenu;
