@@ -96,7 +96,7 @@
   align-items: center;
   margin: 9px 0px;
   width: 244px;
-  background: var(--HoverOver);
+  background: var(--ClickState);
   --fill: 1;
   border-radius: 24px;
 
@@ -112,7 +112,7 @@
   align-items: center;
   margin: 9px 0px;
   width: 211px;
-  background: var(--HoverOver);
+  background: var(--ClickState);
   --fill: 1;
   border-radius: 24px;
 }

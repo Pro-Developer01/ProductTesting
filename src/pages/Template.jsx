@@ -41,24 +41,38 @@ const routes = [
 ];
 
 const Template = () => {
-  const [flag, setFlag] = useState(false);
-  const [tiggerModal, setTiggerModal] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [bookmarkState, setBookmarkState] = useState(false);
+  const [ideaCardActiveState, setIdeaCardActiveState] = useState(false);
+  const [flag, setFlag] = useState(false);
+  const [counter, setCounter] = useState(0);
   const [hierarchicalState, setHierarchicalState] = useState(false);
   const [tileState, setTileState] = useState(false);
   const [bidirectionalState, setBidirectionalState] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-useEffect(()=>{console.log('routes',routes[1].subRoutes)},[flag])
-
   const handleNavigationButtons = (name) => {
-    // setTitle(name);
-    setTiggerModal(!tiggerModal);
     setIsOpen(false);
   };
   const bookmarkClicked = () => {
-    setBookmarkState(!bookmarkState);
+    //countr=0 true
+    console.log(counter)
+    if (counter === 0) {
+      setIdeaCardActiveState(true);
+      setBookmarkState(true);
+      setCounter(1);
+    } else if (counter === 1) {
+      routes[1].subRoutes.forEach((item) => {
+        item.state = false;
+      });
+      setFlag(!flag);
+      setIdeaCardActiveState(false);
+      setCounter(2);
+    } else if (counter === 2) {
+      setBookmarkState(false);
+      setIdeaCardActiveState(false);
+      setCounter(0);
+    }
   };
   const HierarchicalLinkClicked = () => {
     setHierarchicalState(!hierarchicalState);
@@ -68,9 +82,10 @@ useEffect(()=>{console.log('routes',routes[1].subRoutes)},[flag])
   };
   const selectedList = (index) => {
     // let flag=routes[1].subRoutes?[index].state;
-    routes[1].subRoutes[index].state=!routes[1].subRoutes[index].state;
+    routes[1].subRoutes[index].state = !routes[1].subRoutes[index].state;
     setFlag(!flag);
-    console.log('flag',routes[1].subRoutes[index].state);
+    setIdeaCardActiveState(true);
+    console.log("flag", routes[1].subRoutes[index].state);
   };
   const tagIsClicked = () => {
     setTileState(!tileState);
@@ -115,7 +130,7 @@ useEffect(()=>{console.log('routes',routes[1].subRoutes)},[flag])
           return (
             <>
               <button
-                className={bookmarkState ? "activeState" : "link"}
+                className={ideaCardActiveState ? "activeState" : "link"}
                 // id={isOpen ? "active" : "activeCollapsible"}
                 onClick={bookmarkClicked}
               >
@@ -145,7 +160,7 @@ useEffect(()=>{console.log('routes',routes[1].subRoutes)},[flag])
                         key={i}
                         className={item.state ? "activeState" : "link"}
                         // id={isOpen ? "active" : "activeCollapsible"}
-                        onClick={()=>selectedList(i)}
+                        onClick={() => selectedList(i)}
                       >
                         <AnimatePresence>
                           <span class="material-symbols-outlined">

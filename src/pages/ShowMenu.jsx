@@ -75,6 +75,9 @@ const ShowMenu = () => {
   const [tiggerModal, setTiggerModal] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [bookmarkState, setBookmarkState] = useState(false);
+  const [ideaCardActiveState, setIdeaCardActiveState] = useState(false);
+  const [flag, setFlag] = useState(false);
+  const [counter, setCounter] = useState(0);
   const toggle = () => setIsOpen(!isOpen);
 
   const handleNavigationButtons=(name)=>{
@@ -82,11 +85,30 @@ const ShowMenu = () => {
     setTiggerModal(!tiggerModal);
     setIsOpen(false);
   }
- const bookmarkClicked=()=>{
-  setBookmarkState(!bookmarkState);
- }
- const CardsClicked=()=>{
-    
+  const bookmarkClicked = () => {
+    //countr=0 true
+    console.log(counter)
+    if (counter === 0) {
+      setIdeaCardActiveState(true);
+      setBookmarkState(true);
+      setCounter(1);
+    } else if (counter === 1) {
+      routes[1].subRoutes.forEach((item) => {
+        item.state = false;
+      });
+      setFlag(!flag);
+      setIdeaCardActiveState(false);
+      setCounter(2);
+    } else if (counter === 2) {
+      setBookmarkState(false);
+      setIdeaCardActiveState(false);
+      setCounter(0);
+    }
+  };
+ const CardsClicked=(index)=>{
+  routes[1].subRoutes[index].state = !routes[1].subRoutes[index].state;
+  setFlag(!flag);
+  setIdeaCardActiveState(true);
  }
   const inputAnimation = {
     hidden: {
@@ -129,7 +151,7 @@ const ShowMenu = () => {
             <>
              <button
             key={index}
-            className={isOpen ? "linkCollapsible" : "link"}
+            className={ideaCardActiveState ? "activeState" : "link"}
             // id={isOpen ? "active" : "activeCollapsible"}
             onClick={bookmarkClicked}
           >
@@ -154,9 +176,9 @@ const ShowMenu = () => {
                 return (
                     <button
                     key={index}
-                    className={isOpen ? "linkCollapsible" : "link"}
+                    className={item.state ? "activeState" : "link"}
                     // id={isOpen ? "active" : "activeCollapsible"}
-                    onClick={CardsClicked}
+                    onClick={() => CardsClicked(i)}
                   >
                     <AnimatePresence>
                     <span class="material-symbols-outlined">   {item.icon}</span>

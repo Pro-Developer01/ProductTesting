@@ -58,11 +58,17 @@ main {
   line-height: 0;
 }
 .bars {
-  width: 30px;
+  width: 100%;
   cursor: pointer;
   margin-left: 16px;
   margin-bottom: 21px;
+  display: flex;
+  justify-content: start;
 }
+/* .bars:hover{
+  background-color: var(--HoverOver);
+  border-radius: 33px;
+} */
 .hide {
   display: none;
 }
@@ -87,7 +93,7 @@ main {
   margin-top: 15px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  /* gap: 5px; */
 }
 .link {
   display: flex;
@@ -119,7 +125,7 @@ main {
 .linkCollapsible:hover {
   border: none;
   background: var(--HoverOver);
-  border-radius: 24px;
+  border-radius: 9px;
   --fill: 1;
   /* transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
@@ -186,6 +192,21 @@ main {
 }
 .material-symbols-outlined {
   font-variation-settings: "FILL" var(--fill), "wght" 400, "GRAD" 0, "opsz" 48;
+}
+
+.sidebarLower
+{
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  width: 100%;
+
+}
+#sidebarProfileImg
+{
+  border-radius: 30px;
+    width: 26px;
+    height: 26px;
 }
 
 .sidebarLayer2

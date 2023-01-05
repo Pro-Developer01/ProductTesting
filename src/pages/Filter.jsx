@@ -39,6 +39,9 @@ const Filter = () => {
   const [tiggerModal, setTiggerModal] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [bookmarkState, setBookmarkState] = useState(false);
+  const [ideaCardActiveState, setIdeaCardActiveState] = useState(false);
+  const [flag, setFlag] = useState(false);
+  const [counter, setCounter] = useState(0);
   const [bookState, setBookState] = useState(false);
   const [tagState, setTagState] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
@@ -49,12 +52,33 @@ const Filter = () => {
     setIsOpen(false);
   };
   const bookmarkClicked = () => {
-    setBookmarkState(!bookmarkState);
+    //countr=0 true
+    console.log(counter)
+    if (counter === 0) {
+      setIdeaCardActiveState(true);
+      setBookmarkState(true);
+      setCounter(1);
+    } else if (counter === 1) {
+      routes[0].subRoutes.forEach((item) => {
+        item.state = false;
+      });
+      setFlag(!flag);
+      setIdeaCardActiveState(false);
+      setCounter(2);
+    } else if (counter === 2) {
+      setBookmarkState(false);
+      setIdeaCardActiveState(false);
+      setCounter(0);
+    }
   };
   const bookIsClicked = () => {
     setBookState(!bookState);
   };
-  const CardsClicked = () => {};
+  const CardsClicked = (index) => {
+    routes[0].subRoutes[index].state = !routes[0].subRoutes[index].state;
+    setFlag(!flag);
+    setIdeaCardActiveState(true);
+  };
   const tagIsClicked = () => {
     setTagState(!tagState);
   };
@@ -99,7 +123,7 @@ const Filter = () => {
             <>
               <button
                 key={index}
-                className={isOpen ? "linkCollapsible" : "link"}
+                className={ideaCardActiveState ? "activeState" : "link"}
                 // id={isOpen ? "active" : "activeCollapsible"}
                 onClick={bookmarkClicked}
               >
@@ -127,9 +151,9 @@ const Filter = () => {
                     return (
                       <button
                         key={index}
-                        className={isOpen ? "linkCollapsible" : "link"}
+                        className={item.state ? "activeState" : "link"}
                         // id={isOpen ? "active" : "activeCollapsible"}
-                        onClick={CardsClicked}
+                        onClick={() => CardsClicked(i)}
                       >
                         <AnimatePresence>
                           <span class="material-symbols-outlined">
