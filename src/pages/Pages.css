@@ -221,6 +221,8 @@ option
   border-radius: 9px;
   border: 1px solid;
   object-fit: cover;
+  width: 100%;
+
 }
 .bookMetaContainer
 {
@@ -236,11 +238,19 @@ option
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  background: none;
+  border: none;
+  text-align: left;
 
 }
 .bookMetaContainer .author
 {
   color: gray;
   font-size: 14px;
+  width: 164px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
 }
 

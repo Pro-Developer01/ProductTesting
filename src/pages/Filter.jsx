@@ -3,6 +3,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import "./Pages.css";
+import axios from "axios";
+import { useEffect } from "react";
+import Tooltip from '@mui/material/Tooltip';
 
 const routes = [
   {
@@ -33,9 +36,21 @@ const routes = [
     ],
   },
 ];
-const tagsData=['Bitcoin','Calisthenics', 'FreeDiving', 'Habits','Bitcoin','Calisthenics', 'FreeDiving', 'Habits','Bitcoin','Calisthenics', 'FreeDiving', 'Habits']
+
+let booksData=[
+  {
+    title:'xyz',
+    aurthor:'someone',
+    img:'',
+    id:'38383'
+  },
+]
+const tagsDataDemo=['Dummy_Tag','Dummy_Tag_Calisthenics', 'Dummy_Tag_FreeDiving', 'Dummy_Tag_Habits','Dummy_Tag_Bitcoin']
 const Filter = () => {
-  const [title, setTitle] = useState(null);
+  const [title, setTitle] = useState(booksData);
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [data, setData] = useState(null);
+  const [tagdata, setTagData] = useState(tagsDataDemo);
   const [tiggerModal, setTiggerModal] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [bookmarkState, setBookmarkState] = useState(false);
@@ -45,6 +60,86 @@ const Filter = () => {
   const [bookState, setBookState] = useState(false);
   const [tagState, setTagState] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+
+  const loginAuths=()=>{
+    axios.post('http://app.deepread.com:8000/api/auth/demo-account').then((res)=>{
+      console.log('post',res)
+      if(res.status===200)
+      {
+        const token=res.data.authorization;
+        const userId=res.data.user_id;
+        localStorage.setItem('userId',userId);
+        localStorage.setItem('token',token);
+        setToken(token);
+      }
+    }).catch((err)=>{console.log(err)})
+  }
+  
+  const nameCorrection=(string)=>{
+    if(string.includes(','))
+    {
+      let array=string.split(',');
+      let fullName=array[1]+' '+array[0];
+      return fullName;
+    }
+    else return string;
+  }
+
+  useEffect(()=>{
+    const userId=localStorage.getItem('userId');
+    axios.get(`http://app.deepread.com:8000/api/user/get-metadata?user_id=${userId}`, {
+      headers:{
+        // 'Accept': 'application/json',
+        // 'Content-Type': 'application/json',
+        authorization: token
+      }
+    }).then((res)=>{
+      if(res.data.data)
+      {
+        const rawData=res.data.data;
+        booksData=[];
+        const tagsLocal=[];
+        rawData.forEach((item)=>{
+          const obj={};
+          obj.title=item.title;
+          obj.img=item.img_path;
+          obj.id=item._id;
+          let aurthorNameArr=[];
+          if(item.author.includes(';'))
+          {
+            let namesArray=item.author.split(';');
+            console.log(namesArray)
+            namesArray.forEach((ele)=>{aurthorNameArr.push(nameCorrection(ele))})
+          }
+          else{
+            aurthorNameArr.push(nameCorrection(item.author));
+          }
+          obj.author=aurthorNameArr;
+          booksData.push(obj);
+          tagsLocal.push(...item.tags);
+          
+        })
+        setData(booksData);
+        if( tagsLocal.length)
+        {
+          setTagData(tagsLocal)
+        }
+        console.log(booksData)
+        console.log('tagsLocal',tagsLocal);
+        console.log('rawData',res.data.data);
+      }
+      // setData(res.data.data);
+    }).catch((err)=>{
+      if(err.response)
+      {
+        // localStorage.clear();
+        loginAuths();
+      }
+      console.log('err,',err)
+    })
+  },[token])
+
+
 
   const handleNavigationButtons = (name) => {
     setTitle(name);
@@ -122,13 +217,13 @@ const Filter = () => {
           return (
             <>
               <button
-                key={index}
+                key={index+route.name}
                 className={ideaCardActiveState ? "activeState" : "link"}
                 // id={isOpen ? "active" : "activeCollapsible"}
                 onClick={bookmarkClicked}
               >
                 <AnimatePresence>
-                  <span class="material-symbols-outlined"> {route.icon}</span>
+                  <span className="material-symbols-outlined"> {route.icon}</span>
                   <motion.div
                     variants={showAnimation}
                     initial="hidden"
@@ -138,7 +233,7 @@ const Filter = () => {
                   >
                     {route.name}
                   </motion.div>
-                  <span class="material-symbols-outlined" id='arrows'>
+                  <span className="material-symbols-outlined" id='arrows'>
                     {" "}
                     {!bookmarkState ? "chevron_right" : "expand_more"}
                   </span>
@@ -150,13 +245,13 @@ const Filter = () => {
                   {route.subRoutes?.map((item, i) => {
                     return (
                       <button
-                        key={index}
+                        key={i+item.name}
                         className={item.state ? "activeState" : "link"}
                         // id={isOpen ? "active" : "activeCollapsible"}
                         onClick={() => CardsClicked(i)}
                       >
                         <AnimatePresence>
-                          <span class="material-symbols-outlined">
+                          <span className="material-symbols-outlined">
                             {" "}
                             {item.icon}
                           </span>
@@ -188,7 +283,7 @@ const Filter = () => {
           onClick={() => bookIsClicked()}
         >
           <AnimatePresence>
-            <span class="material-symbols-outlined">menu_book</span>
+            <span className="material-symbols-outlined">menu_book</span>
             <motion.div
               variants={showAnimation}
               initial="hidden"
@@ -198,7 +293,7 @@ const Filter = () => {
             >
               Books
             </motion.div>
-            <span class="material-symbols-outlined" id='arrows'>
+            <span className="material-symbols-outlined" id='arrows'>
               {" "}
               {!bookState ? "chevron_right" : "expand_more"}
             </span>
@@ -235,20 +330,19 @@ const Filter = () => {
 
           {/* //Api LIst  */}
           <div className="bookList">
-            <div className="bookListContainer">
-                <img src="https://m.media-amazon.com/images/I/41wuB-s8vRL.jpg" alt="atmoic Habit" width={50} height={50} />
+            {data?.map((item,i)=>{
+              return (
+                <div key={item.id} className="bookListContainer">
+                <img src={item.img} alt={item.title} width={50} height={50} />
                 <div className="bookMetaContainer">
-                    <span className="heading">Atomic Habits</span>
-                    <span className="author">By Shashank Yadav</span>
+                <Tooltip title={item.title} arrow><button className="heading">{item.title}</button></Tooltip>
+              <span className="author">By {item.author}</span>
                 </div>
             </div>
-            <div className="bookListContainer">
-                <img src="https://m.media-amazon.com/images/I/51u8ZRDCVoL.jpg" alt="atmoic Habit" width={50} height={50} />
-                <div className="bookMetaContainer">
-                    <span className="heading">Rich dad poor dad</span>
-                    <span className="author">By Shashank Yadav</span>
-                </div>
-            </div>
+              );
+            })}
+          
+           
           </div>
         </div>}
       </div>
@@ -260,7 +354,7 @@ const Filter = () => {
         onClick={() => tagIsClicked()}
       >
         <AnimatePresence>
-          <span class="material-symbols-outlined">tag</span>
+          <span className="material-symbols-outlined">tag</span>
           <motion.div
             variants={showAnimation}
             initial="hidden"
@@ -270,7 +364,7 @@ const Filter = () => {
           >
             Tags 
           </motion.div>
-          <span class="material-symbols-outlined" id='arrows'>
+          <span className="material-symbols-outlined" id='arrows'>
             {" "}
             {!tagState ? "chevron_right" : "expand_more"}
           </span>
@@ -279,16 +373,16 @@ const Filter = () => {
 
              {tagState && (
                 <div className="radioInputs">
-                  {tagsData?.map((item, i) => {
+                  {tagdata?.map((item, i) => {
                     return (
                       <button
-                        key={i}
+                        key={i+item}
                         className={isOpen ? "linkCollapsible" : "link"}
                         // id={isOpen ? "active" : "activeCollapsible"}
                         onClick={CardsClicked}
                       >
                         <AnimatePresence>
-                          <span class="material-symbols-outlined" style={{fontSize:'18px'}}>
+                          <span className="material-symbols-outlined" style={{fontSize:'18px'}}>
                             {" "}
                         tag
                           </span>

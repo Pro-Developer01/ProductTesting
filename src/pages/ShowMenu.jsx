@@ -156,7 +156,7 @@ const ShowMenu = () => {
             onClick={bookmarkClicked}
           >
             <AnimatePresence>
-            <span class="material-symbols-outlined">   {route.icon}</span>
+            <span className="material-symbols-outlined">   {route.icon}</span>
                 <motion.div
                   variants={showAnimation}
                   initial="hidden"
@@ -167,7 +167,7 @@ const ShowMenu = () => {
                   {route.name}
                 
                 </motion.div>
-                <span class="material-symbols-outlined" id='arrows'>   {!bookmarkState?'chevron_right':'expand_more'}</span>
+                <span className="material-symbols-outlined" id='arrows'>   {!bookmarkState?'chevron_right':'expand_more'}</span>
             </AnimatePresence>
           </button>
 
@@ -181,7 +181,7 @@ const ShowMenu = () => {
                     onClick={() => CardsClicked(i)}
                   >
                     <AnimatePresence>
-                    <span class="material-symbols-outlined">   {item.icon}</span>
+                    <span className="material-symbols-outlined">   {item.icon}</span>
                         <motion.div
                           variants={showAnimation}
                           initial="hidden"
@@ -211,7 +211,7 @@ const ShowMenu = () => {
             onClick={()=>handleNavigationButtons(route.name)}
           >
             <AnimatePresence>
-            <span class="material-symbols-outlined">   {route.icon}</span>
+            <span className="material-symbols-outlined">   {route.icon}</span>
                 <motion.div
                   variants={showAnimation}
                   initial="hidden"

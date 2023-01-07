@@ -5,6 +5,8 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
 import DrawerModal from "../DrawerModal/DrawerModal";
+import { useEffect } from "react";
+import axios from "axios";
 const routes = [
   {
     path: "/",
@@ -60,6 +62,7 @@ const SideBar = ({ children }) => {
   const [tiggerModal, setTiggerModal] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+
 
   const handleNavigationButtons = (name) => {
     if (name !== "Home") {
@@ -184,7 +187,7 @@ const SideBar = ({ children }) => {
                     // id={isOpen ? "active" : "activeCollapsible"}
                     onClick={() => handleNavigationButtons(route.name)}
                   >
-                    <span class="material-symbols-outlined"> {route.icon}</span>
+                    <span className="material-symbols-outlined"> {route.icon}</span>
                     <AnimatePresence>
                       {isOpen ? (
                         <motion.div

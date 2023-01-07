@@ -135,7 +135,7 @@ const Template = () => {
                 onClick={bookmarkClicked}
               >
                 <AnimatePresence>
-                  <span class="material-symbols-outlined"> {route.icon}</span>
+                  <span className="material-symbols-outlined"> {route.icon}</span>
                   <motion.div
                     variants={showAnimation}
                     initial="hidden"
@@ -145,7 +145,7 @@ const Template = () => {
                   >
                     {route.name}
                   </motion.div>
-                  <span class="material-symbols-outlined" id="arrows">
+                  <span className="material-symbols-outlined" id="arrows">
                     {" "}
                     {!bookmarkState ? "chevron_right" : "expand_more"}
                   </span>
@@ -163,7 +163,7 @@ const Template = () => {
                         onClick={() => selectedList(i)}
                       >
                         <AnimatePresence>
-                          <span class="material-symbols-outlined">
+                          <span className="material-symbols-outlined">
                             {" "}
                             {item.icon}
                           </span>
@@ -194,7 +194,7 @@ const Template = () => {
             onClick={() => handleNavigationButtons(route.name)}
           >
             <AnimatePresence>
-              <span class="material-symbols-outlined"> {route.icon}</span>
+              <span className="material-symbols-outlined"> {route.icon}</span>
               <motion.div
                 variants={showAnimation}
                 initial="hidden"
@@ -216,7 +216,7 @@ const Template = () => {
         onClick={() => tagIsClicked()}
       >
         <AnimatePresence>
-          <span class="material-symbols-outlined">grid_view</span>
+          <span className="material-symbols-outlined">grid_view</span>
           <motion.div
             variants={showAnimation}
             initial="hidden"
@@ -226,7 +226,7 @@ const Template = () => {
           >
             Tiles
           </motion.div>
-          <span class="material-symbols-outlined" id="arrows">
+          <span className="material-symbols-outlined" id="arrows">
             {" "}
             {!tileState ? "chevron_right" : "expand_more"}
           </span>
@@ -237,7 +237,7 @@ const Template = () => {
         <div className="dynamicSelectContainer">
           <AnimatePresence>
             <span
-              class="material-symbols-outlined"
+              className="material-symbols-outlined"
               style={{ fontSize: "18px" }}
             >
               {" "}
@@ -270,7 +270,7 @@ const Template = () => {
         onClick={() => HierarchicalLinkClicked()}
       >
         <AnimatePresence>
-          <span class="material-symbols-outlined">device_hub</span>
+          <span className="material-symbols-outlined">device_hub</span>
           <motion.div
             variants={showAnimation}
             initial="hidden"
@@ -280,7 +280,7 @@ const Template = () => {
           >
             Hierarchical links
           </motion.div>
-          <span class="material-symbols-outlined" id="arrows">
+          <span className="material-symbols-outlined" id="arrows">
             {" "}
             {!tileState ? "chevron_right" : "expand_more"}
           </span>
@@ -291,7 +291,7 @@ const Template = () => {
         <div className="dynamicSelectContainer">
           <AnimatePresence>
             <span
-              class="material-symbols-outlined"
+              className="material-symbols-outlined"
               style={{ fontSize: "18px" }}
             >
               {" "}
@@ -323,7 +323,7 @@ const Template = () => {
         onClick={() => BidirectionalLinkClicked()}
       >
         <AnimatePresence>
-          <span class="material-symbols-outlined">share</span>
+          <span className="material-symbols-outlined">share</span>
           <motion.div
             variants={showAnimation}
             initial="hidden"
@@ -333,7 +333,7 @@ const Template = () => {
           >
             Bidirectional links
           </motion.div>
-          <span class="material-symbols-outlined" id="arrows">
+          <span className="material-symbols-outlined" id="arrows">
             {" "}
             {!tileState ? "chevron_right" : "expand_more"}
           </span>
@@ -345,7 +345,7 @@ const Template = () => {
           <div className="dynamicSelectContainer">
             <AnimatePresence>
               <span
-                class="material-symbols-outlined"
+                className="material-symbols-outlined"
                 style={{ fontSize: "18px" }}
               >
                 {" "}
@@ -372,7 +372,7 @@ const Template = () => {
           <div className="dynamicSelectContainer">
             <AnimatePresence>
               <span
-                class="material-symbols-outlined"
+                className="material-symbols-outlined"
                 style={{ fontSize: "18px" }}
               >
                 {" "}
@@ -399,7 +399,7 @@ const Template = () => {
           <div className="dynamicSelectContainer">
             <AnimatePresence>
               <span
-                class="material-symbols-outlined"
+                className="material-symbols-outlined"
                 style={{ fontSize: "18px" }}
               >
                 {" "}
