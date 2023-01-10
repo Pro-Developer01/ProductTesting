@@ -86,7 +86,7 @@ const Filter = () => {
         console.log('LoginAuth Error',err);
       });
   };
-  
+
 if (!userId||!token)
 {
   loginAuths();
@@ -100,6 +100,7 @@ if (!userId||!token)
   };
 
   useEffect(() => {
+    loginAuths();
     const userId = localStorage.getItem("userId");
     axios
       .get(
