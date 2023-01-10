@@ -87,7 +87,7 @@ const Filter = () => {
       });
   };
 
-if (!userId||!token)
+if (!token)
 {
   loginAuths();
 }
