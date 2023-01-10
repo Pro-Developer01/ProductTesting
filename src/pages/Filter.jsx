@@ -69,6 +69,7 @@ const Filter = () => {
   const toggle = () => setIsOpen(!isOpen);
 
   const loginAuths = () => {
+    console.log('running loginAuth....')
     axios
       .post("http://app.deepread.com:8000/api/auth/demo-account")
       .then((res) => {
@@ -82,10 +83,14 @@ const Filter = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.log('LoginAuth Error',err);
       });
   };
-
+  
+if (!userId||!token)
+{
+  loginAuths();
+}
   const nameCorrection = (string) => {
     if (string.includes(",")) {
       let array = string.split(",");
