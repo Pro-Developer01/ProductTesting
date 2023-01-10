@@ -35,7 +35,7 @@ export default function DrawerModal({title, setTitle}) {
     <div className='DrawerModalParent'>
       <div className="headingSection">
         <span id='heading'>{title}</span>
-        <span class="material-symbols-outlined" onClick={closeHandle} style={{cursor:'pointer'}}> close</span>
+        <span class="material-symbols-outlined" onClick={closeHandle} style={{cursor:'pointer', color:'#717171'}}> close</span>
       </div>
       <div className="contentsection">
       {NavigationHandler(title)}

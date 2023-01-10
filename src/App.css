@@ -1,5 +1,6 @@
 :root {
   --fill: 0;
+  --weight: 400;
   --white: #ffffff;
   --fontColor: #717171;
   --HoverOver: #EDEDED;
@@ -28,6 +29,11 @@ main {
   padding: 10px;
 }
 
+.logoColapse
+{
+  width: 300px;
+  /* height: 300px; */
+}
 .title {
   font-size: 3rem;
   display: grid;
@@ -57,18 +63,7 @@ main {
   font-size: 18px;
   line-height: 0;
 }
-.bars {
-  width: 100%;
-  cursor: pointer;
-  margin-left: 16px;
-  margin-bottom: 21px;
-  display: flex;
-  justify-content: start;
-}
-/* .bars:hover{
-  background-color: var(--HoverOver);
-  border-radius: 33px;
-} */
+
 .hide {
   display: none;
 }
@@ -90,10 +85,22 @@ main {
 }
 
 .routes {
-  margin-top: 15px;
+  /* margin-top: 15px; */
   display: flex;
   flex-direction: column;
   /* gap: 5px; */
+  width: 180px;
+}
+.routesCollapsible
+{
+  /* margin-top: 15px; */
+  display: flex;
+  flex-direction: column;
+  width: 53px;
+}
+#routesID:first-child
+{
+  margin-top: 0;
 }
 .link {
   display: flex;
@@ -102,10 +109,12 @@ main {
   gap: 19px;
   padding: 5px 10px;
   --fill: 0;
+  --weight: 400;
   border: none;
   cursor: pointer;
   align-items: center;
-  margin: 9px 0px;
+  margin: 11px 0px;
+  /* height: 56px; */
   /* transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
 .linkCollapsible {
@@ -117,9 +126,10 @@ main {
   gap: 1px;
   padding: 6px 4px;
   --fill: 0;
+  --weight: 400;
   border: none;
   cursor: pointer;
-  margin: 9px 0px;
+  margin: 3px 0px;
   /* transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
 .linkCollapsible:hover {
@@ -127,6 +137,7 @@ main {
   background: var(--HoverOver);
   border-radius: 9px;
   --fill: 1;
+  --weight: 900;
   /* transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
 .link:hover {
@@ -134,12 +145,14 @@ main {
   background: var(--HoverOver);
   border-radius: 24px;
   --fill: 1;
+  --weight: 900;
   /* transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
 .link:active {
   border: none;
   background: var(--ClickState);
   --fill: 1;
+  --weight: 900;
   border-radius: 24px;
   transform: scale(0.98);
   box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.24);
@@ -148,6 +161,7 @@ main {
   border: none;
   background: var(--ClickState);
   --fill: 1;
+  --weight: 900;
   transform: scale(0.98);
   box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.24);
 }
@@ -164,7 +178,6 @@ main {
 .menu {
   display: flex;
   color: #717171;
-
   padding: 5px 10px;
   border-right: 4px solid transparent;
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
@@ -172,6 +185,7 @@ main {
 }
 .menu :hover {
   --fill: 1;
+  --weight: 900;
 }
 .menu_item {
   display: flex;
@@ -191,17 +205,29 @@ main {
   /* fill: 0; */
 }
 .material-symbols-outlined {
-  font-variation-settings: "FILL" var(--fill), "wght" 400, "GRAD" 0, "opsz" 48;
+  font-variation-settings: "FILL" var(--fill), "wght" var(--weight), "GRAD" 0, "opsz" 48;
 }
 
+.sidebarLowerCollapse
+{
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 29px;
+}
 .sidebarLower
 {
   display: flex;
   flex-flow: column;
   justify-content: center;
   width: 100%;
-
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 29px;
 }
+
 #sidebarProfileImg
 {
   border-radius: 30px;
@@ -212,6 +238,22 @@ main {
 .sidebarLayer2
 {
   width: 294px;
+}
+.barsContainer {
+  padding: 8px 7px 5px 7px;  
+}
+.barsContainer:hover{
+  background-color: var(--HoverOver);
+  border-radius: 33px;
+}
+#barParent
+{
+  padding: 0px 7px;
+  padding-bottom: 4px;
+  cursor: pointer;
+  display: flex;
+    flex-direction: column;
+
 }
 
 /* //Scrollbar Css */

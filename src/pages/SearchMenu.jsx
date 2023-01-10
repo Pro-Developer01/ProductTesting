@@ -1,7 +1,7 @@
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { BiSearch } from "react-icons/bi";
 import "./Pages.css";
+
 
 export default function SearchMenu() {
   const inputAnimation = {
@@ -39,33 +39,53 @@ export default function SearchMenu() {
             placeholder="Search"
             className="inputElement"
           />
-          <div className="search_icon">
-            <BiSearch />
+          <div>
+            <span className="material-symbols-outlined search_icon">
+              search{" "}
+            </span>
           </div>
         </motion.div>
 
         <div className="radioInputs">
-            
-                
-                  <span className="link" >
-                  <input type="radio" id='suggestion1' name="suggestions" value='suggestion1' />
-                  <label for='suggestion1'>Suggestion 1 </label>
-                  </span>
-                  <span className="link" >
-                  <input type="radio" id='suggestion2' name="suggestions" value='suggestion2' />
-                  <label for='suggestion2'>Suggestion 2 </label>
-                  </span>
-                  <span className="link" >
-                  <input type="radio" id='suggestion3' name="suggestions" value='suggestion3' />
-                  <label for='suggestion3'>Suggestion 3 </label>
-                  </span>
-                  <span className="link" >
-                  <input type="radio" id='suggestion4' name="suggestions" value='suggestion4' />
-                  <label for='suggestion4'>Suggestion 4 </label>
-                  </span>
-                  
-            </div>
+          <span className="link">
+            <input
+              type="radio"
+              id="suggestion1"
+              name="suggestions"
+              value="suggestion1"
+            />
+            <label for="suggestion1">Suggestion 1 </label>
+          </span>
+          <span className="link">
+            <input
+              type="radio"
+              id="suggestion2"
+              name="suggestions"
+              value="suggestion2"
+            />
+            <label for="suggestion2">Suggestion 2 </label>
+          </span>
+          <span className="link">
+            <input
+              type="radio"
+              id="suggestion3"
+              name="suggestions"
+              value="suggestion3"
+            />
+            <label for="suggestion3">Suggestion 3 </label>
+          </span>
+          <span className="link">
+            <input
+              type="radio"
+              id="suggestion4"
+              name="suggestions"
+              value="suggestion4"
+            />
+            <label for="suggestion4">Suggestion 4 </label>
+          </span>
+        </div>
       </AnimatePresence>
+      
     </div>
   );
 }

@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import './Pages.css'
+import "./Pages.css";
 
 const routes = [
   {
@@ -12,58 +12,81 @@ const routes = [
   {
     path: "/users",
     name: "My Previous Session",
-    icon: 'skip_previous',
+    icon: "skip_previous",
   },
   {
     path: "/messages",
     name: "My current book",
-    icon: 'local_library',
+    icon: "local_library",
   },
   {
     path: "/analytics",
     name: "My Library",
-    icon: 'library_books',
+    icon: "library_books",
   },
   {
     path: "/file-manager",
     name: "My Bookmarks",
-    icon: 'bookmarks',
+    icon: "bookmarks",
     subRoutes: [
       {
         name: "Page1",
+        state: false,
       },
       {
         name: "Page2",
+        state: false,
       },
       {
         name: "Page3",
+        state: false,
       },
       {
         name: "Page4",
+        state: false,
       },
       {
         name: "Page5",
+        state: false,
       },
     ],
   },
-  
 ];
 
 const Navigation = () => {
-  const [title, setTitle] = useState(null);
-  const [tiggerModal, setTiggerModal] = useState(false);
+  const [flag, setFlag] = useState(null);
+  const [bookMarkItemSelect, setbookMarkItemSelect] = useState(false);
+  const [counter, setCounter] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [bookmarkState, setBookmarkState] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  const handleNavigationButtons=(name)=>{
-    setTitle(name);
-    setTiggerModal(!tiggerModal);
+  const handleNavigationButtons = (name) => {
     setIsOpen(false);
-  }
- const bookmarkClicked=()=>{
-  setBookmarkState(!bookmarkState);
- }
+  };
+  const bookmarkClicked = () => {
+    if (counter === 0) {
+      routes[4].subRoutes.forEach((item) => {
+        if (item.state) setbookMarkItemSelect(true);
+      });
+      setBookmarkState(true);
+      setCounter(1);
+    } else if (counter === 1) {
+      setFlag(!flag);
+      setbookMarkItemSelect(false);
+      setBookmarkState(false);
+      setCounter(0);
+    }
+  };
+  const radioInputHandler = (i) => {
+    routes[4].subRoutes.forEach((item) => {
+      item.state = false;
+    });
+    routes[4].subRoutes[i].state = !routes[4].subRoutes[i].state;
+    setFlag(!flag);
+    setbookMarkItemSelect(true);
+    console.log("data", routes[4].subRoutes[i]);
+  };
   const inputAnimation = {
     hidden: {
       width: 0,
@@ -98,75 +121,90 @@ const Navigation = () => {
     },
   };
   return (
-    <div className='NavigationMenu' >
+    <div className="NavigationMenu">
       {routes.map((route, index) => {
         if (route.subRoutes?.length) {
           return (
             <>
-             <button
-            key={index}
-            className={isOpen ? "linkCollapsible" : "link"}
-            // id={isOpen ? "active" : "activeCollapsible"}
-            onClick={bookmarkClicked}
-          >
-            <AnimatePresence>
-            <span className="material-symbols-outlined">   {route.icon}</span>
-                <motion.div
-                  variants={showAnimation}
-                  initial="hidden"
-                  animate="show"
-                  exit="hidden"
-                  className="link_text"
-                >
-                  {route.name}
-                
-                </motion.div>
-                <span className="material-symbols-outlined" id='arrows'>   {!bookmarkState?'chevron_right':'expand_more'}</span>
-            </AnimatePresence>
-          </button>
-
-            {bookmarkState&& <div className="radioInputs">
-              {route.subRoutes?.map((item,i)=>{
-                return (
-                  <>
-                  <span className="link" >
-                  <input type="radio" id={item.name} name="bookmarPage" value={item.name} />
-                  <label for={item.name}>{item.name}</label>
+              <button
+                key={index}
+                className={bookMarkItemSelect ? "activeState" : "link"}
+                // id={isOpen ? "active" : "activeCollapsible"}
+                onClick={bookmarkClicked}
+              >
+                <AnimatePresence>
+                  <span className="material-symbols-outlined">
+                    {" "}
+                    {route.icon}
                   </span>
-                  </>
-                )
-              })}
-            </div>
-        }
+                  <motion.div
+                    variants={showAnimation}
+                    initial="hidden"
+                    animate="show"
+                    exit="hidden"
+                    className="link_text"
+                  >
+                    {route.name}
+                  </motion.div>
+                  <span className="material-symbols-outlined" id="arrows">
+                    {" "}
+                    {!bookmarkState ? "chevron_right" : "expand_more"}
+                  </span>
+                </AnimatePresence>
+              </button>
+
+              {bookmarkState && (
+                <div className="radioInputs">
+                  {route.subRoutes?.map((item, i) => {
+                    return (
+                      <>
+                        <span
+                          className={item.state ? "activeState" : "link"}
+                          id="bookmarPageRadio"
+                        >
+                          <input
+                            type="radio"
+                            id={item.name}
+                            name="bookmarPage"
+                            value={item.name}
+                            // {item.state?checked:checked}
+                            checked={item.state}
+                            onClick={() => radioInputHandler(i)}
+                          />
+                          <label for={item.name}>{item.name}</label>
+                        </span>
+                      </>
+                    );
+                  })}
+                </div>
+              )}
             </>
           );
         }
-  
+
         return (
           <button
             key={index}
             className={isOpen ? "linkCollapsible" : "link"}
             // id={isOpen ? "active" : "activeCollapsible"}
-            onClick={()=>handleNavigationButtons(route.name)}
+            onClick={() => handleNavigationButtons(route.name)}
           >
             <AnimatePresence>
-            <span className="material-symbols-outlined">   {route.icon}</span>
-                <motion.div
-                  variants={showAnimation}
-                  initial="hidden"
-                  animate="show"
-                  exit="hidden"
-                  className="link_text"
-                >
-                  {route.name}
-                </motion.div>
+              <span className="material-symbols-outlined"> {route.icon}</span>
+              <motion.div
+                variants={showAnimation}
+                initial="hidden"
+                animate="show"
+                exit="hidden"
+                className="link_text"
+              >
+                {route.name}
+              </motion.div>
             </AnimatePresence>
           </button>
         );
       })}
-
     </div>
-
   );
 };
 

@@ -5,8 +5,13 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
 import DrawerModal from "../DrawerModal/DrawerModal";
+// import logo from "../../Assets/LogoHalf.png";
+import { ReactComponent as Logo } from "../../Assets/LogoHalfSvg.svg";
+import { ReactComponent as FullLogo } from "../../Assets/logoFullSvg.svg";
+
 import { useEffect } from "react";
 import axios from "axios";
+import NewIdeaButton from "../NewIdea/NewIdeaButton";
 const routes = [
   {
     path: "/",
@@ -60,10 +65,12 @@ const routes = [
 const SideBar = ({ children }) => {
   const [title, setTitle] = useState(null);
   const [tiggerModal, setTiggerModal] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const toggle = () => setIsOpen(!isOpen);
 
-
+  useEffect(() => {
+    if (!title) setIsOpen(true);
+  }, [title]);
   const handleNavigationButtons = (name) => {
     if (name !== "Home") {
       setTitle(name);
@@ -103,7 +110,7 @@ const SideBar = ({ children }) => {
       opacity: 1,
       width: "auto",
       transition: {
-        duration: 0.1,
+        duration: 0,
       },
     },
   };
@@ -128,16 +135,6 @@ const SideBar = ({ children }) => {
             <div className="top_section">
               <AnimatePresence>
                 {isOpen ? (
-                  <motion.h1
-                    variants={showAnimation}
-                    initial="hidden"
-                    animate="show"
-                    exit="hidden"
-                    className="logo"
-                  >
-                    Deep Read Logo
-                  </motion.h1>
-                ) : (
                   <motion.span
                     variants={showAnimation}
                     initial="hidden"
@@ -145,8 +142,19 @@ const SideBar = ({ children }) => {
                     exit="hidden"
                     // className="logo"
                   >
-                    Logo
+                   <FullLogo/>
                   </motion.span>
+                ) : (
+                  <motion.div
+                    variants={showAnimation}
+                    initial="hidden"
+                    animate="show"
+                    exit="hidden"
+                    className="logoColapse"
+                    
+                  >
+                    <FullLogo/>
+                  </motion.div>
                 )}
               </AnimatePresence>
             </div>
@@ -167,7 +175,7 @@ const SideBar = ({ children }) => {
               )}
             </AnimatePresence>
           </div> */}
-            <section className="routes">
+            <section className={isOpen ? "routes" : "routesCollapsible"}>
               {routes.map((route, index) => {
                 if (route.subRoutes) {
                   return (
@@ -185,9 +193,13 @@ const SideBar = ({ children }) => {
                     key={index}
                     className={isOpen ? "link" : "linkCollapsible"}
                     // id={isOpen ? "active" : "activeCollapsible"}
+                    id={isOpen ? "routesID" : null}
                     onClick={() => handleNavigationButtons(route.name)}
                   >
-                    <span className="material-symbols-outlined"> {route.icon}</span>
+                    <span className="material-symbols-outlined">
+                      {" "}
+                      {route.icon}
+                    </span>
                     <AnimatePresence>
                       {isOpen ? (
                         <motion.div
@@ -216,11 +228,11 @@ const SideBar = ({ children }) => {
               })}
             </section>
           </div>
-          <div className="sidebarLower">
+          <div className={isOpen ? "sidebarLower" : "sidebarLowerCollapse"}>
             <div className="routes" onClick={toggle}>
               <button
                 className={isOpen ? "link" : "linkCollapsible"}
-                // id={isOpen ? "active" : "activeCollapsible"}
+                style={{ marginBottom: isOpen ? "5px" : "3px",  padding: isOpen ? null : '4px 12px'  }}
                 // onClick={() => handleNavigationButtons(route.name)}
               >
                 <img
@@ -253,8 +265,10 @@ const SideBar = ({ children }) => {
                 </AnimatePresence>
               </button>
             </div>
-            <div className="bars" onClick={toggle}>
-              <FaBars  />
+            <div  id="barParent" onClick={toggle}>
+              <div className="barsContainer">
+                <FaBars />
+              </div>
             </div>
           </div>
         </motion.div>
@@ -263,6 +277,7 @@ const SideBar = ({ children }) => {
             <DrawerModal title={title} setTitle={setTitle} />
           </div>
         )}
+        <NewIdeaButton/> 
       </div>
     </>
   );

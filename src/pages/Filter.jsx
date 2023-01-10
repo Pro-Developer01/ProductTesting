@@ -1,11 +1,10 @@
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { BiSearch } from "react-icons/bi";
 import "./Pages.css";
 import axios from "axios";
 import { useEffect } from "react";
-import Tooltip from '@mui/material/Tooltip';
+import Tooltip from "@mui/material/Tooltip";
 
 const routes = [
   {
@@ -37,19 +36,27 @@ const routes = [
   },
 ];
 
-let booksData=[
+let booksData = [
   {
-    title:'xyz',
-    aurthor:'someone',
-    img:'',
-    id:'38383'
+    title: "Hooked: How to Build Habit-Forming Products",
+    author: "Unknown",
+    img: "https://m.media-amazon.com/images/I/41lvEdt3KmL._SY400_.jpg",
+    id: "38383",
+    state: false,
+    index: 1,
   },
-]
-const tagsDataDemo=['Dummy_Tag','Dummy_Tag_Calisthenics', 'Dummy_Tag_FreeDiving', 'Dummy_Tag_Habits','Dummy_Tag_Bitcoin']
+];
+const tagsDataDemo = [
+  { tagName: "Dummy_Tag", state: false },
+  { tagName: "Dummy_Tag_Calisthenics", state: false },
+  { tagName: "Dummy_Tag_Habits", state: false },
+  { tagName: "Dummy_Tag_Bitcoin", state: false },
+  { tagName: "Dummy_Tag_FreeDiving", state: false },
+];
 const Filter = () => {
-  const [title, setTitle] = useState(booksData);
-  const [token, setToken] = useState(localStorage.getItem('token'));
-  const [data, setData] = useState(null);
+  const [searchText, setsearchText] = useState('');
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [data, setData] = useState(booksData);
   const [tagdata, setTagData] = useState(tagsDataDemo);
   const [tiggerModal, setTiggerModal] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -61,94 +68,108 @@ const Filter = () => {
   const [tagState, setTagState] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  const loginAuths=()=>{
-    axios.post('http://app.deepread.com:8000/api/auth/demo-account').then((res)=>{
-      console.log('post',res)
-      if(res.status===200)
-      {
-        const token=res.data.authorization;
-        const userId=res.data.user_id;
-        localStorage.setItem('userId',userId);
-        localStorage.setItem('token',token);
-        setToken(token);
-      }
-    }).catch((err)=>{console.log(err)})
-  }
-  
-  const nameCorrection=(string)=>{
-    if(string.includes(','))
-    {
-      let array=string.split(',');
-      let fullName=array[1]+' '+array[0];
-      return fullName;
-    }
-    else return string;
-  }
-
-  useEffect(()=>{
-    const userId=localStorage.getItem('userId');
-    axios.get(`http://app.deepread.com:8000/api/user/get-metadata?user_id=${userId}`, {
-      headers:{
-        // 'Accept': 'application/json',
-        // 'Content-Type': 'application/json',
-        authorization: token
-      }
-    }).then((res)=>{
-      if(res.data.data)
-      {
-        const rawData=res.data.data;
-        booksData=[];
-        const tagsLocal=[];
-        rawData.forEach((item)=>{
-          const obj={};
-          obj.title=item.title;
-          obj.img=item.img_path;
-          obj.id=item._id;
-          let aurthorNameArr=[];
-          if(item.author.includes(';'))
-          {
-            let namesArray=item.author.split(';');
-            console.log(namesArray)
-            namesArray.forEach((ele)=>{aurthorNameArr.push(nameCorrection(ele))})
-          }
-          else{
-            aurthorNameArr.push(nameCorrection(item.author));
-          }
-          obj.author=aurthorNameArr;
-          booksData.push(obj);
-          tagsLocal.push(...item.tags);
-          
-        })
-        setData(booksData);
-        if( tagsLocal.length)
-        {
-          setTagData(tagsLocal)
+  const loginAuths = () => {
+    axios
+      .post("http://app.deepread.com:8000/api/auth/demo-account")
+      .then((res) => {
+        console.log("post", res);
+        if (res.status === 200) {
+          const token = res.data.authorization;
+          const userId = res.data.user_id;
+          localStorage.setItem("userId", userId);
+          localStorage.setItem("token", token);
+          setToken(token);
         }
-        console.log(booksData)
-        console.log('tagsLocal',tagsLocal);
-        console.log('rawData',res.data.data);
-      }
-      // setData(res.data.data);
-    }).catch((err)=>{
-      if(err.response)
-      {
-        // localStorage.clear();
-        loginAuths();
-      }
-      console.log('err,',err)
-    })
-  },[token])
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const nameCorrection = (string) => {
+    if (string.includes(",")) {
+      let array = string.split(",");
+      let fullName = array[1] + " " + array[0];
+      return fullName;
+    } else return string;
+  };
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    axios
+      .get(
+        `http://app.deepread.com:8000/api/user/get-metadata?user_id=${userId}`,
+        {
+          headers: {
+            // 'Accept': 'application/json',
+            // 'Content-Type': 'application/json',
+            authorization: token,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.data.data) {
+          const rawData = res.data.data;
+          booksData = [];
+          const tagsLocal = [];
+          rawData.forEach((item, i) => {
+            const obj = {};
+            obj.title = item.title;
+            obj.img = item.img_path;
+            obj.id = item._id;
+            let aurthorNameArr = [];
+            if (item.author.includes(";")) {
+              let namesArray = item.author.split(";");
+              console.log(namesArray);
+              namesArray.forEach((ele) => {
+                aurthorNameArr.push(nameCorrection(ele));
+              });
+            } else {
+              aurthorNameArr.push(nameCorrection(item.author));
+            }
+            obj.author = aurthorNameArr;
+            obj.state = false;
+            obj.index = i;
+            booksData.push(obj);
+            tagsLocal.push(...item.tags);
+          });
+          setData(booksData);
+          if (tagsLocal.length) {
+            setTagData(tagsLocal);
+          }
+          console.log("booksData", booksData);
+          console.log("tagsLocal", tagsLocal);
+          console.log("rawData", res.data.data);
+        }
+        // setData(res.data.data);
+      })
+      .catch((err) => {
+        if (err.response) {
+          // localStorage.clear();
+          loginAuths();
+        }
+        console.log("err,", err);
+      });
+  }, [token]);
 
 
+  useEffect(() => {
+   const searchedArray=booksData.filter((item)=>{
+    return (item.title.toLowerCase().includes(searchText.toLowerCase()));
+   })
+   setData(searchedArray);
+  }, [searchText]);
 
   const handleNavigationButtons = (name) => {
-    setTitle(name);
+    // setTitle(name);
     setTiggerModal(!tiggerModal);
     setIsOpen(false);
   };
+
+  const searchHandler=(e)=>{setsearchText(e.target.value)}
   const bookmarkClicked = () => {
     //countr=0 true
-    console.log(counter)
+    console.log(counter);
     if (counter === 0) {
       setIdeaCardActiveState(true);
       setBookmarkState(true);
@@ -169,13 +190,30 @@ const Filter = () => {
   const bookIsClicked = () => {
     setBookState(!bookState);
   };
+
+  const bookSelectHandler = (i) => {
+    // booksData[i].state=!booksData[i].state;
+    // console.log('bookSelectHandler',booksData[i]);
+    // setData([...data, data[i].state=!data[i].state])
+    // console.log('bookSelectHandler',data);
+
+    booksData[i].state = !booksData[i].state;
+    setData(booksData);
+    setFlag(!flag);
+  };
   const CardsClicked = (index) => {
     routes[0].subRoutes[index].state = !routes[0].subRoutes[index].state;
     setFlag(!flag);
     setIdeaCardActiveState(true);
   };
+  
   const tagIsClicked = () => {
     setTagState(!tagState);
+  };
+  const tagItemsClicked = (i) => {
+    tagsDataDemo[i].state=!tagsDataDemo[i].state;
+    setTagData(tagsDataDemo);
+    setFlag(!flag);
   };
   const inputAnimation = {
     hidden: {
@@ -217,13 +255,16 @@ const Filter = () => {
           return (
             <>
               <button
-                key={index+route.name}
+                key={index + route.name}
                 className={ideaCardActiveState ? "activeState" : "link"}
                 // id={isOpen ? "active" : "activeCollapsible"}
                 onClick={bookmarkClicked}
               >
                 <AnimatePresence>
-                  <span className="material-symbols-outlined"> {route.icon}</span>
+                  <span className="material-symbols-outlined">
+                    {" "}
+                    {route.icon}
+                  </span>
                   <motion.div
                     variants={showAnimation}
                     initial="hidden"
@@ -233,7 +274,7 @@ const Filter = () => {
                   >
                     {route.name}
                   </motion.div>
-                  <span className="material-symbols-outlined" id='arrows'>
+                  <span className="material-symbols-outlined" id="arrows">
                     {" "}
                     {!bookmarkState ? "chevron_right" : "expand_more"}
                   </span>
@@ -245,7 +286,7 @@ const Filter = () => {
                   {route.subRoutes?.map((item, i) => {
                     return (
                       <button
-                        key={i+item.name}
+                        key={i + item.name}
                         className={item.state ? "activeState" : "link"}
                         // id={isOpen ? "active" : "activeCollapsible"}
                         onClick={() => CardsClicked(i)}
@@ -293,7 +334,7 @@ const Filter = () => {
             >
               Books
             </motion.div>
-            <span className="material-symbols-outlined" id='arrows'>
+            <span className="material-symbols-outlined" id="arrows">
               {" "}
               {!bookState ? "chevron_right" : "expand_more"}
             </span>
@@ -301,50 +342,71 @@ const Filter = () => {
         </button>
 
         {/* //BoookItems */}
-        {bookState && <div className="bookItems">
+        {bookState && (
+          <div className="bookItems">
             {/* //Search Bar  */}
-          <div className="SearchMenu">
-            <AnimatePresence>
-              <motion.div
-                initial="hidden"
-                animate="show"
-                exit="hidden"
-                variants={inputAnimation}
-                className="search"
-              >
-                <motion.input
+            <div className="SearchMenu">
+              <AnimatePresence>
+                <motion.div
                   initial="hidden"
                   animate="show"
                   exit="hidden"
                   variants={inputAnimation}
-                  type="text"
-                  placeholder="Search"
-                  className="inputElement"
-                />
-                <div className="search_icon">
-                  <BiSearch />
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* //Api LIst  */}
-          <div className="bookList">
-            {data?.map((item,i)=>{
-              return (
-                <div key={item.id} className="bookListContainer">
-                <img src={item.img} alt={item.title} width={50} height={50} />
-                <div className="bookMetaContainer">
-                <Tooltip title={item.title} arrow><button className="heading">{item.title}</button></Tooltip>
-              <span className="author">By {item.author}</span>
-                </div>
+                  className="search"
+                >
+                  <motion.input
+                    initial="hidden"
+                    animate="show"
+                    exit="hidden"
+                    variants={inputAnimation}
+                    type="text"
+                    placeholder="Search"
+                    className="inputElement"
+                    value={searchText}
+                    onChange={searchHandler}
+                  />
+                  <div>
+                    <span className="material-symbols-outlined search_icon">
+                      search{" "}
+                    </span>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             </div>
-              );
-            })}
-          
-           
+
+            {/* //Api LIst  */}
+            <div className="bookList">
+              {data
+                ?.sort((a, b) => b.state - a.state)
+                .map((item, i) => {
+                  return (
+                    <div
+                      key={item.id}
+                      className={
+                        item.state
+                          ? "bookListContainerActive"
+                          : "bookListContainer"
+                      }
+                      onClick={() => bookSelectHandler(i)}
+                    >
+                      <img
+                        src={item.img}
+                        alt={item.title}
+                        width={50}
+                        height={50}
+                      />
+                      <div className="bookMetaContainer">
+                        <Tooltip title={item.title} arrow>
+                          <button className="heading">{item.title}</button>
+                        </Tooltip>
+                        <span className="author">By {item.author}</span>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
           </div>
-        </div>}
+        )}
       </div>
 
       {/* //Tags */}
@@ -362,46 +424,49 @@ const Filter = () => {
             exit="hidden"
             className="link_text"
           >
-            Tags 
+            Tags
           </motion.div>
-          <span className="material-symbols-outlined" id='arrows'>
+          <span className="material-symbols-outlined" id="arrows">
             {" "}
             {!tagState ? "chevron_right" : "expand_more"}
           </span>
         </AnimatePresence>
       </button>
 
-             {tagState && (
-                <div className="radioInputs">
-                  {tagdata?.map((item, i) => {
-                    return (
-                      <button
-                        key={i+item}
-                        className={isOpen ? "linkCollapsible" : "link"}
-                        // id={isOpen ? "active" : "activeCollapsible"}
-                        onClick={CardsClicked}
-                      >
-                        <AnimatePresence>
-                          <span className="material-symbols-outlined" style={{fontSize:'18px'}}>
-                            {" "}
-                        tag
-                          </span>
-                          <motion.div
-                            variants={showAnimation}
-                            initial="hidden"
-                            animate="show"
-                            exit="hidden"
-                            className="link_text"
-
-                          >
-                            {item}
-                          </motion.div>
-                        </AnimatePresence>
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
+      {tagState && (
+        <div className="radioInputs">
+          {tagdata?.sort((a,b)=>b.state-a.state).map((item, i) => {
+            return (
+              <button
+                key={i + item.tagName}
+                className={item.state ? "activeState" : "link"}
+                // id={isOpen ? "active" : "activeCollapsible"}
+                style={{ padding: "10px" }}
+                onClick={() => tagItemsClicked(i)}
+              >
+                <AnimatePresence>
+                  <span
+                    className="material-symbols-outlined"
+                    style={{ fontSize: "18px" }}
+                  >
+                    {" "}
+                    tag
+                  </span>
+                  <motion.div
+                    variants={showAnimation}
+                    initial="hidden"
+                    animate="show"
+                    exit="hidden"
+                    className="link_text"
+                  >
+                    {item.tagName}
+                  </motion.div>
+                </AnimatePresence>
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

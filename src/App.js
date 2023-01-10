@@ -8,6 +8,7 @@ function App() {
   return (
     <>
       <SideBar />
+      
       {/* <Router>
         <Routes>
           <Route path="/" element={<Dashboard />} />

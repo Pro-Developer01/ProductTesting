@@ -56,7 +56,7 @@ const Template = () => {
   };
   const bookmarkClicked = () => {
     //countr=0 true
-    console.log(counter)
+    console.log(counter);
     if (counter === 0) {
       setIdeaCardActiveState(true);
       setBookmarkState(true);
@@ -135,7 +135,10 @@ const Template = () => {
                 onClick={bookmarkClicked}
               >
                 <AnimatePresence>
-                  <span className="material-symbols-outlined"> {route.icon}</span>
+                  <span className="material-symbols-outlined">
+                    {" "}
+                    {route.icon}
+                  </span>
                   <motion.div
                     variants={showAnimation}
                     initial="hidden"
@@ -236,13 +239,16 @@ const Template = () => {
       {tileState && (
         <div className="dynamicSelectContainer">
           <AnimatePresence>
-            <span
-              className="material-symbols-outlined"
-              style={{ fontSize: "18px" }}
-            >
-              {" "}
-              check_box_outline_blank
-            </span>
+            <div className="dynamicSelectLabel">
+              <span
+                className="material-symbols-outlined"
+                style={{ fontSize: "18px" }}
+              >
+                {" "}
+                check_box_outline_blank
+              </span>
+              <label htmlFor="Boxes">Boxes: </label>
+            </div>
             <motion.div
               variants={showAnimation}
               initial="hidden"
@@ -250,10 +256,9 @@ const Template = () => {
               exit="hidden"
               className="dynamicSelect"
             >
-              <label htmlFor="Boxes">Boxes: </label>
               <select name="Boxes" id="Boxes">
                 <option value="Chapter">Chapter</option>
-                <option value="Sub-Chapter">Sub-Chapter</option>
+                <option id='sxy'value="Sub-Chapter">Sub-Chapter</option>
                 <option value="Section">Section</option>
                 <option value="Sub-Section">Sub-Section</option>
                 <option value="off">off</option>
@@ -290,13 +295,16 @@ const Template = () => {
       {hierarchicalState && (
         <div className="dynamicSelectContainer">
           <AnimatePresence>
-            <span
-              className="material-symbols-outlined"
-              style={{ fontSize: "18px" }}
-            >
-              {" "}
-              link
-            </span>
+            <div className="dynamicSelectLabel">
+              <span
+                className="material-symbols-outlined"
+                style={{ fontSize: "18px" }}
+              >
+                {" "}
+                link
+              </span>
+              <label htmlFor="links"># of links: </label>
+            </div>
             <motion.div
               variants={showAnimation}
               initial="hidden"
@@ -304,7 +312,6 @@ const Template = () => {
               exit="hidden"
               className="dynamicSelect"
             >
-              <label htmlFor="links"># of links: </label>
               <select name="links" id="links">
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -344,13 +351,16 @@ const Template = () => {
         <>
           <div className="dynamicSelectContainer">
             <AnimatePresence>
-              <span
-                className="material-symbols-outlined"
-                style={{ fontSize: "18px" }}
-              >
-                {" "}
-                link
-              </span>
+              <div className="dynamicSelectLabel">
+                <span
+                  className="material-symbols-outlined"
+                  style={{ fontSize: "18px" }}
+                >
+                  {" "}
+                  link
+                </span>
+                <label htmlFor="links2"># of links: </label>
+              </div>
               <motion.div
                 variants={showAnimation}
                 initial="hidden"
@@ -358,7 +368,6 @@ const Template = () => {
                 exit="hidden"
                 className="dynamicSelect"
               >
-                <label htmlFor="links2"># of links: </label>
                 <select name="links2" id="links2">
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -371,13 +380,16 @@ const Template = () => {
           </div>
           <div className="dynamicSelectContainer">
             <AnimatePresence>
-              <span
-                className="material-symbols-outlined"
-                style={{ fontSize: "18px" }}
-              >
-                {" "}
-                trending_flat
-              </span>
+              <div className="dynamicSelectLabel">
+                <span
+                  className="material-symbols-outlined"
+                  style={{ fontSize: "18px" }}
+                >
+                  {" "}
+                  trending_flat
+                </span>
+                <label htmlFor="xAxis">X-axis: </label>
+              </div>
               <motion.div
                 variants={showAnimation}
                 initial="hidden"
@@ -385,7 +397,6 @@ const Template = () => {
                 exit="hidden"
                 className="dynamicSelect"
               >
-                <label htmlFor="xAxis">X-axis: </label>
                 <select name="xAxis" id="xAxis">
                   <option value="ViewCount">View count</option>
                   <option value="EditCount">Edit count</option>
@@ -398,13 +409,16 @@ const Template = () => {
           </div>
           <div className="dynamicSelectContainer">
             <AnimatePresence>
-              <span
-                className="material-symbols-outlined"
-                style={{ fontSize: "18px" }}
-              >
-                {" "}
-                straight
-              </span>
+              <div className="dynamicSelectLabel">
+                <span
+                  className="material-symbols-outlined"
+                  style={{ fontSize: "18px" }}
+                >
+                  {" "}
+                  straight
+                </span>
+                <label htmlFor="yAxis">Y-axis: </label>
+              </div>
               <motion.div
                 variants={showAnimation}
                 initial="hidden"
@@ -412,7 +426,6 @@ const Template = () => {
                 exit="hidden"
                 className="dynamicSelect"
               >
-                <label htmlFor="yAxis">Y-axis: </label>
                 <select name="yAxis" id="yAxis">
                   <option value="ViewCount">View count</option>
                   <option value="EditCount">Edit count</option>
