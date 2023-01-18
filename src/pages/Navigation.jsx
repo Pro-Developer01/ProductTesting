@@ -11,7 +11,7 @@ const routes = [
   },
   {
     path: "/users",
-    name: "My Previous Session",
+    name: "My previous session",
     icon: "skip_previous",
   },
   {
@@ -21,12 +21,12 @@ const routes = [
   },
   {
     path: "/analytics",
-    name: "My Library",
+    name: "My library",
     icon: "library_books",
   },
   {
     path: "/file-manager",
-    name: "My Bookmarks",
+    name: "My bookmarks",
     icon: "bookmarks",
     subRoutes: [
       {
@@ -161,6 +161,7 @@ const Navigation = () => {
                         <span
                           className={item.state ? "activeState" : "link"}
                           id="bookmarPageRadio"
+                          onClick={() => radioInputHandler(i)}
                         >
                           <input
                             type="radio"
@@ -169,7 +170,7 @@ const Navigation = () => {
                             value={item.name}
                             // {item.state?checked:checked}
                             checked={item.state}
-                            onClick={() => radioInputHandler(i)}
+                            
                           />
                           <label for={item.name}>{item.name}</label>
                         </span>

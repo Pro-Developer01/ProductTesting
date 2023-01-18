@@ -142,7 +142,7 @@ const SideBar = ({ children }) => {
                     exit="hidden"
                     // className="logo"
                   >
-                   <FullLogo/>
+                    <FullLogo />
                   </motion.span>
                 ) : (
                   <motion.div
@@ -151,9 +151,8 @@ const SideBar = ({ children }) => {
                     animate="show"
                     exit="hidden"
                     className="logoColapse"
-                    
                   >
-                    <FullLogo/>
+                    <FullLogo />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -229,10 +228,17 @@ const SideBar = ({ children }) => {
             </section>
           </div>
           <div className={isOpen ? "sidebarLower" : "sidebarLowerCollapse"}>
-            <div className="routes" onClick={toggle}>
+            <div
+              className="routes"
+              onClick={toggle}
+              style={{ width: isOpen ? null : "fit-content" }}
+            >
               <button
                 className={isOpen ? "link" : "linkCollapsible"}
-                style={{ marginBottom: isOpen ? "5px" : "3px",  padding: isOpen ? null : '4px 12px'  }}
+                style={{
+                  marginBottom: isOpen ? "5px" : "3px",
+                  padding: isOpen ? null : "4px 12px",
+                }}
                 // onClick={() => handleNavigationButtons(route.name)}
               >
                 <img
@@ -265,7 +271,7 @@ const SideBar = ({ children }) => {
                 </AnimatePresence>
               </button>
             </div>
-            <div  id="barParent" onClick={toggle}>
+            <div id="barParent" onClick={toggle}>
               <div className="barsContainer">
                 <FaBars />
               </div>
@@ -277,7 +283,7 @@ const SideBar = ({ children }) => {
             <DrawerModal title={title} setTitle={setTitle} />
           </div>
         )}
-        <NewIdeaButton/> 
+        <NewIdeaButton />
       </div>
     </>
   );

@@ -26,6 +26,7 @@
   padding: 5px 10px;
   --fill: 0;
   --weight: 400;
+  --iconFontSize: 21px;
   border: none;
   cursor: pointer;
   align-items: center;
@@ -61,7 +62,7 @@
   border: none;
   background: var(--HoverOver);
   border-radius: 24px;
-  --fill: 1;
+  /* --fill: 1; */
   --weight: 900;
 
   /* transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
@@ -70,7 +71,7 @@
   border: none;
   background: var(--ClickState);
   --fill: 1;
-  --weight: 900;
+  /* --weight: 900; */
 
   border-radius: 24px;
   transform: scale(0.98);
@@ -107,7 +108,7 @@
   width: 244px;
   background: var(--ClickState);
   --fill: 1;
-  --weight: 900;
+  /* --weight: 900; */
   border-radius: 24px;
 }
 .radioInputs .activeState {
@@ -122,7 +123,8 @@
   width: 211px;
   background: var(--ClickState);
   --fill: 1;
-  --weight: 900;
+  --iconFontSize: 21px;
+  /* --weight: 900; */
   border-radius: 24px;
 }
 .dynamicSelect {
@@ -148,11 +150,12 @@
   /* width: 192px; */
   justify-content: space-between;
 }
+
 .dynamicSelectContainer:hover {
   border: none;
   background: var(--HoverOver);
   border-radius: 24px;
-  --fill: 1;
+  /* --fill: 1; */
   --weight: 900;
   font-weight: 600;
 }
@@ -160,7 +163,7 @@
   border: none;
   background: var(--ClickState);
   --fill: 1;
-  --weight: 900;
+  /* --weight: 900; */
   border-radius: 24px;
   transform: scale(0.98);
   box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.24);
@@ -169,6 +172,9 @@
   display: flex;
   align-items: center;
   gap: 14px;
+}
+.dynamicSelectLabel > label {
+ font-size: var(--fontSizeRegular);
 }
 .buttonArrowDiv {
   display: flex;
@@ -187,6 +193,7 @@
   border: 1px solid var(--inputBorderColor);
   border-radius: 33px;
   justify-content: space-between;
+  margin-top: -10px;
 }
 
 .SearchMenu .search input {
@@ -202,8 +209,10 @@
 select {
   border: none;
   color: var(--fontColor);
-  font-size: var(--fontSizeRegular);
+  font-size: var(--fontSizeRegular) !important;
   /* font-weight: 600; */
+  /* font-size: 16px; */
+
 }
 select:hover {
   background-color: var(--HoverOver) !important;
@@ -260,7 +269,7 @@ select:focus {
   border-radius: 9px;
   border: 1px solid var(--fontColor);
   object-fit: cover;
-  width: 100%;
+  /* width: 100%; */
 }
 .bookMetaContainer {
   display: flex;
@@ -306,4 +315,11 @@ select option:checked:after {
 
 input[type="radio"] {
 	accent-color: grey;
+}
+input[type="checkbox"] {
+	accent-color: grey;
+}
+.selectCheckbox
+{
+  margin-top: -11px !important;
 }

@@ -54,22 +54,35 @@ const tagsDataDemo = [
   { tagName: "Dummy_Tag_FreeDiving", state: false },
 ];
 const Filter = () => {
-  const [searchText, setsearchText] = useState('');
+  const [searchText, setsearchText] = useState("");
+  const [selectState, setSelectState] = useState({
+    selectAll: true,
+  });
+  const [bookSelectState, setBookSelectState] = useState({
+    selectAll: false,
+  });
+  const [tagSelectState, setTagSelectState] = useState({
+    selectAll: false,
+  });
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [data, setData] = useState(booksData);
   const [tagdata, setTagData] = useState(tagsDataDemo);
-  const [tiggerModal, setTiggerModal] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [bookmarkState, setBookmarkState] = useState(false);
   const [ideaCardActiveState, setIdeaCardActiveState] = useState(false);
+  const [booksActiveState, setBooksActiveState] = useState(false);
+  const [tagsActiveState, setTagsActiveState] = useState(false);
   const [flag, setFlag] = useState(false);
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState({
+    sourceCounter: 0,
+    bookCounter: 0,
+    tagCounter: 0,
+  });
   const [bookState, setBookState] = useState(false);
   const [tagState, setTagState] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
   const loginAuths = () => {
-    console.log('running loginAuth....')
     axios
       .post("http://app.deepread.com:8000/api/auth/demo-account")
       .then((res) => {
@@ -83,14 +96,10 @@ const Filter = () => {
         }
       })
       .catch((err) => {
-        console.log('LoginAuth Error',err);
+        console.log(err);
       });
   };
 
-if (!token)
-{
-  loginAuths();
-}
   const nameCorrection = (string) => {
     if (string.includes(",")) {
       let array = string.split(",");
@@ -100,7 +109,6 @@ if (!token)
   };
 
   useEffect(() => {
-    loginAuths();
     const userId = localStorage.getItem("userId");
     axios
       .get(
@@ -158,68 +166,185 @@ if (!token)
       });
   }, [token]);
 
-
   useEffect(() => {
-   const searchedArray=booksData.filter((item)=>{
-    return (item.title.toLowerCase().includes(searchText.toLowerCase()));
-   })
-   setData(searchedArray);
+    const searchedArray = booksData.filter((item) => {
+      return item.title.toLowerCase().includes(searchText.toLowerCase());
+    });
+    setData(searchedArray);
   }, [searchText]);
 
-  const handleNavigationButtons = (name) => {
-    // setTitle(name);
-    setTiggerModal(!tiggerModal);
-    setIsOpen(false);
+  const searchHandler = (e) => {
+    setsearchText(e.target.value);
   };
 
-  const searchHandler=(e)=>{setsearchText(e.target.value)}
-  const bookmarkClicked = () => {
-    //countr=0 true
-    console.log(counter);
-    if (counter === 0) {
+  const stateCheckerLoop = () => {
+    let selectCounter = 0;
+    for (let i = 0; i < routes[0].subRoutes.length; i++) {
+      if (routes[0].subRoutes[i].state) {
+        selectCounter++;
+      }
+    }
+
+    if (selectCounter) {
       setIdeaCardActiveState(true);
-      setBookmarkState(true);
-      setCounter(1);
-    } else if (counter === 1) {
-      routes[0].subRoutes.forEach((item) => {
-        item.state = false;
-      });
-      setFlag(!flag);
+      if (selectCounter < routes[0].subRoutes.length) {
+        setSelectState({ ...selectState, selectAll: false });
+      }
+      if (selectCounter == routes[0].subRoutes.length) {
+        setSelectState({ ...selectState, selectAll: true });
+      }
+    } else {
       setIdeaCardActiveState(false);
-      setCounter(2);
-    } else if (counter === 2) {
-      setBookmarkState(false);
-      setIdeaCardActiveState(false);
-      setCounter(0);
+      setSelectState({ ...selectState, selectAll: false });
     }
   };
-  const bookIsClicked = () => {
-    setBookState(!bookState);
-  };
-
-  const bookSelectHandler = (i) => {
-    // booksData[i].state=!booksData[i].state;
-    // console.log('bookSelectHandler',booksData[i]);
-    // setData([...data, data[i].state=!data[i].state])
-    // console.log('bookSelectHandler',data);
-
-    booksData[i].state = !booksData[i].state;
-    setData(booksData);
-    setFlag(!flag);
+  const bookmarkClicked = () => {
+    if (counter.sourceCounter === 0) {
+      stateCheckerLoop();
+      setBookmarkState(true);
+      setCounter({ ...counter, sourceCounter: 1 });
+    } else if (counter.sourceCounter === 1) {
+      setBookmarkState(false);
+      setCounter({ ...counter, sourceCounter: 0 });
+      stateCheckerLoop();
+    }
   };
   const CardsClicked = (index) => {
     routes[0].subRoutes[index].state = !routes[0].subRoutes[index].state;
-    setFlag(!flag);
-    setIdeaCardActiveState(true);
+    stateCheckerLoop();
   };
-  
+  const selectHandler = () => {
+    if (selectState.selectAll) {
+      routes[0].subRoutes.forEach((item) => {
+        item.state = false;
+      });
+      setIdeaCardActiveState(false);
+      setSelectState({ ...selectState, selectAll: false });
+    } else if (!selectState.selectAll) {
+      routes[0].subRoutes.forEach((item) => {
+        item.state = true;
+      });
+      setIdeaCardActiveState(true);
+      setSelectState({ ...selectState, selectAll: true });
+    }
+  };
+
+  const bookStateCheckerLoop = () => {
+    let selectCounter = 0;
+    for (let i = 0; i < booksData.length; i++) {
+      if (booksData[i].state) {
+        selectCounter++;
+      }
+    }
+
+    if (selectCounter) {
+      setBooksActiveState(true);
+      if (selectCounter < booksData.length) {
+        setBookSelectState({ ...bookSelectState, selectAll: false });
+      }
+      if (selectCounter == booksData.length) {
+        setBookSelectState({ ...bookSelectState, selectAll: true });
+      }
+    } else {
+      setBooksActiveState(false);
+      setBookSelectState({ ...bookSelectState, selectAll: false });
+    }
+  };
+  const bookIsClicked = () => {
+    if (counter.bookCounter === 0) {
+      bookStateCheckerLoop();
+      setBookState(true);
+      setCounter({ ...counter, bookCounter: 1 });
+    } else if (counter.bookCounter === 1) {
+      setBookState(false);
+      setCounter({ ...counter, bookCounter: 0 });
+      bookStateCheckerLoop();
+    }
+  };
+
+  const bookSelected = (i) => {
+    booksData[i].state = !booksData[i].state;
+    setData(booksData);
+    bookStateCheckerLoop();
+    setFlag(!flag);
+  };
+
+  const bookSelectHandler = () => {
+    if (bookSelectState.selectAll) {
+      booksData.forEach((item) => {
+        item.state = false;
+      });
+      setData(booksData);
+      setFlag(!flag);
+      setBooksActiveState(false);
+      setBookSelectState({ ...bookSelectState, selectAll: false });
+    } else if (!bookSelectState.selectAll) {
+      booksData.forEach((item) => {
+        item.state = true;
+      });
+      setData(booksData);
+      setFlag(!flag);
+      setBooksActiveState(true);
+      setBookSelectState({ ...bookSelectState, selectAll: true });
+    }
+  };
+
+  const tagStateCheckerLoop = () => {
+    let selectCounter = 0;
+    for (let i = 0; i < tagsDataDemo.length; i++) {
+      if (tagsDataDemo[i].state) {
+        selectCounter++;
+      }
+    }
+
+    if (selectCounter) {
+      setTagsActiveState(true);
+      if (selectCounter < tagsDataDemo.length) {
+        setTagSelectState({ ...tagSelectState, selectAll: false });
+      }
+      if (selectCounter == tagsDataDemo.length) {
+        setTagSelectState({ ...tagSelectState, selectAll: true });
+      }
+    } else {
+      setTagsActiveState(false);
+      setTagSelectState({ ...tagSelectState, selectAll: false });
+    }
+  };
   const tagIsClicked = () => {
-    setTagState(!tagState);
+    if (counter.tagCounter === 0) {
+      bookStateCheckerLoop();
+      setTagState(true);
+      setCounter({...counter, tagCounter:1});
+    } else if (counter.tagCounter === 1) {
+      setTagState(false);
+      setCounter({...counter, tagCounter:0});
+      bookStateCheckerLoop();
+    }
   };
   const tagItemsClicked = (i) => {
-    tagsDataDemo[i].state=!tagsDataDemo[i].state;
+    tagsDataDemo[i].state = !tagsDataDemo[i].state;
     setTagData(tagsDataDemo);
+    tagStateCheckerLoop();
     setFlag(!flag);
+  };
+  const tagSelectHandler = () => {
+    if (tagSelectState.selectAll) {
+      tagsDataDemo.forEach((item) => {
+        item.state = false;
+      });
+      setTagData(tagsDataDemo);
+      setFlag(!flag);
+      setTagsActiveState(false);
+      setTagSelectState({ ...tagSelectState, selectAll: false });
+    } else if (!tagSelectState.selectAll) {
+      tagsDataDemo.forEach((item) => {
+        item.state = true;
+      });
+      setTagData(tagsDataDemo);
+      setFlag(!flag);
+      setTagsActiveState(true);
+      setTagSelectState({ ...tagSelectState, selectAll: true });
+    }
   };
   const inputAnimation = {
     hidden: {
@@ -289,6 +414,16 @@ if (!token)
 
               {bookmarkState && (
                 <div className="radioInputs">
+                  <span className={"link selectCheckbox"} id="bookmarPageRadio">
+                    <input
+                      type="checkBox"
+                      id={"selectAll"}
+                      name="selectAll"
+                      checked={selectState.selectAll}
+                      onChange={selectHandler}
+                    />
+                    <label for="selectAll">Select all</label>
+                  </span>
                   {route.subRoutes?.map((item, i) => {
                     return (
                       <button
@@ -325,7 +460,7 @@ if (!token)
       {/* //Books */}
       <div className="booksContainer">
         <button
-          className={isOpen ? "linkCollapsible" : "link"}
+          className={booksActiveState ? "activeState" : "link"}
           // id={isOpen ? "active" : "activeCollapsible"}
           onClick={() => bookIsClicked()}
         >
@@ -380,6 +515,21 @@ if (!token)
               </AnimatePresence>
             </div>
 
+            {/* //Select All checkBox */}
+            <span
+              className={"link"}
+              id="bookmarPageRadio"
+              style={{ margin: "0", marginBottom: "4px", width: "131px" }}
+            >
+              <input
+                type="checkBox"
+                id={"BookselectAll"}
+                name="BookselectAll"
+                checked={bookSelectState.selectAll}
+                onChange={bookSelectHandler}
+              />
+              <label for="BookselectAll">Select all</label>
+            </span>
             {/* //Api LIst  */}
             <div className="bookList">
               {data
@@ -393,13 +543,13 @@ if (!token)
                           ? "bookListContainerActive"
                           : "bookListContainer"
                       }
-                      onClick={() => bookSelectHandler(i)}
+                      onClick={() => bookSelected(i)}
                     >
                       <img
                         src={item.img}
                         alt={item.title}
-                        width={50}
-                        height={50}
+                        width={55}
+                        height={55}
                       />
                       <div className="bookMetaContainer">
                         <Tooltip title={item.title} arrow>
@@ -417,7 +567,7 @@ if (!token)
 
       {/* //Tags */}
       <button
-        className={isOpen ? "linkCollapsible" : "link"}
+        className={tagsActiveState ? "activeState" : "link"}
         // id={isOpen ? "active" : "activeCollapsible"}
         onClick={() => tagIsClicked()}
       >
@@ -441,36 +591,48 @@ if (!token)
 
       {tagState && (
         <div className="radioInputs">
-          {tagdata?.sort((a,b)=>b.state-a.state).map((item, i) => {
-            return (
-              <button
-                key={i + item.tagName}
-                className={item.state ? "activeState" : "link"}
-                // id={isOpen ? "active" : "activeCollapsible"}
-                style={{ padding: "10px" }}
-                onClick={() => tagItemsClicked(i)}
-              >
-                <AnimatePresence>
-                  <span
-                    className="material-symbols-outlined"
-                    style={{ fontSize: "18px" }}
-                  >
-                    {" "}
-                    tag
-                  </span>
-                  <motion.div
-                    variants={showAnimation}
-                    initial="hidden"
-                    animate="show"
-                    exit="hidden"
-                    className="link_text"
-                  >
-                    {item.tagName}
-                  </motion.div>
-                </AnimatePresence>
-              </button>
-            );
-          })}
+          <span className={"link selectCheckbox"} id="bookmarPageRadio">
+            <input
+              type="checkBox"
+              id={"tagselectAll"}
+              name="tagselectAll"
+              checked={tagSelectState.selectAll}
+              onChange={tagSelectHandler}
+            />
+            <label for="tagselectAll">Select all</label>
+          </span>
+          {tagdata
+            ?.sort((a, b) => b.state - a.state)
+            .map((item, i) => {
+              return (
+                <button
+                  key={i + item.tagName}
+                  className={item.state ? "activeState" : "link"}
+                  // id={isOpen ? "active" : "activeCollapsible"}
+                  style={{ padding: "10px" }}
+                  onClick={() => tagItemsClicked(i)}
+                >
+                  <AnimatePresence>
+                    <span
+                      className="material-symbols-outlined"
+                      style={{ fontSize: "18px" }}
+                    >
+                      {" "}
+                      tag
+                    </span>
+                    <motion.div
+                      variants={showAnimation}
+                      initial="hidden"
+                      animate="show"
+                      exit="hidden"
+                      className="link_text"
+                    >
+                      {item.tagName}
+                    </motion.div>
+                  </AnimatePresence>
+                </button>
+              );
+            })}
         </div>
       )}
     </div>

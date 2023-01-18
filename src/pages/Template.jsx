@@ -41,55 +41,85 @@ const routes = [
 ];
 
 const Template = () => {
+  const [selectState, setSelectState] = useState({
+    selectAll: true,
+  });
   const [isOpen, setIsOpen] = useState(false);
   const [bookmarkState, setBookmarkState] = useState(false);
   const [ideaCardActiveState, setIdeaCardActiveState] = useState(false);
-  const [flag, setFlag] = useState(false);
   const [counter, setCounter] = useState(0);
   const [hierarchicalState, setHierarchicalState] = useState(false);
   const [tileState, setTileState] = useState(false);
   const [bidirectionalState, setBidirectionalState] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
 
   const handleNavigationButtons = (name) => {
     setIsOpen(false);
   };
-  const bookmarkClicked = () => {
-    //countr=0 true
-    console.log(counter);
-    if (counter === 0) {
+
+  const stateCheckerLoop = () => {
+    let selectCounter = 0;
+    for (let i = 0; i < routes[1].subRoutes.length; i++) {
+      if (routes[1].subRoutes[i].state) {
+        selectCounter++;
+      }
+    }
+
+    if (selectCounter) {
       setIdeaCardActiveState(true);
+      if (selectCounter < routes[1].subRoutes.length) {
+        setSelectState({ ...selectState, selectAll: false });
+      }
+      if (selectCounter == routes[1].subRoutes.length) {
+        setSelectState({ ...selectState, selectAll: true });
+      }
+    } else {
+      setIdeaCardActiveState(false);
+      setSelectState({ ...selectState, selectAll: false });
+    }
+  };
+  const bookmarkClicked = () => {
+    if (counter === 0) {
+      stateCheckerLoop();
       setBookmarkState(true);
       setCounter(1);
     } else if (counter === 1) {
+      setBookmarkState(false);
+      setCounter(0);
+      stateCheckerLoop();
+    }
+  };
+
+  const selectedList = (index) => {
+    routes[1].subRoutes[index].state = !routes[1].subRoutes[index].state;
+    stateCheckerLoop();
+  };
+
+  const selectHandler = () => {
+    if (selectState.selectAll) {
       routes[1].subRoutes.forEach((item) => {
         item.state = false;
       });
-      setFlag(!flag);
       setIdeaCardActiveState(false);
-      setCounter(2);
-    } else if (counter === 2) {
-      setBookmarkState(false);
-      setIdeaCardActiveState(false);
-      setCounter(0);
+      setSelectState({ ...selectState, selectAll: false });
+    } else if (!selectState.selectAll) {
+      routes[1].subRoutes.forEach((item) => {
+        item.state = true;
+      });
+      setIdeaCardActiveState(true);
+      setSelectState({ ...selectState, selectAll: true });
     }
   };
+  const tagIsClicked = () => {
+    setTileState(!tileState);
+  };
+
   const HierarchicalLinkClicked = () => {
     setHierarchicalState(!hierarchicalState);
   };
   const BidirectionalLinkClicked = () => {
     setBidirectionalState(!bidirectionalState);
   };
-  const selectedList = (index) => {
-    // let flag=routes[1].subRoutes?[index].state;
-    routes[1].subRoutes[index].state = !routes[1].subRoutes[index].state;
-    setFlag(!flag);
-    setIdeaCardActiveState(true);
-    console.log("flag", routes[1].subRoutes[index].state);
-  };
-  const tagIsClicked = () => {
-    setTileState(!tileState);
-  };
+
   const inputAnimation = {
     hidden: {
       width: 0,
@@ -157,6 +187,16 @@ const Template = () => {
 
               {bookmarkState && (
                 <div className="radioInputs">
+                  <span className={"link selectCheckbox"} id="bookmarPageRadio">
+                    <input
+                      type="checkBox"
+                      id={"selectAll"}
+                      name="selectAll"
+                      checked={selectState.selectAll}
+                      onChange={selectHandler}
+                    />
+                    <label for="selectAll">Select all</label>
+                  </span>
                   {route.subRoutes?.map((item, i) => {
                     return (
                       <button
@@ -237,7 +277,7 @@ const Template = () => {
       </button>
 
       {tileState && (
-        <div className="dynamicSelectContainer">
+        <div className="dynamicSelectContainer" style={{ marginTop: "-10px" }}>
           <AnimatePresence>
             <div className="dynamicSelectLabel">
               <span
@@ -258,7 +298,9 @@ const Template = () => {
             >
               <select name="Boxes" id="Boxes">
                 <option value="Chapter">Chapter</option>
-                <option id='sxy'value="Sub-Chapter">Sub-Chapter</option>
+                <option id="sxy" value="Sub-Chapter">
+                  Sub-Chapter
+                </option>
                 <option value="Section">Section</option>
                 <option value="Sub-Section">Sub-Section</option>
                 <option value="off">off</option>
@@ -293,7 +335,7 @@ const Template = () => {
       </button>
 
       {hierarchicalState && (
-        <div className="dynamicSelectContainer">
+        <div className="dynamicSelectContainer" style={{ marginTop: "-10px" }}>
           <AnimatePresence>
             <div className="dynamicSelectLabel">
               <span
@@ -349,7 +391,10 @@ const Template = () => {
 
       {bidirectionalState && (
         <>
-          <div className="dynamicSelectContainer">
+          <div
+            className="dynamicSelectContainer"
+            style={{ marginTop: "-10px" }}
+          >
             <AnimatePresence>
               <div className="dynamicSelectLabel">
                 <span
