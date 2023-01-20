@@ -96,6 +96,9 @@ main {
   /* gap: 5px; */
   width: 180px;
 }
+.mainmenu{
+  margin-top: 10px;
+}
 .routesCollapsible
 {
   /* margin-top: 15px; */
@@ -119,6 +122,7 @@ main {
   cursor: pointer;
   align-items: center;
   margin: 11px 0px;
+  border-radius: 24px;
   /* height: 56px; */
   /* transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
@@ -135,25 +139,26 @@ main {
   border: none;
   cursor: pointer;
   margin: 3px 0px;
+  border-radius: 9px;
   /* transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
 .linkCollapsible:hover {
   border: none;
   background: var(--HoverOver);
   border-radius: 9px;
-  --fill: 1;
-  --weight: 900;
+  --fill: 0;
+  /* --weight: 900; */
   /* transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
 .link:hover {
   border: none;
   background: var(--HoverOver);
   border-radius: 24px;
-  --fill: 1;
-  --weight: 900;
+  --fill: 0;
+  /* --weight: 900; */
   /* transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
-.link:active {
+/* .link:active {
   border: none;
   background: var(--ClickState);
   --fill: 1;
@@ -161,15 +166,23 @@ main {
   border-radius: 24px;
   transform: scale(0.98);
   box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.24);
+} */
+#activeMainMenu
+{
+  border: none;
+  background: var(--ClickState);
+  --fill: 1;
+  --weight: 900;
+  /* border-radius: 24px; */
 }
-.linkCollapsible:active {
+/* .linkCollapsible:active {
   border: none;
   background: var(--ClickState);
   --fill: 1;
   --weight: 900;
   transform: scale(0.98);
   box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.24);
-}
+} */
 .link_text {
   white-space: nowrap;
   font-size: var(--fontSizeRegular);

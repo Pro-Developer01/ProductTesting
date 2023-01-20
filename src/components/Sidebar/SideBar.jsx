@@ -17,48 +17,38 @@ const routes = [
     path: "/",
     name: "Home",
     icon: "Home",
+    state: false
   },
   {
     path: "/users",
     name: "Navigate",
     icon: "explore",
+    state: false
   },
   {
     path: "/messages",
     name: "Search",
     icon: "search",
+    state: false
   },
   {
     path: "/analytics",
     name: "Show",
     icon: "visibility",
+    state: false
   },
   {
     path: "/file-manager",
     name: "Filter",
     icon: "filter_alt",
-    // subRoutes: [
-    //   {
-    //     path: "/settings/profile",
-    //     name: "Profile ",
-    //     icon: <FaUser />,
-    //   },
-    //   {
-    //     path: "/settings/2fa",
-    //     name: "2FA",
-    //     icon: <FaLock />,
-    //   },
-    //   {
-    //     path: "/settings/billing",
-    //     name: "Billing",
-    //     icon: <FaMoneyBill />,
-    //   },
-    // ],
+    state: false
+   
   },
   {
     path: "/order",
     name: "Template",
     icon: "dashboard",
+    state: false
   },
 ];
 
@@ -71,7 +61,13 @@ const SideBar = ({ children }) => {
   useEffect(() => {
     if (!title) setIsOpen(true);
   }, [title]);
-  const handleNavigationButtons = (name) => {
+
+
+  const handleNavigationButtons = (name, i) => {
+    routes.forEach((item)=>{
+      item.state=false;
+    })
+    routes[i].state=!routes[i].state;
     if (name !== "Home") {
       setTitle(name);
       setTiggerModal(!tiggerModal);
@@ -174,7 +170,7 @@ const SideBar = ({ children }) => {
               )}
             </AnimatePresence>
           </div> */}
-            <section className={isOpen ? "routes" : "routesCollapsible"}>
+            <section className={isOpen ? "routes mainmenu" : "routesCollapsible mainmenu"}>
               {routes.map((route, index) => {
                 if (route.subRoutes) {
                   return (
@@ -191,9 +187,8 @@ const SideBar = ({ children }) => {
                   <button
                     key={index}
                     className={isOpen ? "link" : "linkCollapsible"}
-                    // id={isOpen ? "active" : "activeCollapsible"}
-                    id={isOpen ? "routesID" : null}
-                    onClick={() => handleNavigationButtons(route.name)}
+                    id={route.state ? "activeMainMenu" : null}
+                    onClick={() => handleNavigationButtons(route.name, index)}
                   >
                     <span className="material-symbols-outlined">
                       {" "}

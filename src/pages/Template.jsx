@@ -329,7 +329,7 @@ const Template = () => {
           </motion.div>
           <span className="material-symbols-outlined" id="arrows">
             {" "}
-            {!tileState ? "chevron_right" : "expand_more"}
+            {!hierarchicalState ? "chevron_right" : "expand_more"}
           </span>
         </AnimatePresence>
       </button>
@@ -384,7 +384,7 @@ const Template = () => {
           </motion.div>
           <span className="material-symbols-outlined" id="arrows">
             {" "}
-            {!tileState ? "chevron_right" : "expand_more"}
+            {!bidirectionalState ? "chevron_right" : "expand_more"}
           </span>
         </AnimatePresence>
       </button>

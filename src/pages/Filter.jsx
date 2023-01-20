@@ -422,7 +422,7 @@ const Filter = () => {
                       checked={selectState.selectAll}
                       onChange={selectHandler}
                     />
-                    <label for="selectAll">Select all</label>
+                    <label for="selectAll" className="checkBoxLabel">Select all</label>
                   </span>
                   {route.subRoutes?.map((item, i) => {
                     return (
@@ -486,7 +486,7 @@ const Filter = () => {
         {bookState && (
           <div className="bookItems">
             {/* //Search Bar  */}
-            <div className="SearchMenu">
+            <div className="SearchMenu" style={{    paddingLeft: '35px'}}>
               <AnimatePresence>
                 <motion.div
                   initial="hidden"
@@ -519,7 +519,7 @@ const Filter = () => {
             <span
               className={"link"}
               id="bookmarPageRadio"
-              style={{ margin: "0", marginBottom: "4px", width: "131px" }}
+              style={{ margin: "0", marginBottom: "4px", width: "131px", marginLeft: '34px' }}
             >
               <input
                 type="checkBox"
@@ -527,8 +527,9 @@ const Filter = () => {
                 name="BookselectAll"
                 checked={bookSelectState.selectAll}
                 onChange={bookSelectHandler}
+                style={{marginRight: '-10px'}}
               />
-              <label for="BookselectAll">Select all</label>
+              <label for="BookselectAll" className="checkBoxLabel">Select all</label>
             </span>
             {/* //Api LIst  */}
             <div className="bookList">
@@ -599,7 +600,7 @@ const Filter = () => {
               checked={tagSelectState.selectAll}
               onChange={tagSelectHandler}
             />
-            <label for="tagselectAll">Select all</label>
+            <label for="tagselectAll" className="checkBoxLabel">Select all</label>
           </span>
           {tagdata
             ?.sort((a, b) => b.state - a.state)
@@ -615,7 +616,7 @@ const Filter = () => {
                   <AnimatePresence>
                     <span
                       className="material-symbols-outlined"
-                      style={{ fontSize: "18px" }}
+                      style={{ fontSize: "18px", marginLeft: '5px', marginRight: '-3px'}}
                     >
                       {" "}
                       tag

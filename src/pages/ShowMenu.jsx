@@ -35,7 +35,7 @@ const routes = [
         state: true,
       },
       {
-        name: "Action Items",
+        name: "Action items",
         icon: "campaign",
         state: true,
       },
@@ -209,7 +209,7 @@ const ShowMenu = () => {
                       checked={selectState.selectAll}
                       onChange={selectHandler}
                     />
-                    <label for="selectAll">Select all</label>
+                    <label for="selectAll" className="checkBoxLabel">Select all</label>
                   </span>
                   {route.subRoutes?.map((item, i) => {
                     return (
