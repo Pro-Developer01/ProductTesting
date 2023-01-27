@@ -81,10 +81,11 @@ const Filter = () => {
   const [bookState, setBookState] = useState(false);
   const [tagState, setTagState] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+  // .post("http://app.deepread.com:8000/api/auth/demo-account")
 
   const loginAuths = () => {
     axios
-      .post("http://app.deepread.com:8000/api/auth/demo-account")
+      .post("https://app.deepread.com/api/auth/demo-account")
       .then((res) => {
         console.log("post", res);
         if (res.status === 200) {
@@ -107,12 +108,13 @@ const Filter = () => {
       return fullName;
     } else return string;
   };
+        // `http://app.deepread.com:8000/api/user/get-metadata?user_id=${userId}`,
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     axios
       .get(
-        `http://app.deepread.com:8000/api/user/get-metadata?user_id=${userId}`,
+        `https://app.deepread.com/api/user/get-metadata?user_id=${userId}`,
         {
           headers: {
             // 'Accept': 'application/json',
@@ -519,7 +521,7 @@ const Filter = () => {
             <span
               className={"link"}
               id="bookmarPageRadio"
-              style={{ margin: "0", marginBottom: "4px", width: "131px", marginLeft: '34px' }}
+              style={{ margin: "0", marginBottom: "4px", width: "213px", marginLeft: '34px', fontSize:'13px' }}
             >
               <input
                 type="checkBox"

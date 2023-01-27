@@ -11,7 +11,7 @@ const routes = [
   },
   {
     path: "/users",
-    name: "Idea Cards",
+    name: "Idea cards",
     icon: "lightbulb",
     subRoutes: [
       {
