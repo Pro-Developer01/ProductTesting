@@ -108,21 +108,18 @@ const Filter = () => {
       return fullName;
     } else return string;
   };
-        // `http://app.deepread.com:8000/api/user/get-metadata?user_id=${userId}`,
+  // `http://app.deepread.com:8000/api/user/get-metadata?user_id=${userId}`,
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     axios
-      .get(
-        `https://app.deepread.com/api/user/get-metadata?user_id=${userId}`,
-        {
-          headers: {
-            // 'Accept': 'application/json',
-            // 'Content-Type': 'application/json',
-            authorization: token,
-          },
-        }
-      )
+      .get(`https://app.deepread.com/api/user/get-metadata?user_id=${userId}`, {
+        headers: {
+          // 'Accept': 'application/json',
+          // 'Content-Type': 'application/json',
+          authorization: token,
+        },
+      })
       .then((res) => {
         if (res.data.data) {
           const rawData = res.data.data;
@@ -316,10 +313,10 @@ const Filter = () => {
     if (counter.tagCounter === 0) {
       bookStateCheckerLoop();
       setTagState(true);
-      setCounter({...counter, tagCounter:1});
+      setCounter({ ...counter, tagCounter: 1 });
     } else if (counter.tagCounter === 1) {
       setTagState(false);
-      setCounter({...counter, tagCounter:0});
+      setCounter({ ...counter, tagCounter: 0 });
       bookStateCheckerLoop();
     }
   };
@@ -359,6 +356,7 @@ const Filter = () => {
     show: {
       width: "auto",
       padding: "5px 10px",
+      paddingRight: 0,
       transition: {
         duration: 0.2,
       },
@@ -424,7 +422,9 @@ const Filter = () => {
                       checked={selectState.selectAll}
                       onChange={selectHandler}
                     />
-                    <label for="selectAll" className="checkBoxLabel">Select all</label>
+                    <label for="selectAll" className="checkBoxLabel">
+                      Select all
+                    </label>
                   </span>
                   {route.subRoutes?.map((item, i) => {
                     return (
@@ -488,7 +488,10 @@ const Filter = () => {
         {bookState && (
           <div className="bookItems">
             {/* //Search Bar  */}
-            <div className="SearchMenu" style={{    paddingLeft: '35px'}}>
+            <div
+              className="SearchMenu"
+              style={{ paddingLeft: "35px", width: " 241px" }}
+            >
               <AnimatePresence>
                 <motion.div
                   initial="hidden"
@@ -496,6 +499,7 @@ const Filter = () => {
                   exit="hidden"
                   variants={inputAnimation}
                   className="search"
+                  style={{ justifyContent: "flex-start" }}
                 >
                   <motion.input
                     initial="hidden"
@@ -521,7 +525,13 @@ const Filter = () => {
             <span
               className={"link"}
               id="bookmarPageRadio"
-              style={{ margin: "0", marginBottom: "4px", width: "213px", marginLeft: '34px', fontSize:'13px' }}
+              style={{
+                margin: "0",
+                marginBottom: "4px",
+                width: "213px",
+                marginLeft: "34px",
+                fontSize: "13px",
+              }}
             >
               <input
                 type="checkBox"
@@ -529,9 +539,11 @@ const Filter = () => {
                 name="BookselectAll"
                 checked={bookSelectState.selectAll}
                 onChange={bookSelectHandler}
-                style={{marginRight: '-10px'}}
+                style={{ marginRight: "-10px" }}
               />
-              <label for="BookselectAll" className="checkBoxLabel">Select all</label>
+              <label for="BookselectAll" className="checkBoxLabel">
+                Select all
+              </label>
             </span>
             {/* //Api LIst  */}
             <div className="bookList">
@@ -602,7 +614,9 @@ const Filter = () => {
               checked={tagSelectState.selectAll}
               onChange={tagSelectHandler}
             />
-            <label for="tagselectAll" className="checkBoxLabel">Select all</label>
+            <label for="tagselectAll" className="checkBoxLabel">
+              Select all
+            </label>
           </span>
           {tagdata
             ?.sort((a, b) => b.state - a.state)
@@ -618,7 +632,11 @@ const Filter = () => {
                   <AnimatePresence>
                     <span
                       className="material-symbols-outlined"
-                      style={{ fontSize: "18px", marginLeft: '5px', marginRight: '-3px'}}
+                      style={{
+                        fontSize: "18px",
+                        marginLeft: "5px",
+                        marginRight: "-3px",
+                      }}
                     >
                       {" "}
                       tag

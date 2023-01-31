@@ -125,6 +125,7 @@
   --iconFontSize: 21px;
   --weight: 900;
   border-radius: 24px;
+  font-size: 13px;
 }
 .dynamicSelect {
   white-space: nowrap;
@@ -173,7 +174,7 @@
   gap: 14px;
 }
 .dynamicSelectLabel > label {
- font-size: var(--fontSizeRegular);
+  font-size: var(--fontSizeRegular);
 }
 .buttonArrowDiv {
   display: flex;
@@ -211,7 +212,6 @@ select {
   font-size: var(--fontSizeRegular) !important;
   /* font-weight: 600; */
   /* font-size: 16px; */
-
 }
 select:hover {
   background-color: var(--HoverOver) !important;
@@ -242,7 +242,9 @@ select:focus {
   outline-offset: 0px !important;
   outline: none !important;
 }
-
+.bookList {
+  width: 243px;
+}
 .bookListContainer {
   display: flex;
   align-items: center;
@@ -264,7 +266,8 @@ select:focus {
   border-radius: 8px;
   cursor: pointer;
 }
-.bookListContainer img, .bookListContainerActive img {
+.bookListContainer img,
+.bookListContainerActive img {
   border-radius: 9px;
   /* border: 1px solid var(--fontColor); */
   object-fit: cover;
@@ -311,9 +314,8 @@ select option:checked:after {
   border: none;
 } */
 
-
 input[type="radio"] {
-	accent-color: grey;
+  accent-color: grey;
 }
 input[type="checkbox"] {
   accent-color: white;
@@ -325,12 +327,10 @@ input[type="checkbox"]:hover {
   font-style: italic;
   color: grey;
 }
-.selectCheckbox
-{
+.selectCheckbox {
   margin-top: -11px !important;
   padding-left: 17px !important;
-
 }
-.checkBoxLabel{
+.checkBoxLabel {
   font-style: italic;
 }
