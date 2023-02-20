@@ -20,6 +20,10 @@
   box-sizing: border-box;
   font-family: "Lato", sans-serif;
 }
+.rootContainer
+{
+  display: flex;
+}
 .material-symbols-outlined
 {
     font-size: var(--iconFontSize);

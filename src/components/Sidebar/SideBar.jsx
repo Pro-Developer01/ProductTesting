@@ -278,7 +278,6 @@ const SideBar = ({ children }) => {
             <DrawerModal title={title} setTitle={setTitle} />
           </div>
         )}
-        <NewIdeaButton />
       </div>
     </>
   );
