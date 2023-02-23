@@ -21,7 +21,7 @@
   margin: 11px 0px;
   border: 1px solid grey;
   border-radius: 9px;
-
+  padding: 0px 3px;
 }
 .libraryListsImg {
   width: 123px;
@@ -38,20 +38,18 @@
 .dot-typing {
   position: relative;
   left: -9999px;
-  width: 7px;
-  height: 7px;
+  width: 4px;
+  height: 4px;
   border-radius: 5px;
   color: grey;
   box-shadow: 9984px 0 0 0 grey, 9999px 0 0 0 grey, 10014px 0 0 0 grey;
   animation: dot-typing 1.5s infinite linear;
 }
-.reactionButtonsContainer
-{
+.reactionButtonsContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin-top: 35px;
-
 }
 
 @keyframes dot-typing {

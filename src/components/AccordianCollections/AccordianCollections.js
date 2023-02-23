@@ -11,6 +11,31 @@ import ErrorIcon from '@mui/icons-material/Error';
 import HelpIcon from '@mui/icons-material/Help';
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
+import VpnKeySharpIcon from '@mui/icons-material/VpnKeySharp';
+import UpgradeIcon from '@mui/icons-material/Upgrade';
+import VerticalAlignBottomIcon from '@mui/icons-material/VerticalAlignBottom';
+import HeightIcon from '@mui/icons-material/Height';
+import { styled } from '@mui/material/styles';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+
+
+const iconStyling = {
+    color: '#FF6600', width: 22,
+    height: 22,
+}
+const MyNotesTextField = styled(TextField)(({ theme }) => ({
+    width: '100%',
+    color: 'red !important',
+    '& .MuiInputBase': {
+        padding: 0,
+    },
+    '& .MuiInputBase-input': {
+        fontFamily: 'Gaegu, cursive',
+        fontSize: '21px',
+        fontWeight: 600,
+    }
+}));
 const myNotes = [
     {
         bullet: 'neutral',
@@ -31,6 +56,19 @@ const myNotes = [
 
 ]
 const topics = ['Personal Development', 'Habits', 'Productivity']
+const linksInfo = [{
+    bullet: 'up',
+    content: 'Plateau of latent Potential'
+},
+{
+    bullet: 'down',
+    content: 'Plateau of latent Potential'
+},
+{
+    bullet: 'horizontal',
+    content: 'Plateau of latent Potential'
+},
+]
 const recommendation = ['Erwin', 'Mauro']
 
 const Topics = () => {
@@ -48,15 +86,16 @@ const Topics = () => {
     const handleTags = (event) => {
         setTags(event.target.value)
     }
+    const handleDelete = () => {
+        console.log('willdo it latre')
+    }
     return (
         <>
-
-
             <AccordionDetails>
                 {tagsData.map((item, index) => {
                     return (
-                        <div key={index} style={{ display: 'flex', gap: '8px' }}>
-                            <p># {item}</p>
+                        <div style={{ margin: '3px 0' }}>
+                            <Chip key={index} sx={{ fontWeight: 600 }} label={`# ${item}`} onDelete={handleDelete} />
                         </div>
                     )
                 })}
@@ -73,6 +112,128 @@ const Topics = () => {
     )
 
 }
+const LinkStructure = () => {
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [link, setLink] = useState('');
+    const [indexOfBullet, setIndexOfBullet] = useState(0);
+    const [linkData, setLinkData] = useState(linksInfo);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = (option) => {
+        setAnchorEl(null);
+        // setIconOption(option);
+        const tempNotes = linkData;
+        tempNotes[indexOfBullet].bullet = option;
+        setLinkData(tempNotes);
+    };
+    const handleKeyDown = (event) => {
+        console.log('A key was pressed', event.key);
+        if (event.key === 'Enter' && link !== '') {
+            let tempTags = JSON.parse(JSON.stringify(linkData))
+            let newObj = {
+                bullet: 'horizontal',
+                content: link
+            }
+            tempTags.push(newObj);
+            setLinkData(tempTags);
+            setLink('')
+            console.log('tempTags', tempTags);
+        }
+    };
+    const handleTags = (event) => {
+        setLink(event.target.value)
+    }
+    const dynamicBulletHandler = (option) => {
+        switch (option) {
+            case 'up':
+                return (<UpgradeIcon sx={{
+                    backgroundColor: 'grey', borderRadius: '33px', color: 'white', width: 19,
+                    height: 19,
+                }} />);
+
+            case 'down':
+                return (<UpgradeIcon sx={{
+                    backgroundColor: 'grey', borderRadius: '33px', color: 'white', width: 19,
+                    height: 19, transform: 'rotateZ(180deg)'
+                }} />)
+            case 'horizontal':
+                return (<HeightIcon sx={{
+                    backgroundColor: 'grey', borderRadius: '33px', color: 'white', width: 19,
+                    height: 19, transform: 'rotateZ(90deg)'
+                }} />)
+
+        }
+
+    }
+    return (
+        <>
+            <AccordionDetails>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '2.7px' }}>
+                    {dynamicBulletHandler('horizontal')} &nbsp;
+                    <VpnKeySharpIcon fontSize="small" sx={{
+                        backgroundColor: '#FF6600', borderRadius: '33px', color: 'white', width: 19,
+                        height: 19, padding: '3px'
+                    }} />
+                    <TextField
+                        value={link}
+                        onChange={handleTags}
+                        placeholder='Write here'
+                        variant="standard"
+                        sx={{ width: '186px', marginLeft: '5px' }}
+                        onKeyDown={handleKeyDown}
+                    />
+                </div>
+
+                {linkData.map((item, index) => {
+                    return (
+                        <div key={index} style={{
+                            display: 'flex', gap: '8px', alignItems: 'center', margin: '3px 0px'
+                        }}>
+                            <span id="linkStructureButton"
+                                aria-controls={open ? 'linkStructureMenu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={open ? 'true' : undefined}
+                                onClick={(e) => { handleClick(e); setIndexOfBullet(index) }}
+                                style={{ height: 'fit-content' }}>{dynamicBulletHandler(item.bullet)}</span>
+
+                            <VpnKeySharpIcon fontSize="small" sx={{
+                                backgroundColor: '#FF6600', borderRadius: '33px', color: 'white', width: 19,
+                                height: 19, padding: '3px'
+                            }} />
+                            <p style={{ fontWeight: 600 }}> {item.content}</p>
+                        </div>
+                    )
+                })}
+
+            </AccordionDetails>
+            <Menu
+                id="linkStructureMenu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={() => handleClose('up')}
+                MenuListProps={{
+                    'aria-labelledby': 'linkStructureButton',
+                }}
+            >
+                <MenuItem onClick={() => handleClose('up')}><UpgradeIcon sx={{
+                    backgroundColor: 'grey', borderRadius: '33px', color: 'white', width: 19,
+                    height: 19,
+                }} />&nbsp; Neutral Link</MenuItem>
+                <MenuItem onClick={() => handleClose('down')}><UpgradeIcon sx={{
+                    backgroundColor: 'grey', borderRadius: '33px', color: 'white', width: 19,
+                    height: 19, transform: 'rotateZ(180deg)'
+                }} />&nbsp; Child link</MenuItem>
+                <MenuItem onClick={() => handleClose('horizontal')}><HeightIcon sx={{
+                    backgroundColor: 'grey', borderRadius: '33px', color: 'white', width: 19,
+                    height: 19, transform: 'rotateZ(90deg)'
+                }} />&nbsp; Parent link</MenuItem>
+            </Menu>
+        </>
+    )
+
+}
 const Recommendation = () => {
 
     return (
@@ -80,9 +241,16 @@ const Recommendation = () => {
             <AccordionDetails>
                 {recommendation.map((item, index) => {
                     return (
-                        <div key={index} style={{ display: 'flex', gap: '8px', margingTop: '10px' }}>
-                            <Avatar sx={{ bgcolor: 'purple', width: 24, height: 24, fontSize: 10 }}>{item[0]}</Avatar>
-                            <p>{item}</p>
+                        <div key={index} style={{ margin: '5px 0' }}>
+
+                            <Chip
+                                avatar={<Avatar sx={{
+                                    bgcolor: 'purple', width: 24, height: 24, fontSize: 10, color: 'white !important'
+                                }}>{item[0]}</Avatar>}
+                                label={item}
+                                sx={{ fontWeight: 600 }}
+                                variant="outlined"
+                            />
                         </div>
                     )
                 })}
@@ -145,14 +313,14 @@ const MyNotes = () => {
                                 aria-haspopup="true"
                                 aria-expanded={open ? 'true' : undefined}
                                 onClick={(e) => { handleClick(e); setIndexOfBullet(index) }}
-                                style={{ height: 'fit-content' }}>{dynamicBulletHandler(item.bullet)}</span>
+                                style={{ height: 'fit-content', padding: '5px 0' }}>{dynamicBulletHandler(item.bullet)}</span>
 
-                            <TextField
+                            <MyNotesTextField
                                 multiline
                                 value={item.content}
                                 onChange={(e) => handleNotesChange(e, index)}
                                 variant="standard"
-                                sx={{ width: '100%' }}
+                            // sx={{ width: '100%' }}
                             />
                         </div>
                     )
@@ -167,18 +335,9 @@ const MyNotes = () => {
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <MenuItem onClick={() => handleClose('neutral')}><CircleIcon sx={{
-                    color: '#FF6600', width: 22,
-                    height: 22,
-                }} /> Neutral bullet</MenuItem>
-                <MenuItem onClick={() => handleClose('question')}><HelpIcon sx={{
-                    color: '#FF6600', width: 22,
-                    height: 22,
-                }} /> Question</MenuItem>
-                <MenuItem onClick={() => handleClose('claim')}><ErrorIcon sx={{
-                    color: '#FF6600', width: 22,
-                    height: 22,
-                }} /> Claim/Answer</MenuItem>
+                <MenuItem onClick={() => handleClose('neutral')}><CircleIcon sx={iconStyling} />&nbsp; Neutral bullet</MenuItem>
+                <MenuItem onClick={() => handleClose('question')}><HelpIcon sx={iconStyling} />&nbsp; Question</MenuItem>
+                <MenuItem onClick={() => handleClose('claim')}><ErrorIcon sx={iconStyling} />&nbsp; Claim/Answer</MenuItem>
             </Menu>
         </>
     )
@@ -307,9 +466,7 @@ export function IdeaCardAccordian() {
                     LINK STRUCTURE
 
                 </AccordionSummary>
-                <AccordionDetails>
-                    <p>to be done later</p>
-                </AccordionDetails>
+                <LinkStructure />
             </Accordion>
 
         </div>

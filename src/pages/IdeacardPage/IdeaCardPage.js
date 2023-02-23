@@ -12,6 +12,12 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Stack from "@mui/material/Stack";
 import { IdeaCardAccordian } from "../../components/AccordianCollections/AccordianCollections";
+import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
+import Chip from '@mui/material/Chip';
 
 let booksData = [
   {
@@ -34,17 +40,30 @@ let booksData = [
     index: 1,
   },
 ];
+const socialButtonsStyle = { color: 'darkgrey' }
 
 export default function IdeaCardPage() {
   const [data, setData] = useState(booksData);
+  const currentLocation = window.location.pathname
+  const [breadcrumbs, setBreadcrumbs] = useState([
+    <Link underline="hover" key="1" color="inherit" href={currentLocation} onClick={() => { }}>
+      <Chip avatar={<TipsAndUpdatesIcon />} sx={{ fontWeight: 600 }} label={currentLocation.substring(1)} onDelete={() => { }} />
+    </Link>,
+  ])
   const socialToggleHandler = (index) => {
     let tempData = JSON.parse(JSON.stringify(data));
     tempData[index].state = !tempData[index].state;
     setData(tempData);
   };
+
   return (
     <div className="feedParentContainer">
-      <div className="breadcumContainer">> > > ></div>
+      <div className="breadcumContainer"> <Breadcrumbs
+        separator={<NavigateNextIcon fontSize="small" />}
+        aria-label="breadcrumb"
+      >
+        {breadcrumbs}
+      </Breadcrumbs></div>
       <div className="feedBoxLayout">
         {data.map((item, i) => {
           return (
@@ -53,7 +72,7 @@ export default function IdeaCardPage() {
                 <AccordionSummary
                   aria-controls="panel1a-content"
                   id="panel1a-header"
-                  sx={{ borderBottom: "1px Solid Grey" }}
+
                 >
                   <div
                     key={item.id}
@@ -87,27 +106,25 @@ export default function IdeaCardPage() {
                       </div>
 
                       {/* //SocialButtons */}
-                      {item.state && (
-                        <div className="reactionButtonsContainer">
-                          <div className="socialButtons">
-                            <Stack direction="row" spacing={3}>
-                              <FavoriteBorder />
-                              <ChatBubbleOutline />
-                              <ShareIcon />
-                            </Stack>
-                          </div>
-                          <div className="bookmarkButtons">
-                            <Stack direction="row" spacing={3}>
-                              <BookmarkBorderIcon />
-                              <MoreVertIcon />
-                            </Stack>
-                          </div>
+                      {item.state && <div className="reactionButtonsContainer" onClick={(e) => { e.stopPropagation() }}>
+                        <div className="socialButtons">
+                          <Stack direction='row' spacing={3} >
+                            <FavoriteBorder sx={{ color: '#FF6600' }} />
+                            <ChatBubbleOutline sx={socialButtonsStyle} />
+                            <ShareIcon sx={socialButtonsStyle} />
+                          </Stack>
                         </div>
-                      )}
+                        <div className="bookmarkButtons">
+                          <Stack direction='row' spacing={3}>
+                            <BookmarkBorderIcon sx={socialButtonsStyle} />
+                            <MoreVertIcon sx={socialButtonsStyle} />
+                          </Stack>
+                        </div>
+                      </div>}
                     </div>
                   </div>
                 </AccordionSummary>
-                <AccordionDetails>
+                <AccordionDetails sx={{ borderTop: "1px Solid Grey" }}>
                   <div className="otherAccordians">
                     <IdeaCardAccordian />
                   </div>
