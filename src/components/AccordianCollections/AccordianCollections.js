@@ -94,8 +94,8 @@ const Topics = () => {
             <AccordionDetails>
                 {tagsData.map((item, index) => {
                     return (
-                        <div style={{ margin: '3px 0' }}>
-                            <Chip key={index} sx={{ fontWeight: 600 }} label={`# ${item}`} onDelete={handleDelete} />
+                        <div key={index} style={{ margin: '3px 0' }}>
+                            <Chip sx={{ fontWeight: 600 }} label={`# ${item}`} onDelete={handleDelete} />
                         </div>
                     )
                 })}
@@ -307,7 +307,7 @@ const MyNotes = () => {
             <AccordionDetails>
                 {notesData.map((item, index) => {
                     return (
-                        <div key={index} style={{ display: 'flex', gap: '8px', margin: '15px 0', }}>
+                        <div key={index} style={{ display: 'flex', gap: '8px', marginBottom: '15px', }}>
                             <span id="basic-button"
                                 aria-controls={open ? 'basic-menu' : undefined}
                                 aria-haspopup="true"

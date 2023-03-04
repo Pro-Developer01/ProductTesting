@@ -19,13 +19,15 @@
 }
 .libraryListsContainer {
   margin: 11px 0px;
-  border: 1px solid grey;
+  /* border: 1px solid grey;
   border-radius: 9px;
-  padding: 0px 3px;
+  padding: 0px 3px; */
 }
 .libraryListsImg {
   width: 123px;
-  height: 123px;
+  height: 190px;
+  object-fit: cover;
+  object-position: center;
   border-radius: 8px;
 }
 .dots {
@@ -35,43 +37,16 @@
   position: relative;
   display: inline-block;
 }
-.dot-typing {
-  position: relative;
-  left: -9999px;
-  width: 4px;
-  height: 4px;
-  border-radius: 5px;
-  color: grey;
-  box-shadow: 9984px 0 0 0 grey, 9999px 0 0 0 grey, 10014px 0 0 0 grey;
-  animation: dot-typing 1.5s infinite linear;
-}
+
 .reactionButtonsContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin-top: 35px;
 }
-
-@keyframes dot-typing {
-  0% {
-    box-shadow: 9984px 0 0 0 grey, 9999px 0 0 0 grey, 10014px 0 0 0 grey;
-  }
-  16.667% {
-    box-shadow: 9984px -10px 0 0 grey, 9999px 0 0 0 grey, 10014px 0 0 0 grey;
-  }
-  33.333% {
-    box-shadow: 9984px 0 0 0 grey, 9999px 0 0 0 grey, 10014px 0 0 0 grey;
-  }
-  50% {
-    box-shadow: 9984px 0 0 0 grey, 9999px -10px 0 0 grey, 10014px 0 0 0 grey;
-  }
-  66.667% {
-    box-shadow: 9984px 0 0 0 grey, 9999px 0 0 0 grey, 10014px 0 0 0 grey;
-  }
-  83.333% {
-    box-shadow: 9984px 0 0 0 grey, 9999px 0 0 0 grey, 10014px -10px 0 0 grey;
-  }
-  100% {
-    box-shadow: 9984px 0 0 0 grey, 9999px 0 0 0 grey, 10014px 0 0 0 grey;
-  }
+.socialButtons {
+  margin-left: 28px;
+}
+.fetchStatusIconContainer {
+  padding-top: 6px;
 }

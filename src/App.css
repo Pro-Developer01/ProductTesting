@@ -3,15 +3,17 @@
   --weight: 400;
   --white: #ffffff;
   --fontColor: #717171;
-  --HoverOver: #EDEDED;
-  --ClickState: #E3E3E3;
-  --BackgroundColor: #F9F9F9;
-  --NavigationBackgroundColor: #FFFFFF;
-  --fontSizeRegular:14px;
+  --HoverOver: #ededed;
+  --ClickState: #e3e3e3;
+  --BackgroundColor: #f9f9f9;
+  --NavigationBackgroundColor: #ffffff;
+  --fontSizeRegular: 14px;
   --borderColors: #e5e4e4;
-  --fontSizeHeading:21px;
-  --inputBorderColor:#e5e4e4;
-  --iconFontSize:23px;
+  --fontSizeHeading: 21px;
+  --inputBorderColor: #e5e4e4;
+  --iconFontSize: 23px;
+  --greyColor: grey;
+  --primaryColor: #ff6600;
 }
 
 * {
@@ -20,13 +22,11 @@
   box-sizing: border-box;
   font-family: "Lato", sans-serif;
 }
-.rootContainer
-{
+.rootContainer {
   display: flex;
 }
-.material-symbols-outlined
-{
-    font-size: var(--iconFontSize);
+.material-symbols-outlined {
+  font-size: var(--iconFontSize);
 }
 body {
   background-color: var(--BackgroundColor);
@@ -38,8 +38,7 @@ main {
   padding: 10px;
 }
 
-.logoColapse
-{
+.logoColapse {
   width: 300px;
   /* height: 300px; */
 }
@@ -100,18 +99,16 @@ main {
   /* gap: 5px; */
   width: 180px;
 }
-.mainmenu{
+.mainmenu {
   margin-top: 10px;
 }
-.routesCollapsible
-{
+.routesCollapsible {
   /* margin-top: 15px; */
   display: flex;
   flex-direction: column;
   width: 53px;
 }
-#routesID:first-child
-{
+#routesID:first-child {
   margin-top: 0;
 }
 .link {
@@ -171,8 +168,7 @@ main {
   transform: scale(0.98);
   box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.24);
 } */
-#activeMainMenu
-{
+#activeMainMenu {
   border: none;
   background: var(--ClickState);
   --fill: 1;
@@ -227,11 +223,11 @@ main {
   /* fill: 0; */
 }
 .material-symbols-outlined {
-  font-variation-settings: "FILL" var(--fill), "wght" var(--weight), "GRAD" 0, "opsz" 48;
+  font-variation-settings: "FILL" var(--fill), "wght" var(--weight), "GRAD" 0,
+    "opsz" 48;
 }
 
-.sidebarLowerCollapse
-{
+.sidebarLowerCollapse {
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -239,8 +235,7 @@ main {
   align-items: center;
   margin-bottom: 29px;
 }
-.sidebarLower
-{
+.sidebarLower {
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -250,32 +245,28 @@ main {
   margin-bottom: 29px;
 }
 
-#sidebarProfileImg
-{
+#sidebarProfileImg {
   border-radius: 30px;
-    width: 26px;
-    height: 26px;
+  width: 26px;
+  height: 26px;
 }
 
-.sidebarLayer2
-{
+.sidebarLayer2 {
   width: 294px;
 }
 .barsContainer {
-  padding: 8px 7px 5px 7px;  
+  padding: 8px 7px 5px 7px;
 }
-.barsContainer:hover{
+.barsContainer:hover {
   background-color: var(--HoverOver);
   border-radius: 33px;
 }
-#barParent
-{
+#barParent {
   padding: 0px 7px;
   padding-bottom: 4px;
   cursor: pointer;
   display: flex;
-    flex-direction: column;
-
+  flex-direction: column;
 }
 
 /* //Scrollbar Css */
@@ -286,19 +277,19 @@ main {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: var(--BackgroundColor); 
+  background: var(--BackgroundColor);
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #888;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
 input::placeholder {
- font-size: 13px;
+  font-size: 13px;
 }

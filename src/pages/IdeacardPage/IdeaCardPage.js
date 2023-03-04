@@ -18,6 +18,10 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Chip from '@mui/material/Chip';
+import { styled } from '@mui/material/styles';
+import MuiAccordionSummary, {
+  AccordionSummaryProps,
+} from '@mui/material/AccordionSummary';
 
 let booksData = [
   {
@@ -41,7 +45,20 @@ let booksData = [
   },
 ];
 const socialButtonsStyle = { color: 'darkgrey' }
+const AccordionSummaryCustom = styled((props: AccordionSummaryProps) => (
+  <MuiAccordionSummary
+    {...props}
+  />
+))(({ theme }) => ({
+  '& .MuiAccordionSummary-content': {
+    margin: 0,
+  },
+  '&& .Mui-expanded': {
+    margin: 0,
+    marginBottom: '23px'
 
+  },
+}));
 export default function IdeaCardPage() {
   const [data, setData] = useState(booksData);
   const currentLocation = window.location.pathname
@@ -67,12 +84,12 @@ export default function IdeaCardPage() {
       <div className="feedBoxLayout">
         {data.map((item, i) => {
           return (
-            <div className="libraryListsContainer">
-              <Accordion rounded>
-                <AccordionSummary
+            <div key={item.id} className='libraryListsContainer'>
+              <Accordion elevation={0} style={{ border: '1px solid var(--borderColors)', padding: '13px', }} rounded>
+                <AccordionSummaryCustom
                   aria-controls="panel1a-content"
                   id="panel1a-header"
-
+                  style={{ padding: 0, }}
                 >
                   <div
                     key={item.id}
@@ -123,7 +140,7 @@ export default function IdeaCardPage() {
                       </div>}
                     </div>
                   </div>
-                </AccordionSummary>
+                </AccordionSummaryCustom>
                 <AccordionDetails sx={{ borderTop: "1px Solid Grey" }}>
                   <div className="otherAccordians">
                     <IdeaCardAccordian />

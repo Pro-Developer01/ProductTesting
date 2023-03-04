@@ -28,6 +28,12 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Chip from '@mui/material/Chip';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import PortraitIcon from '@mui/icons-material/Portrait';
+import CircularLoading from '../../Assets/circularLoadingANI/CircularLoading';
+import LinearDotsLoading from '../../Assets/LinearDotsLoading/LinearDotsLoading';
+import MuiAccordionSummary, {
+    AccordionSummaryProps,
+} from '@mui/material/AccordionSummary';
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -100,6 +106,31 @@ QontoStepIcon.propTypes = {
      */
     completed: PropTypes.bool,
 };
+const stepLabelStyling = {
+    margin: 0,
+    '& .MuiStepLabel-labelContainer': {
+        position: 'absolute',
+        top: '-36px'
+    }
+}
+
+const AccordionSummaryCustom = styled((props: AccordionSummaryProps) => (
+    <MuiAccordionSummary
+        {...props}
+    />
+))(({ theme }) => ({
+    '& .MuiAccordionSummary-content': {
+        margin: 0,
+    },
+    '&& .Mui-expanded': {
+        margin: 0,
+        marginBottom: '23px',
+        display: 'flex',
+        justifyContent: 'center',
+        flexFlow: 'column'
+
+    },
+}));
 
 const steps = [
     'Read',
@@ -114,6 +145,7 @@ let booksData = [
         id: "38383",
         state: false,
         index: 1,
+
     },
     {
         title: "Hooked: How to Build Habit-Forming Products",
@@ -170,7 +202,7 @@ export default function MyLibrary() {
     const currentLocation = window.location.pathname
     const [breadcrumbs, setBreadcrumbs] = useState([
         <Link underline="hover" key="1" color="inherit" href={currentLocation} onClick={handleClick}>
-            <Chip avatar={<LibraryBooksIcon />} sx={{ fontWeight: 600 }} label={currentLocation.substring(1)} onDelete={() => { }} />
+            <Chip avatar={<LibraryBooksIcon />} sx={{ fontWeight: 600 }} label={currentLocation.substring(1)} />
         </Link>,
     ])
     const breadcumAddition = (title) => {
@@ -210,14 +242,14 @@ export default function MyLibrary() {
             <div className='feedBoxLayout'>
                 {data.map((item, i) => {
                     return (
-                        <div className='libraryListsContainer'>
-                            <Accordion rounded>
-                                <AccordionSummary
+                        <div key={item.id} className='libraryListsContainer'>
+                            <Accordion elevation={0} style={{ border: '1px solid var(--borderColors)', padding: '13px', }} rounded>
+                                <AccordionSummaryCustom
                                     aria-controls="panel1a-content"
                                     id="panel1a-header"
+                                    style={{ padding: 0, }}
                                 >
                                     <div
-                                        key={item.id}
                                         className='libraryLists'
                                         onClick={() => socialToggleHandler(i, item.title)}
                                     >
@@ -229,14 +261,18 @@ export default function MyLibrary() {
                                                 className='libraryListsImg'
                                             />
                                             <div className="rating">
-                                                <Rating name="read-only" value={4} readOnly />
+                                                <Rating name="read-only" sx={{ color: '#FF6600' }} value={4} readOnly />
                                             </div>
 
                                         </div>
-                                        <div>
+                                        <Stack direction="column"
+                                            justifyContent="space-between">
                                             {/* //CardHeaderTitle */}
                                             <div className="">
                                                 {/* <Tooltip title={item.title} arrow> */}
+                                                <Stack direction="row"
+                                                    justifyContent="left" alignItems='center'
+                                                    spacing={1} mb={1}> <PortraitIcon sx={{ fontSize: '14px' }} /><span style={{ fontSize: '12px' }} >Shared By: <b>Mauro Guerini</b> </span></Stack>
                                                 <h3 className="">{item.title}</h3>
                                                 {/* </Tooltip> */}
                                                 <span className="">By {item.author}</span>
@@ -246,54 +282,49 @@ export default function MyLibrary() {
                                             {/* //Timline */}
                                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                                 <div style={{ flex: 1 }}>
-                                                    <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '9px' }}>
-                                                        <div className="dots"><div class="container">
-                                                            <div class="dot-typing"></div>
-                                                        </div></div>
-                                                        <div className="dots"><div class="container">
-                                                            <div class="dot-typing"></div>
-                                                        </div></div>
-                                                        <div className="dots"><div class="container">
-                                                            <div class="dot-typing"></div>
-                                                        </div></div>
-                                                    </div>
-                                                    <Box sx={{ width: '100%' }}>
+
+                                                    <Box sx={{ width: '100%', marginTop: '32px', }}>
                                                         <Stepper alternativeLabel activeStep={1} connector={<QontoConnector />}>
                                                             {steps.map((label) => (
                                                                 <Step key={label}>
-                                                                    <StepLabel StepIconComponent={QontoStepIcon} sx={{ margin: 0 }}>{label}</StepLabel>
+                                                                    <StepLabel StepIconComponent={QontoStepIcon} sx={stepLabelStyling}>{label}</StepLabel>
                                                                 </Step>
                                                             ))}
                                                         </Stepper>
                                                     </Box>
+                                                    <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '16px' }}>
+                                                        <LinearDotsLoading />
+                                                        <LinearDotsLoading />
+                                                        <LinearDotsLoading />
+                                                    </div>
                                                 </div>
                                                 <div className="fetchStatusIconContainer">
-                                                    {/* <CachedIcon style={{color:'#FF6600'}}  /> */}
-                                                    <CircularProgress style={{ color: '#FF6600', width: '22px', height: '22px' }} />
+                                                    < CircularLoading />
                                                 </div>
                                             </div>
 
                                             {/* //SocialButtons */}
-                                            {item.state && <div className="reactionButtonsContainer" onClick={(e) => { e.stopPropagation() }}>
-                                                <div className="socialButtons">
-                                                    <Stack direction='row' spacing={3} >
-                                                        <FavoriteBorder sx={{ color: '#FF6600' }} />
-                                                        <ChatBubbleOutline sx={socialButtonsStyle} />
-                                                        <ShareIcon sx={socialButtonsStyle} />
-                                                    </Stack>
-                                                </div>
-                                                <div className="bookmarkButtons">
-                                                    <Stack direction='row' spacing={3}>
-                                                        <BookmarkBorderIcon sx={socialButtonsStyle} />
-                                                        <MoreVertIcon sx={socialButtonsStyle} />
-                                                    </Stack>
-                                                </div>
-                                            </div>}
-                                        </div>
+
+                                        </Stack>
 
                                     </div>
-                                </AccordionSummary>
-                                <AccordionDetails sx={{ borderTop: '1px Solid Grey' }}
+                                    {item.state && <div className="reactionButtonsContainer" onClick={(e) => { e.stopPropagation() }}>
+                                        <div className="socialButtons">
+                                            <Stack direction='row' spacing={3} >
+                                                <FavoriteBorder sx={{ color: '#FF6600' }} />
+                                                <ChatBubbleOutline sx={socialButtonsStyle} />
+                                                <ShareIcon sx={socialButtonsStyle} />
+                                            </Stack>
+                                        </div>
+                                        <div className="bookmarkButtons">
+                                            <Stack direction='row' spacing={3}>
+                                                <BookmarkBorderIcon sx={socialButtonsStyle} />
+                                                <MoreVertIcon sx={socialButtonsStyle} />
+                                            </Stack>
+                                        </div>
+                                    </div>}
+                                </AccordionSummaryCustom>
+                                <AccordionDetails sx={{ borderTop: '1px Solid var(--borderColors)' }}
                                 >
 
                                     <div className="otherAccordians">
