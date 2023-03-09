@@ -114,7 +114,7 @@ const stepLabelStyling = {
     }
 }
 
-const AccordionSummaryCustom = styled((props: AccordionSummaryProps) => (
+const AccordionSummaryCustom = styled((props) => (
     <MuiAccordionSummary
         {...props}
     />
@@ -243,11 +243,13 @@ export default function MyLibrary() {
                 {data.map((item, i) => {
                     return (
                         <div key={item.id} className='libraryListsContainer'>
-                            <Accordion elevation={0} style={{ border: '1px solid var(--borderColors)', padding: '13px', }} rounded>
+                            <Accordion elevation={0} sx={{
+                                border: '1px solid var(--borderColors)', padding: '13px',
+                            }} rounded>
                                 <AccordionSummaryCustom
                                     aria-controls="panel1a-content"
                                     id="panel1a-header"
-                                    style={{ padding: 0, }}
+                                    sx={{ padding: 0, }}
                                 >
                                     <div
                                         className='libraryLists'
@@ -324,7 +326,7 @@ export default function MyLibrary() {
                                         </div>
                                     </div>}
                                 </AccordionSummaryCustom>
-                                <AccordionDetails sx={{ borderTop: '1px Solid var(--borderColors)' }}
+                                <AccordionDetails sx={{ borderTop: '1px Solid var(--borderColors)', color: 'var(--fontColor)' }}
                                 >
 
                                     <div className="otherAccordians">

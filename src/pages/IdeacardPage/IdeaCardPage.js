@@ -89,59 +89,64 @@ export default function IdeaCardPage() {
                 <AccordionSummaryCustom
                   aria-controls="panel1a-content"
                   id="panel1a-header"
-                  style={{ padding: 0, }}
+                  sx={{ padding: 0, }}
                 >
-                  <div
-                    key={item.id}
-                    className="libraryLists"
-                    onClick={() => socialToggleHandler(i)}
-                  >
-                    <div>
-                      <Avatar src={item.author} alt={item.author}></Avatar>
-                    </div>
-                    <div>
-                      {/* //CardHeaderTitle */}
-                      <div className="">
-                        {/* <Tooltip title={item.title} arrow> */}
-                        <h3 className="">{item.title}</h3>
-                        {/* </Tooltip> */}
+                  <Stack direction='column'>
+
+                    <div
+                      key={item.id}
+                      className="libraryLists"
+                      onClick={() => socialToggleHandler(i)}
+                    >
+                      <div>
+                        <Avatar src={item.author} alt={item.author}></Avatar>
+                      </div>
+                      <div>
+                        {/* //CardHeaderTitle */}
+                        <div className="">
+                          {/* <Tooltip title={item.title} arrow> */}
+                          <h3 className="">{item.title}</h3>
+                          {/* </Tooltip> */}
+                        </div>
+
+                        {/* //Graphics */}
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            marginTop: "12px",
+                          }}
+                        >
+                          <img
+                            src={item.img}
+                            alt={item.title}
+                            style={{ width: "100%", height: "100%" }}
+                          />
+                        </div>
+
+
                       </div>
 
-                      {/* //Graphics */}
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          marginTop: "12px",
-                        }}
-                      >
-                        <img
-                          src={item.img}
-                          alt={item.title}
-                          style={{ width: "100%", height: "100%" }}
-                        />
-                      </div>
-
-                      {/* //SocialButtons */}
-                      {item.state && <div className="reactionButtonsContainer" onClick={(e) => { e.stopPropagation() }}>
-                        <div className="socialButtons">
-                          <Stack direction='row' spacing={3} >
-                            <FavoriteBorder sx={{ color: '#FF6600' }} />
-                            <ChatBubbleOutline sx={socialButtonsStyle} />
-                            <ShareIcon sx={socialButtonsStyle} />
-                          </Stack>
-                        </div>
-                        <div className="bookmarkButtons">
-                          <Stack direction='row' spacing={3}>
-                            <BookmarkBorderIcon sx={socialButtonsStyle} />
-                            <MoreVertIcon sx={socialButtonsStyle} />
-                          </Stack>
-                        </div>
-                      </div>}
                     </div>
-                  </div>
+                    {/* //SocialButtons */}
+                    {item.state && <div className="reactionButtonsContainer" onClick={(e) => { e.stopPropagation() }}>
+                      <div className="socialButtons">
+                        <Stack direction='row' spacing={3} >
+                          <FavoriteBorder sx={{ color: '#FF6600' }} />
+                          <ChatBubbleOutline sx={socialButtonsStyle} />
+                          <ShareIcon sx={socialButtonsStyle} />
+                        </Stack>
+                      </div>
+                      <div className="bookmarkButtons">
+                        <Stack direction='row' spacing={3}>
+                          <BookmarkBorderIcon sx={socialButtonsStyle} />
+                          <MoreVertIcon sx={socialButtonsStyle} />
+                        </Stack>
+                      </div>
+                    </div>}
+                  </Stack>
                 </AccordionSummaryCustom>
-                <AccordionDetails sx={{ borderTop: "1px Solid Grey" }}>
+                <AccordionDetails sx={{ borderTop: '1px Solid var(--borderColors)' }}>
                   <div className="otherAccordians">
                     <IdeaCardAccordian />
                   </div>

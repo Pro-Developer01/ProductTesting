@@ -13,7 +13,9 @@ const theme = createTheme({
       "Lato",
       'sans-serif',
     ].join(','),
+    fontColor: 'var(--fontColor)'
   },
+  color: 'var(--fontColor)'
 });
 function App() {
 

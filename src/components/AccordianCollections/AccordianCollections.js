@@ -18,6 +18,7 @@ import HeightIcon from '@mui/icons-material/Height';
 import { styled } from '@mui/material/styles';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 const iconStyling = {
@@ -26,7 +27,6 @@ const iconStyling = {
 }
 const MyNotesTextField = styled(TextField)(({ theme }) => ({
     width: '100%',
-    color: 'red !important',
     '& .MuiInputBase': {
         padding: 0,
     },
@@ -34,7 +34,20 @@ const MyNotesTextField = styled(TextField)(({ theme }) => ({
         fontFamily: 'Gaegu, cursive',
         fontSize: '21px',
         fontWeight: 600,
-    }
+    },
+    '& .MuiInput-underline:after':
+    {
+        border: 'none'
+    },
+    '& .MuiInput-underline:before':
+    {
+        border: 'none'
+    },
+    '& .MuiInput-underline:hover:before':
+    {
+        border: 'none !important'
+    },
+
 }));
 const myNotes = [
     {
@@ -43,7 +56,7 @@ const myNotes = [
     },
     {
         bullet: 'question',
-        content: 'Willpower and motivati on is not the onlyingredient you will need. A good systemthat channels your future self is importanttoo'
+        content: 'Willpower and motivation is not the only ingredient you will need. A good system that channels your future self is important too'
     },
     {
         bullet: 'claim',
@@ -70,194 +83,13 @@ const linksInfo = [{
 },
 ]
 const recommendation = ['Erwin', 'Mauro']
-
-const Topics = () => {
-    const [tags, setTags] = useState('');
-    const [tagsData, setTagsData] = useState(topics);
-    const handleKeyDown = (event) => {
-        console.log('A key was pressed', event.key);
-        if (event.key === 'Enter' && tags !== '') {
-            let tempTags = [...tagsData];
-            tempTags.push(tags);
-            setTagsData(tempTags);
-            setTags('')
-        }
-    };
-    const handleTags = (event) => {
-        setTags(event.target.value)
-    }
-    const handleDelete = () => {
-        console.log('willdo it latre')
-    }
-    return (
-        <>
-            <AccordionDetails>
-                {tagsData.map((item, index) => {
-                    return (
-                        <div key={index} style={{ margin: '3px 0' }}>
-                            <Chip sx={{ fontWeight: 600 }} label={`# ${item}`} onDelete={handleDelete} />
-                        </div>
-                    )
-                })}
-                <TextField
-                    value={tags}
-                    onChange={handleTags}
-                    placeholder='#Write Here'
-                    variant="standard"
-                    sx={{ width: '100%' }}
-                    onKeyDown={handleKeyDown}
-                />
-            </AccordionDetails>
-        </>
-    )
-
+const accordianBorder = {
+    borderTop: '1px solid var(--borderColors)',
+    color: 'var(--fontColor)'
 }
-const LinkStructure = () => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [link, setLink] = useState('');
-    const [indexOfBullet, setIndexOfBullet] = useState(0);
-    const [linkData, setLinkData] = useState(linksInfo);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = (option) => {
-        setAnchorEl(null);
-        // setIconOption(option);
-        const tempNotes = linkData;
-        tempNotes[indexOfBullet].bullet = option;
-        setLinkData(tempNotes);
-    };
-    const handleKeyDown = (event) => {
-        console.log('A key was pressed', event.key);
-        if (event.key === 'Enter' && link !== '') {
-            let tempTags = JSON.parse(JSON.stringify(linkData))
-            let newObj = {
-                bullet: 'horizontal',
-                content: link
-            }
-            tempTags.push(newObj);
-            setLinkData(tempTags);
-            setLink('')
-            console.log('tempTags', tempTags);
-        }
-    };
-    const handleTags = (event) => {
-        setLink(event.target.value)
-    }
-    const dynamicBulletHandler = (option) => {
-        switch (option) {
-            case 'up':
-                return (<UpgradeIcon sx={{
-                    backgroundColor: 'grey', borderRadius: '33px', color: 'white', width: 19,
-                    height: 19,
-                }} />);
-
-            case 'down':
-                return (<UpgradeIcon sx={{
-                    backgroundColor: 'grey', borderRadius: '33px', color: 'white', width: 19,
-                    height: 19, transform: 'rotateZ(180deg)'
-                }} />)
-            case 'horizontal':
-                return (<HeightIcon sx={{
-                    backgroundColor: 'grey', borderRadius: '33px', color: 'white', width: 19,
-                    height: 19, transform: 'rotateZ(90deg)'
-                }} />)
-
-        }
-
-    }
-    return (
-        <>
-            <AccordionDetails>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '2.7px' }}>
-                    {dynamicBulletHandler('horizontal')} &nbsp;
-                    <VpnKeySharpIcon fontSize="small" sx={{
-                        backgroundColor: '#FF6600', borderRadius: '33px', color: 'white', width: 19,
-                        height: 19, padding: '3px'
-                    }} />
-                    <TextField
-                        value={link}
-                        onChange={handleTags}
-                        placeholder='Write here'
-                        variant="standard"
-                        sx={{ width: '186px', marginLeft: '5px' }}
-                        onKeyDown={handleKeyDown}
-                    />
-                </div>
-
-                {linkData.map((item, index) => {
-                    return (
-                        <div key={index} style={{
-                            display: 'flex', gap: '8px', alignItems: 'center', margin: '3px 0px'
-                        }}>
-                            <span id="linkStructureButton"
-                                aria-controls={open ? 'linkStructureMenu' : undefined}
-                                aria-haspopup="true"
-                                aria-expanded={open ? 'true' : undefined}
-                                onClick={(e) => { handleClick(e); setIndexOfBullet(index) }}
-                                style={{ height: 'fit-content' }}>{dynamicBulletHandler(item.bullet)}</span>
-
-                            <VpnKeySharpIcon fontSize="small" sx={{
-                                backgroundColor: '#FF6600', borderRadius: '33px', color: 'white', width: 19,
-                                height: 19, padding: '3px'
-                            }} />
-                            <p style={{ fontWeight: 600 }}> {item.content}</p>
-                        </div>
-                    )
-                })}
-
-            </AccordionDetails>
-            <Menu
-                id="linkStructureMenu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={() => handleClose('up')}
-                MenuListProps={{
-                    'aria-labelledby': 'linkStructureButton',
-                }}
-            >
-                <MenuItem onClick={() => handleClose('up')}><UpgradeIcon sx={{
-                    backgroundColor: 'grey', borderRadius: '33px', color: 'white', width: 19,
-                    height: 19,
-                }} />&nbsp; Neutral Link</MenuItem>
-                <MenuItem onClick={() => handleClose('down')}><UpgradeIcon sx={{
-                    backgroundColor: 'grey', borderRadius: '33px', color: 'white', width: 19,
-                    height: 19, transform: 'rotateZ(180deg)'
-                }} />&nbsp; Child link</MenuItem>
-                <MenuItem onClick={() => handleClose('horizontal')}><HeightIcon sx={{
-                    backgroundColor: 'grey', borderRadius: '33px', color: 'white', width: 19,
-                    height: 19, transform: 'rotateZ(90deg)'
-                }} />&nbsp; Parent link</MenuItem>
-            </Menu>
-        </>
-    )
-
-}
-const Recommendation = () => {
-
-    return (
-        <>
-            <AccordionDetails>
-                {recommendation.map((item, index) => {
-                    return (
-                        <div key={index} style={{ margin: '5px 0' }}>
-
-                            <Chip
-                                avatar={<Avatar sx={{
-                                    bgcolor: 'purple', width: 24, height: 24, fontSize: 10, color: 'white !important'
-                                }}>{item[0]}</Avatar>}
-                                label={item}
-                                sx={{ fontWeight: 600 }}
-                                variant="outlined"
-                            />
-                        </div>
-                    )
-                })}
-            </AccordionDetails>
-        </>
-    )
-
+const MenuItemStyles = {
+    margin: '5px 1px',
+    borderRadius: '30px'
 }
 const MyNotes = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -320,7 +152,6 @@ const MyNotes = () => {
                                 value={item.content}
                                 onChange={(e) => handleNotesChange(e, index)}
                                 variant="standard"
-                            // sx={{ width: '100%' }}
                             />
                         </div>
                     )
@@ -334,15 +165,234 @@ const MyNotes = () => {
                 MenuListProps={{
                     'aria-labelledby': 'basic-button',
                 }}
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                }}
+                transformOrigin={{
+                    vertical: "top",
+                    horizontal: 28,
+                }}
             >
-                <MenuItem onClick={() => handleClose('neutral')}><CircleIcon sx={iconStyling} />&nbsp; Neutral bullet</MenuItem>
-                <MenuItem onClick={() => handleClose('question')}><HelpIcon sx={iconStyling} />&nbsp; Question</MenuItem>
-                <MenuItem onClick={() => handleClose('claim')}><ErrorIcon sx={iconStyling} />&nbsp; Claim/Answer</MenuItem>
+                <MenuItem sx={MenuItemStyles} onClick={() => handleClose('neutral')}><CircleIcon sx={iconStyling} />&nbsp; Neutral bullet</MenuItem>
+                <MenuItem sx={MenuItemStyles} onClick={() => handleClose('question')}><HelpIcon sx={iconStyling} />&nbsp; Question</MenuItem>
+                <MenuItem sx={MenuItemStyles} onClick={() => handleClose('claim')}><ErrorIcon sx={iconStyling} />&nbsp; Claim/Answer</MenuItem>
             </Menu>
         </>
     )
 
 }
+const Topics = () => {
+    const [tags, setTags] = useState('');
+    const [tagsData, setTagsData] = useState(topics);
+    const handleKeyDown = (event) => {
+        console.log('A key was pressed', event.key);
+        if (event.key === 'Enter' && tags !== '') {
+            let tempTags = [...tagsData];
+            tempTags.push(tags);
+            setTagsData(tempTags);
+            setTags('')
+        }
+    };
+    const handleTags = (event) => {
+        setTags(event.target.value)
+    }
+    const textFeildStyle = {
+        background: '#EBEBEB',
+        borderRadius: '33px',
+        width: '127px',
+        padding: ' 8px 11px',
+        fontWeight: 600,
+        border: 'none'
+    }
+    const handleDelete = () => {
+        console.log('willdo it latre')
+    }
+    return (
+        <>
+            <AccordionDetails >
+                {tagsData.map((item, index) => {
+                    return (
+                        <div key={index} style={{ margin: '3px 0' }}>
+                            <Chip sx={{ fontWeight: 600 }} label={`# ${item}`} onDelete={handleDelete} deleteIcon={<CloseIcon />} />
+                        </div>
+                    )
+                })}
+                <input
+                    typr='text'
+                    value={tags}
+                    onChange={handleTags}
+                    placeholder='# Write Here'
+                    style={textFeildStyle}
+                    onKeyDown={handleKeyDown}
+                />
+            </AccordionDetails>
+        </>
+    )
+
+}
+const LinkStructure = () => {
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [link, setLink] = useState('');
+    const [indexOfBullet, setIndexOfBullet] = useState(0);
+    const [linkData, setLinkData] = useState(linksInfo);
+    const open = Boolean(anchorEl);
+    const inputFeildStyle = {
+        width: 'auto',
+        padding: '3px 0px',
+        fontWeight: 600,
+        border: 'none',
+        marginLeft: '5px'
+    }
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = (option) => {
+        setAnchorEl(null);
+        // setIconOption(option);
+        const tempNotes = linkData;
+        tempNotes[indexOfBullet].bullet = option;
+        setLinkData(tempNotes);
+    };
+    const handleKeyDown = (event) => {
+        console.log('A key was pressed', event.key);
+        if (event.key === 'Enter' && link !== '') {
+            let tempTags = JSON.parse(JSON.stringify(linkData))
+            let newObj = {
+                bullet: 'horizontal',
+                content: link
+            }
+            tempTags.push(newObj);
+            setLinkData(tempTags);
+            setLink('')
+            console.log('tempTags', tempTags);
+        }
+    };
+    const handleTags = (event) => {
+        setLink(event.target.value)
+    }
+    const dynamicBulletHandler = (option) => {
+        switch (option) {
+            case 'up':
+                return (<UpgradeIcon sx={{
+                    backgroundColor: 'grey', borderRadius: '33px', color: 'white', width: 19,
+                    height: 19,
+                }} />);
+
+            case 'down':
+                return (<UpgradeIcon sx={{
+                    backgroundColor: 'grey', borderRadius: '33px', color: 'white', width: 19,
+                    height: 19, transform: 'rotateZ(180deg)'
+                }} />)
+            case 'horizontal':
+                return (<HeightIcon sx={{
+                    backgroundColor: 'grey', borderRadius: '33px', color: 'white', width: 19,
+                    height: 19, transform: 'rotateZ(90deg)'
+                }} />)
+
+        }
+
+    }
+    return (
+        <>
+            <AccordionDetails >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '2.7px' }}>
+                    {dynamicBulletHandler('horizontal')} &nbsp;
+                    <VpnKeySharpIcon fontSize="small" sx={{
+                        backgroundColor: '#FF6600', borderRadius: '33px', color: 'white', width: 19,
+                        height: 19, padding: '3px'
+                    }} />
+                    <input type='text'
+                        value={link}
+                        onChange={handleTags}
+                        placeholder='Write here'
+                        style={inputFeildStyle}
+                        onKeyDown={handleKeyDown}
+                    />
+                </div>
+
+                {linkData.map((item, index) => {
+                    return (
+                        <div key={index} style={{
+                            display: 'flex', gap: '8px', alignItems: 'center', margin: '3px 0px'
+                        }}>
+                            <span id="linkStructureButton"
+                                aria-controls={open ? 'linkStructureMenu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={open ? 'true' : undefined}
+                                onClick={(e) => { handleClick(e); setIndexOfBullet(index) }}
+                                style={{ height: 'fit-content' }}>{dynamicBulletHandler(item.bullet)}</span>
+
+                            <VpnKeySharpIcon fontSize="small" sx={{
+                                backgroundColor: '#FF6600', borderRadius: '33px', color: 'white', width: 19,
+                                height: 19, padding: '3px'
+                            }} />
+                            <p style={{ fontWeight: 600 }}> {item.content}</p>
+                        </div>
+                    )
+                })}
+
+            </AccordionDetails>
+            <Menu
+                id="linkStructureMenu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={() => handleClose('up')}
+                MenuListProps={{
+                    'aria-labelledby': 'linkStructureButton',
+                }}
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                }}
+                transformOrigin={{
+                    vertical: "top",
+                    horizontal: 28,
+                }}
+            >
+                <MenuItem sx={MenuItemStyles} onClick={() => handleClose('up')}><UpgradeIcon sx={{
+                    backgroundColor: 'grey', borderRadius: '33px', color: 'white', width: 19,
+                    height: 19,
+                }} />&nbsp; Neutral Link</MenuItem>
+                <MenuItem sx={MenuItemStyles} onClick={() => handleClose('down')}><UpgradeIcon sx={{
+                    backgroundColor: 'grey', borderRadius: '33px', color: 'white', width: 19,
+                    height: 19, transform: 'rotateZ(180deg)'
+                }} />&nbsp; Child link</MenuItem>
+                <MenuItem sx={MenuItemStyles} onClick={() => handleClose('horizontal')}><HeightIcon sx={{
+                    backgroundColor: 'grey', borderRadius: '33px', color: 'white', width: 19,
+                    height: 19, transform: 'rotateZ(90deg)'
+                }} />&nbsp; Parent link</MenuItem>
+            </Menu>
+        </>
+    )
+
+}
+const Recommendation = () => {
+
+    return (
+        <>
+            <AccordionDetails >
+                {recommendation.map((item, index) => {
+                    return (
+                        <div key={index} style={{ margin: '5px 0' }}>
+
+                            <Chip
+                                avatar={<Avatar sx={{
+                                    bgcolor: 'purple', width: 24, height: 24, fontSize: 10, color: 'white !important'
+                                }}>{item[0]}</Avatar>}
+                                label={item}
+                                sx={{ fontWeight: 600 }}
+                                variant="outlined"
+                            />
+                        </div>
+                    )
+                })}
+            </AccordionDetails>
+        </>
+    )
+
+}
+
 
 export default function LibraryAccordian() {
     return (
@@ -353,6 +403,7 @@ export default function LibraryAccordian() {
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
+                    sx={{ color: 'var(--fontColor)' }}
                 >
                     MY NOTES
                 </AccordionSummary>
@@ -360,7 +411,7 @@ export default function LibraryAccordian() {
             </Accordion>
 
             {/* //Topic */}
-            <Accordion elevation={0}>
+            <Accordion elevation={0} sx={accordianBorder} >
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -372,7 +423,7 @@ export default function LibraryAccordian() {
             </Accordion>
 
             {/* //Recommendation */}
-            <Accordion elevation={0}>
+            <Accordion elevation={0} sx={accordianBorder}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -384,7 +435,7 @@ export default function LibraryAccordian() {
             </Accordion>
 
             {/* //Graphs */}
-            <Accordion elevation={0}>
+            <Accordion elevation={0} sx={accordianBorder}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -410,6 +461,8 @@ export function IdeaCardAccordian() {
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
+                    sx={{ color: 'var(--fontColor)' }}
+
                 >
                     MY NOTES
                 </AccordionSummary>
@@ -417,7 +470,7 @@ export function IdeaCardAccordian() {
             </Accordion>
 
             {/* //Topic */}
-            <Accordion elevation={0}>
+            <Accordion elevation={0} sx={accordianBorder}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -429,7 +482,7 @@ export function IdeaCardAccordian() {
             </Accordion>
 
             {/* //LINKED HIGHLIGHTS */}
-            <Accordion elevation={0}>
+            <Accordion elevation={0} sx={accordianBorder}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -441,7 +494,7 @@ export function IdeaCardAccordian() {
             </Accordion>
 
             {/* //BOOK STRUCTURE */}
-            <Accordion elevation={0}>
+            <Accordion elevation={0} sx={accordianBorder}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -457,7 +510,7 @@ export function IdeaCardAccordian() {
 
 
             {/* //LINK STRUCTURE */}
-            <Accordion elevation={0}>
+            <Accordion elevation={0} sx={accordianBorder}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
