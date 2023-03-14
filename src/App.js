@@ -2,10 +2,10 @@ import "./App.css";
 import SideBar from "./components/Sidebar/SideBar";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
-import axios from "axios";
 import NewIdeaButton from "./components/NewIdea/NewIdeaButton";
 import DashBoard from "./pages/DashBoard/DashBoard";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import loginAuths from "./helperFunctions/logingFunction";
 
 const theme = createTheme({
   typography: {
@@ -18,6 +18,14 @@ const theme = createTheme({
   color: 'var(--fontColor)'
 });
 function App() {
+  const token = localStorage.getItem('token')
+  const userId = localStorage.getItem('userId')
+  useEffect(() => {
+    if (!token || !userId) {
+      loginAuths()
+      console.log('Login Called from App.js');
+    }
+  }, [])
 
   return (
     <>

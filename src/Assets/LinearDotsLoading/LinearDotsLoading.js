@@ -3,10 +3,10 @@ import './LinearDotsLoading.css';
 
 export default function LinearDotsLoading() {
     return (
-        <div class="col-3">
-            <div class="snippet" data-title="dot-flashing">
-                <div class="stage">
-                    <div class="dot-flashing"></div>
+        <div className="col-3">
+            <div className="snippet" data-title="dot-flashing">
+                <div className="stage">
+                    <div className="dot-flashing"></div>
                 </div>
             </div>
         </div>

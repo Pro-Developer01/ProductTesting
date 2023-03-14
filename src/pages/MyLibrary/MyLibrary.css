@@ -12,10 +12,14 @@
   width: 50%;
 }
 .libraryLists {
+  width: 100%;
   display: flex;
   background: white;
   justify-content: space-between;
-  gap: 13px;
+  /* gap: 13px; */
+}
+.fetchStatusIconContainer {
+  align-self: end;
 }
 .libraryListsContainer {
   margin: 11px 0px;
@@ -62,3 +66,25 @@
 :-ms-input-placeholder {
   font-style: italic;
 }
+.myNotesInput ::-webkit-input-placeholder {
+  font-style: italic;
+  font-size: 21px;
+}
+.myNotesInput :-moz-placeholder {
+  font-style: italic;
+  font-size: 21px;
+}
+.myNotesInput ::-moz-placeholder {
+  font-style: italic;
+  font-size: 21px;
+}
+.myNotesInput :-ms-input-placeholder {
+  font-style: italic;
+  font-size: 21px;
+}
+/* 
+.myNotesInput input,
+input::placeholder {
+  font-size: 21px;
+
+} */

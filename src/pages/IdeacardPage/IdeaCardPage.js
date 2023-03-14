@@ -19,16 +19,25 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Chip from '@mui/material/Chip';
 import { styled } from '@mui/material/styles';
+import VpnKeySharpIcon from '@mui/icons-material/VpnKeySharp';
 import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from '@mui/material/AccordionSummary';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
+import SettingsIcon from '@mui/icons-material/Settings';
+import CampaignIcon from '@mui/icons-material/Campaign';
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+import PortraitIcon from '@mui/icons-material/Portrait';
+
 
 let booksData = [
   {
     title: "Committment device",
-    author:
-      "https://thumbs.dreamstime.com/b/faces-avatar-circle-portrait-young-boy-glasses-vector-illustration-eps-flat-cartoon-style-83654284.jpg",
     img: "https://pbs.twimg.com/media/CM27-Z3UsAA7M5G.jpg",
+    bullet: "keyword",
     id: "38383",
     state: false,
     index: 1,
@@ -36,16 +45,22 @@ let booksData = [
   {
     title:
       "A traditional portrait often depicts the subject looking at the camera. Classic portrait photography is posed. It helps people look their best. Usually, photographers shoot conventional portraits in a studio with a formal photography backdrop.",
-    author:
-      "https://i.pinimg.com/736x/df/5f/5b/df5f5b1b174a2b4b6026cc6c8f9395c1.jpg",
     img: "https://expertphotography.b-cdn.net/wp-content/uploads/2019/02/Types-Of-Portrait-Photography-BW.jpg",
+    bullet: "mainclaim",
     id: "38383",
     state: false,
     index: 1,
   },
 ];
+const MenuItemStyles = {
+  margin: '5px 1px',
+  borderRadius: '30px'
+}
+const labelIconStyle = {
+  backgroundColor: 'var(--primaryColor)', borderRadius: '33px', color: 'white', padding: '3px'
+}
 const socialButtonsStyle = { color: 'darkgrey' }
-const AccordionSummaryCustom = styled((props: AccordionSummaryProps) => (
+const AccordionSummaryCustom = styled((props) => (
   <MuiAccordionSummary
     {...props}
   />
@@ -59,19 +74,58 @@ const AccordionSummaryCustom = styled((props: AccordionSummaryProps) => (
 
   },
 }));
+
 export default function IdeaCardPage() {
   const [data, setData] = useState(booksData);
   const currentLocation = window.location.pathname
+  const [indexOfBullet, setIndexOfBullet] = useState(0);
   const [breadcrumbs, setBreadcrumbs] = useState([
     <Link underline="hover" key="1" color="inherit" href={currentLocation} onClick={() => { }}>
-      <Chip avatar={<TipsAndUpdatesIcon />} sx={{ fontWeight: 600 }} label={currentLocation.substring(1)} onDelete={() => { }} />
+      <Chip avatar={<TipsAndUpdatesIcon />} sx={{ fontWeight: 600 }} label={currentLocation.substring(1)} />
     </Link>,
   ])
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
   const socialToggleHandler = (index) => {
     let tempData = JSON.parse(JSON.stringify(data));
     tempData[index].state = !tempData[index].state;
     setData(tempData);
   };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = (option) => {
+    setAnchorEl(null);
+    // setIconOption(option);
+    const tempNotes = data;
+    tempNotes[indexOfBullet].bullet = option;
+    setData(tempNotes, console.log('data', data));
+  };
+
+  const dynamicBulletHandler = (option) => {
+    switch (option) {
+      case 'keyword':
+        return (<VpnKeySharpIcon fontSize="large" sx={labelIconStyle} />);
+
+      case 'mainclaim':
+        return (<KeyboardDoubleArrowRightIcon fontSize="large" sx={labelIconStyle} />)
+      case 'quote':
+        return (<FormatQuoteIcon fontSize="large" sx={labelIconStyle} />)
+      case 'argument':
+        return (<HistoryEduIcon fontSize="large" sx={labelIconStyle} />)
+      case 'actionitem':
+        return (<CampaignIcon fontSize="large" sx={labelIconStyle} />)
+      case 'custom1':
+        return (<SettingsIcon fontSize="large" sx={labelIconStyle} />)
+      case 'custom2':
+        return (<SettingsIcon fontSize="large" sx={labelIconStyle} />)
+      case 'custom3':
+        return (<SettingsIcon fontSize="large" sx={labelIconStyle} />)
+
+    }
+
+  }
 
   return (
     <div className="feedParentContainer">
@@ -85,27 +139,39 @@ export default function IdeaCardPage() {
         {data.map((item, i) => {
           return (
             <div key={item.id} className='libraryListsContainer'>
-              <Accordion elevation={0} style={{ border: '1px solid var(--borderColors)', padding: '13px', }} rounded>
+              <Accordion elevation={0} style={{ border: '1px solid var(--borderColors)', padding: '7px', borderRadius: '12px ' }} >
                 <AccordionSummaryCustom
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                   sx={{ padding: 0, }}
                 >
                   <Stack direction='column'>
-
                     <div
                       key={item.id}
                       className="libraryLists"
+                      style={{ gap: '7px' }}
                       onClick={() => socialToggleHandler(i)}
                     >
                       <div>
-                        <Avatar src={item.author} alt={item.author}></Avatar>
+                        <span id="ideaCardLabels"
+                          aria-controls={open ? 'ideaCardLabelsMenu' : undefined}
+                          aria-haspopup="true"
+                          aria-expanded={open ? 'true' : undefined}
+                          onClick={(e) => { handleClick(e); setIndexOfBullet(i) }}
+                          style={{ height: 'fit-content', display: 'inline-block', marginTop: '17px', }}>{dynamicBulletHandler(item.bullet)}</span>
                       </div>
                       <div>
                         {/* //CardHeaderTitle */}
-                        <div className="">
+                        <div >
                           {/* <Tooltip title={item.title} arrow> */}
-                          <h3 className="">{item.title}</h3>
+                          <Stack direction="row"
+                            justifyContent="left" alignItems='center'
+                            spacing={1} mb={1}>
+                            <PortraitIcon sx={{ fontSize: '14px', color: 'lightslategrey' }} /><span style={{
+                              fontSize: '12px', color: 'lightslategrey'
+                            }} >Shared By: <b>Mauro Guerini</b> </span></Stack>
+
+                          <h3 >{item.title}</h3>
                           {/* </Tooltip> */}
                         </div>
 
@@ -120,7 +186,7 @@ export default function IdeaCardPage() {
                           <img
                             src={item.img}
                             alt={item.title}
-                            style={{ width: "100%", height: "100%" }}
+                            style={{ width: "100%", height: "100%", borderRadius: '12px ' }}
                           />
                         </div>
 
@@ -130,9 +196,9 @@ export default function IdeaCardPage() {
                     </div>
                     {/* //SocialButtons */}
                     {item.state && <div className="reactionButtonsContainer" onClick={(e) => { e.stopPropagation() }}>
-                      <div className="socialButtons">
+                      <div className="socialButtons" style={{ marginLeft: '40px' }}>
                         <Stack direction='row' spacing={3} >
-                          <FavoriteBorder sx={{ color: '#FF6600' }} />
+                          <FavoriteBorder sx={{ color: 'var(--primaryColor)' }} />
                           <ChatBubbleOutline sx={socialButtonsStyle} />
                           <ShareIcon sx={socialButtonsStyle} />
                         </Stack>
@@ -147,7 +213,7 @@ export default function IdeaCardPage() {
                   </Stack>
                 </AccordionSummaryCustom>
                 <AccordionDetails sx={{ borderTop: '1px Solid var(--borderColors)' }}>
-                  <div className="otherAccordians">
+                  <div className="otherAccordians" style={{ marginLeft: '11px' }}>
                     <IdeaCardAccordian />
                   </div>
                 </AccordionDetails>
@@ -156,6 +222,32 @@ export default function IdeaCardPage() {
           );
         })}
       </div>
+      <Menu
+        id="ideaCardLabelsMenu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={() => handleClose('keyword')}
+        MenuListProps={{
+          'aria-labelledby': 'ideaCardLabels',
+        }}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: 28,
+        }}
+      >
+        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('keyword')}><VpnKeySharpIcon fontSize="medium" sx={labelIconStyle} />&nbsp; Keyword</MenuItem>
+        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('mainclaim')}><KeyboardDoubleArrowRightIcon fontSize="medium" sx={labelIconStyle} />&nbsp; Main Claim</MenuItem>
+        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('quote')}><FormatQuoteIcon fontSize="medium" sx={labelIconStyle} />&nbsp; Quote</MenuItem>
+        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('argument')}><HistoryEduIcon fontSize="medium" sx={labelIconStyle} />&nbsp; Argument</MenuItem>
+        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('actionitem')}><CampaignIcon fontSize="medium" sx={labelIconStyle} />&nbsp; Action Item</MenuItem>
+        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('custom1')}><SettingsIcon fontSize="medium" sx={labelIconStyle} />&nbsp; Custom1</MenuItem>
+        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('custom2')}><SettingsIcon fontSize="medium" sx={labelIconStyle} />&nbsp; Custom2</MenuItem>
+        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('custom3')}><SettingsIcon fontSize="medium" sx={labelIconStyle} />&nbsp; Custom3</MenuItem>
+      </Menu>
     </div>
   );
 }

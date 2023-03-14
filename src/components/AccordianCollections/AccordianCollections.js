@@ -19,6 +19,7 @@ import { styled } from '@mui/material/styles';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import CloseIcon from '@mui/icons-material/Close';
+import '../../pages/MyLibrary/MyLibrary.css'
 
 
 const iconStyling = {
@@ -91,11 +92,22 @@ const MenuItemStyles = {
     margin: '5px 1px',
     borderRadius: '30px'
 }
-const MyNotes = () => {
+const MyNotes = ({ myNotesData }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [indexOfBullet, setIndexOfBullet] = useState(0);
-    const [notesData, setNotesData] = useState(myNotes);
+    const [newNotes, setNewNotes] = useState('');
+    const [notesData, setNotesData] = useState(myNotesData);
     const open = Boolean(anchorEl);
+    const inputFeildStyle = {
+        width: '100%',
+        padding: '3px 0px',
+        fontWeight: 600,
+        border: 'none',
+        marginLeft: '5px',
+        fontFamily: 'Gaegu,cursive',
+        fontSize: '21px',
+        fontWeight: 600
+    }
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -106,6 +118,23 @@ const MyNotes = () => {
         tempNotes[indexOfBullet].bullet = option;
         setNotesData(tempNotes);
     };
+    const handleKeyDown = (event) => {
+        console.log('A key was pressed', event.key);
+        if (event.key === 'Enter' && newNotes !== '') {
+            let tempTags = JSON.parse(JSON.stringify(notesData))
+            let newObj = {
+                bullet: 'neutral',
+                content: newNotes
+            }
+            tempTags.push(newObj);
+            setNotesData(tempTags);
+            setNewNotes('')
+            console.log('tempTags', tempTags);
+        }
+    };
+    const handleTags = (event) => {
+        setNewNotes(event.target.value)
+    }
     const dynamicBulletHandler = (option) => {
         switch (option) {
             case 'neutral':
@@ -137,25 +166,41 @@ const MyNotes = () => {
     return (
         <>
             <AccordionDetails>
-                {notesData.map((item, index) => {
-                    return (
-                        <div key={index} style={{ display: 'flex', gap: '8px', marginBottom: '15px', }}>
-                            <span id="basic-button"
-                                aria-controls={open ? 'basic-menu' : undefined}
-                                aria-haspopup="true"
-                                aria-expanded={open ? 'true' : undefined}
-                                onClick={(e) => { handleClick(e); setIndexOfBullet(index) }}
-                                style={{ height: 'fit-content', padding: '5px 0' }}>{dynamicBulletHandler(item.bullet)}</span>
+                {notesData?.length ?
+                    (<>
+                        {notesData.map((item, index) => {
+                            return (
+                                <div key={index} style={{ display: 'flex', gap: '8px', marginBottom: '15px', }}>
+                                    <span id="basic-button"
+                                        aria-controls={open ? 'basic-menu' : undefined}
+                                        aria-haspopup="true"
+                                        aria-expanded={open ? 'true' : undefined}
+                                        onClick={(e) => { handleClick(e); setIndexOfBullet(index) }}
+                                        style={{ height: 'fit-content', padding: '5px 0' }}>{dynamicBulletHandler(item.bullet)}</span>
 
-                            <MyNotesTextField
-                                multiline
-                                value={item.content}
-                                onChange={(e) => handleNotesChange(e, index)}
-                                variant="standard"
+                                    <MyNotesTextField
+                                        multiline
+                                        value={item.content}
+                                        onChange={(e) => handleNotesChange(e, index)}
+                                        variant="standard"
+                                    />
+                                </div>
+                            )
+                        })}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '2.7px' }}>
+                            {dynamicBulletHandler('neutral')} &nbsp;
+                            <input type='text'
+                                className='myNotesInput'
+                                value={newNotes}
+                                onChange={handleTags}
+                                placeholder='Write here'
+                                style={inputFeildStyle}
+                                onKeyDown={handleKeyDown}
                             />
                         </div>
+                    </>
                     )
-                })}
+                    : <span style={{ color: 'var(--fontColor)' }}>No Data Available</span>}
             </AccordionDetails>
             <Menu
                 id="basic-menu"
@@ -182,9 +227,9 @@ const MyNotes = () => {
     )
 
 }
-const Topics = () => {
+const Topics = ({ tagData }) => {
     const [tags, setTags] = useState('');
-    const [tagsData, setTagsData] = useState(topics);
+    const [tagsData, setTagsData] = useState(tagData);
     const handleKeyDown = (event) => {
         console.log('A key was pressed', event.key);
         if (event.key === 'Enter' && tags !== '') {
@@ -210,32 +255,39 @@ const Topics = () => {
     }
     return (
         <>
+
             <AccordionDetails >
-                {tagsData.map((item, index) => {
-                    return (
-                        <div key={index} style={{ margin: '3px 0' }}>
-                            <Chip sx={{ fontWeight: 600 }} label={`# ${item}`} onDelete={handleDelete} deleteIcon={<CloseIcon />} />
-                        </div>
-                    )
-                })}
-                <input
-                    typr='text'
-                    value={tags}
-                    onChange={handleTags}
-                    placeholder='# Write Here'
-                    style={textFeildStyle}
-                    onKeyDown={handleKeyDown}
-                />
+                {tagsData?.length ?
+                    (<>
+
+                        {tagsData.map((item, index) => {
+                            return (
+                                <div key={index} style={{ margin: '3px 0' }}>
+                                    <Chip sx={{ fontWeight: 600 }} label={`# ${item}`} onDelete={handleDelete} deleteIcon={<CloseIcon />} />
+                                </div>
+                            )
+                        })
+                        }
+                        < input
+                            typr='text'
+                            value={tags}
+                            onChange={handleTags}
+                            placeholder='# Write Here'
+                            style={textFeildStyle}
+                            onKeyDown={handleKeyDown}
+                        />
+                    </>)
+                    : <span>No Data Available</span>}
             </AccordionDetails>
         </>
     )
 
 }
 const LinkStructure = () => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
     const [link, setLink] = useState('');
     const [indexOfBullet, setIndexOfBullet] = useState(0);
     const [linkData, setLinkData] = useState(linksInfo);
+    const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const inputFeildStyle = {
         width: 'auto',
@@ -367,12 +419,12 @@ const LinkStructure = () => {
     )
 
 }
-const Recommendation = () => {
+const Recommendation = ({ recommendationString }) => {
 
     return (
         <>
             <AccordionDetails >
-                {recommendation.map((item, index) => {
+                {recommendationString?.length ? recommendation.map((item, index) => {
                     return (
                         <div key={index} style={{ margin: '5px 0' }}>
 
@@ -386,7 +438,7 @@ const Recommendation = () => {
                             />
                         </div>
                     )
-                })}
+                }) : <span>No Data Available</span>}
             </AccordionDetails>
         </>
     )
@@ -394,7 +446,7 @@ const Recommendation = () => {
 }
 
 
-export default function LibraryAccordian() {
+export default function LibraryAccordian({ metaData }) {
     return (
         <div>
             {/* //Mynotes */}
@@ -407,7 +459,7 @@ export default function LibraryAccordian() {
                 >
                     MY NOTES
                 </AccordionSummary>
-                <MyNotes />
+                <MyNotes myNotesData={metaData[0].my_notes} />
             </Accordion>
 
             {/* //Topic */}
@@ -419,7 +471,7 @@ export default function LibraryAccordian() {
                 >
                     TOPICS
                 </AccordionSummary>
-                <Topics />
+                <Topics tagData={metaData[0].tags} />
             </Accordion>
 
             {/* //Recommendation */}
@@ -431,7 +483,7 @@ export default function LibraryAccordian() {
                 >
                     RECOMMENDED BY
                 </AccordionSummary>
-                <Recommendation />
+                <Recommendation recommendationString={metaData[0].recomendation} />
             </Accordion>
 
             {/* //Graphs */}
@@ -466,7 +518,7 @@ export function IdeaCardAccordian() {
                 >
                     MY NOTES
                 </AccordionSummary>
-                <MyNotes />
+                <MyNotes myNotesData={myNotes} />
             </Accordion>
 
             {/* //Topic */}
@@ -478,7 +530,7 @@ export function IdeaCardAccordian() {
                 >
                     TOPICS
                 </AccordionSummary>
-                <Topics />
+                <Topics tagData={topics} />
             </Accordion>
 
             {/* //LINKED HIGHLIGHTS */}
@@ -490,7 +542,7 @@ export function IdeaCardAccordian() {
                 >
                     LINKED HIGHLIGHTS
                 </AccordionSummary>
-                <Recommendation />
+                <Recommendation recommendationString={recommendation} />
             </Accordion>
 
             {/* //BOOK STRUCTURE */}

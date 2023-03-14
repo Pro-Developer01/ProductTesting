@@ -35,7 +35,9 @@
   animation: dot-flashing 1s infinite alternate;
   animation-delay: 1s;
 }
-
+.col-3 {
+  margin-top: 16px;
+}
 @keyframes dot-flashing {
   0% {
     background-color: var(--greyColor);
