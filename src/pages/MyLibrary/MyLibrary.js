@@ -39,6 +39,7 @@ import MuiAccordionSummary, {
 } from "@mui/material/AccordionSummary";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+import loginAuths from "../../helperFunctions/logingFunction";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
