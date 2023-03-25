@@ -1,4 +1,5 @@
 import "./App.css";
+// import "./Global.css";
 import SideBar from "./components/Sidebar/SideBar";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";

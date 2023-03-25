@@ -14,6 +14,7 @@
   --iconFontSize: 23px;
   --greyColor: grey;
   --primaryColor: #ff6600;
+  --cardBackgraoundColor: #fff;
 }
 
 * {
@@ -269,6 +270,8 @@ main {
   flex-direction: column;
 }
 
+/* //Global Css */
+
 /* //Scrollbar Css */
 /* width */
 ::-webkit-scrollbar {
@@ -292,4 +295,15 @@ main {
 
 input::placeholder {
   font-size: 13px;
+}
+
+.d-none {
+  display: none;
+}
+
+.Card-image-w50-h50 {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  object-position: center;
 }

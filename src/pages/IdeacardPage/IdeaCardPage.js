@@ -56,7 +56,7 @@ const MenuItemStyles = {
   margin: '5px 1px',
   borderRadius: '30px'
 }
-const labelIconStyle = {
+const labelIconStyleInitial = {
   backgroundColor: 'var(--primaryColor)', borderRadius: '33px', color: 'white', padding: '3px'
 }
 const socialButtonsStyle = { color: 'darkgrey' }
@@ -74,7 +74,35 @@ const AccordionSummaryCustom = styled((props) => (
 
   },
 }));
+export const dynamicBulletHandler = (option, fontSizeRequested, iconStyleRequested) => {
+  const fontSize = fontSizeRequested || 'large';
+  let labelIconStyle = labelIconStyleInitial
+  console.log('iconStyleRequested', iconStyleRequested, iconStyleRequested.length)
+  if (iconStyleRequested) {
+    labelIconStyle = iconStyleRequested
+  }
+  switch (option) {
+    case 'keyword':
+      return (<VpnKeySharpIcon fontSize={fontSize} sx={labelIconStyle} />);
 
+    case 'mainclaim':
+      return (<KeyboardDoubleArrowRightIcon fontSize={fontSize} sx={labelIconStyle} />)
+    case 'quote':
+      return (<FormatQuoteIcon fontSize={fontSize} sx={labelIconStyle} />)
+    case 'argument':
+      return (<HistoryEduIcon fontSize={fontSize} sx={labelIconStyle} />)
+    case 'actionitem':
+      return (<CampaignIcon fontSize={fontSize} sx={labelIconStyle} />)
+    case 'custom1':
+      return (<SettingsIcon fontSize={fontSize} sx={labelIconStyle} />)
+    case 'custom2':
+      return (<SettingsIcon fontSize={fontSize} sx={labelIconStyle} />)
+    case 'custom3':
+      return (<SettingsIcon fontSize={fontSize} sx={labelIconStyle} />)
+
+  }
+
+}
 export default function IdeaCardPage() {
   const [data, setData] = useState(booksData);
   const currentLocation = window.location.pathname
@@ -103,42 +131,42 @@ export default function IdeaCardPage() {
     setData(tempNotes, console.log('data', data));
   };
 
-  const dynamicBulletHandler = (option) => {
-    switch (option) {
-      case 'keyword':
-        return (<VpnKeySharpIcon fontSize="large" sx={labelIconStyle} />);
+  // const dynamicBulletHandler = (option) => {
+  //   switch (option) {
+  //     case 'keyword':
+  //       return (<VpnKeySharpIcon fontSize="large" sx={labelIconStyle} />);
 
-      case 'mainclaim':
-        return (<KeyboardDoubleArrowRightIcon fontSize="large" sx={labelIconStyle} />)
-      case 'quote':
-        return (<FormatQuoteIcon fontSize="large" sx={labelIconStyle} />)
-      case 'argument':
-        return (<HistoryEduIcon fontSize="large" sx={labelIconStyle} />)
-      case 'actionitem':
-        return (<CampaignIcon fontSize="large" sx={labelIconStyle} />)
-      case 'custom1':
-        return (<SettingsIcon fontSize="large" sx={labelIconStyle} />)
-      case 'custom2':
-        return (<SettingsIcon fontSize="large" sx={labelIconStyle} />)
-      case 'custom3':
-        return (<SettingsIcon fontSize="large" sx={labelIconStyle} />)
+  //     case 'mainclaim':
+  //       return (<KeyboardDoubleArrowRightIcon fontSize="large" sx={labelIconStyle} />)
+  //     case 'quote':
+  //       return (<FormatQuoteIcon fontSize="large" sx={labelIconStyle} />)
+  //     case 'argument':
+  //       return (<HistoryEduIcon fontSize="large" sx={labelIconStyle} />)
+  //     case 'actionitem':
+  //       return (<CampaignIcon fontSize="large" sx={labelIconStyle} />)
+  //     case 'custom1':
+  //       return (<SettingsIcon fontSize="large" sx={labelIconStyle} />)
+  //     case 'custom2':
+  //       return (<SettingsIcon fontSize="large" sx={labelIconStyle} />)
+  //     case 'custom3':
+  //       return (<SettingsIcon fontSize="large" sx={labelIconStyle} />)
 
-    }
+  //   }
 
-  }
+  // }
 
   return (
-    <div className="feedParentContainer">
-      <div className="breadcumContainer"> <Breadcrumbs
+    <div className="feedParentContainer" style={{ paddingTop: '0' }}>
+      {/* <div className="breadcumContainer"> <Breadcrumbs
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
       >
         {breadcrumbs}
-      </Breadcrumbs></div>
-      <div className="feedBoxLayout">
+      </Breadcrumbs></div> */}
+      <div >
         {data.map((item, i) => {
           return (
-            <div key={item.id} className='libraryListsContainer'>
+            <div key={item.id} className='libraryListsContainer' style={{ marginTop: '0' }}>
               <Accordion elevation={0} style={{ border: '1px solid var(--borderColors)', padding: '7px', borderRadius: '12px ' }} >
                 <AccordionSummaryCustom
                   aria-controls="panel1a-content"
@@ -158,7 +186,7 @@ export default function IdeaCardPage() {
                           aria-haspopup="true"
                           aria-expanded={open ? 'true' : undefined}
                           onClick={(e) => { handleClick(e); setIndexOfBullet(i) }}
-                          style={{ height: 'fit-content', display: 'inline-block', marginTop: '17px', }}>{dynamicBulletHandler(item.bullet)}</span>
+                          style={{ height: 'fit-content', display: 'inline-block', marginTop: '17px', }}>{dynamicBulletHandler(item.bullet, '', labelIconStyleInitial)}</span>
                       </div>
                       <div>
                         {/* //CardHeaderTitle */}
@@ -239,14 +267,14 @@ export default function IdeaCardPage() {
           horizontal: 28,
         }}
       >
-        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('keyword')}><VpnKeySharpIcon fontSize="medium" sx={labelIconStyle} />&nbsp; Keyword</MenuItem>
-        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('mainclaim')}><KeyboardDoubleArrowRightIcon fontSize="medium" sx={labelIconStyle} />&nbsp; Main Claim</MenuItem>
-        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('quote')}><FormatQuoteIcon fontSize="medium" sx={labelIconStyle} />&nbsp; Quote</MenuItem>
-        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('argument')}><HistoryEduIcon fontSize="medium" sx={labelIconStyle} />&nbsp; Argument</MenuItem>
-        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('actionitem')}><CampaignIcon fontSize="medium" sx={labelIconStyle} />&nbsp; Action Item</MenuItem>
-        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('custom1')}><SettingsIcon fontSize="medium" sx={labelIconStyle} />&nbsp; Custom1</MenuItem>
-        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('custom2')}><SettingsIcon fontSize="medium" sx={labelIconStyle} />&nbsp; Custom2</MenuItem>
-        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('custom3')}><SettingsIcon fontSize="medium" sx={labelIconStyle} />&nbsp; Custom3</MenuItem>
+        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('keyword')}><VpnKeySharpIcon fontSize="medium" sx={labelIconStyleInitial} />&nbsp; Keyword</MenuItem>
+        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('mainclaim')}><KeyboardDoubleArrowRightIcon fontSize="medium" sx={labelIconStyleInitial} />&nbsp; Main Claim</MenuItem>
+        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('quote')}><FormatQuoteIcon fontSize="medium" sx={labelIconStyleInitial} />&nbsp; Quote</MenuItem>
+        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('argument')}><HistoryEduIcon fontSize="medium" sx={labelIconStyleInitial} />&nbsp; Argument</MenuItem>
+        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('actionitem')}><CampaignIcon fontSize="medium" sx={labelIconStyleInitial} />&nbsp; Action Item</MenuItem>
+        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('custom1')}><SettingsIcon fontSize="medium" sx={labelIconStyleInitial} />&nbsp; Custom1</MenuItem>
+        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('custom2')}><SettingsIcon fontSize="medium" sx={labelIconStyleInitial} />&nbsp; Custom2</MenuItem>
+        <MenuItem sx={MenuItemStyles} onClick={() => handleClose('custom3')}><SettingsIcon fontSize="medium" sx={labelIconStyleInitial} />&nbsp; Custom3</MenuItem>
       </Menu>
     </div>
   );
