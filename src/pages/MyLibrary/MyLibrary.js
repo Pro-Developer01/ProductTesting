@@ -40,6 +40,7 @@ import MuiAccordionSummary, {
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import loginAuths from "../../helperFunctions/logingFunction";
+import SuggestedView from "../../components/SuggestedView/SuggestedView";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -207,6 +208,10 @@ const BookViewCard = ({ item, index, socialToggleHandler }) => {
     const [loadingFullData, setLoadingFullData] = useState(false);
     const [stepperCount, setStepperCount] = useState(-1);
     const [metaData, setMetaData] = useState([]);
+
+    const cardClickHandler = (e, index, title, state) => {
+        socialToggleHandler(index, title);
+    }
     const timelineSpanStyle = {
         width: '119.666px'
     }
@@ -235,6 +240,12 @@ const BookViewCard = ({ item, index, socialToggleHandler }) => {
                 console.log("err", err);
             });
     };
+    const suggestedViewContainer = {
+        position: 'absolute',
+        top: '12px',
+        right: '-231px'
+
+    }
     return (
         <>
             <div key={item.id} className="libraryListsContainer">
@@ -254,7 +265,7 @@ const BookViewCard = ({ item, index, socialToggleHandler }) => {
                     >
                         <div
                             className="libraryLists"
-                            onClick={() => socialToggleHandler(index, item.title)}
+                            onClick={(e) => { cardClickHandler(e, index, item.title, item.state) }}
                         >
                             <Stack direction="row" spacing={2}>
                                 <div>
@@ -370,26 +381,29 @@ const BookViewCard = ({ item, index, socialToggleHandler }) => {
                         {/* //SocialButtons */}
 
                         {item.state && (
-                            <div
-                                className="reactionButtonsContainer"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                }}
-                            >
-                                <div className="socialButtons">
-                                    <Stack direction="row" spacing={3}>
-                                        <FavoriteBorder sx={{ color: "#FF6600" }} />
-                                        <ChatBubbleOutline sx={socialButtonsStyle} />
-                                        <ShareIcon sx={socialButtonsStyle} />
-                                    </Stack>
+                            <>
+
+                                <div className="reactionButtonsContainer"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                    }}
+                                >
+                                    <div className="socialButtons">
+                                        <Stack direction="row" spacing={3}>
+                                            <FavoriteBorder sx={{ color: "#FF6600" }} />
+                                            <ChatBubbleOutline sx={socialButtonsStyle} />
+                                            <ShareIcon sx={socialButtonsStyle} />
+                                        </Stack>
+                                    </div>
+                                    <div className="bookmarkButtons">
+                                        <Stack direction="row" spacing={3}>
+                                            <BookmarkBorderIcon sx={socialButtonsStyle} />
+                                            <MoreVertIcon sx={socialButtonsStyle} />
+                                        </Stack>
+                                    </div>
                                 </div>
-                                <div className="bookmarkButtons">
-                                    <Stack direction="row" spacing={3}>
-                                        <BookmarkBorderIcon sx={socialButtonsStyle} />
-                                        <MoreVertIcon sx={socialButtonsStyle} />
-                                    </Stack>
-                                </div>
-                            </div>
+                            </>
+
                         )}
                     </AccordionSummaryCustom>
                     {metaData.length ? <AccordionDetails
@@ -405,12 +419,21 @@ const BookViewCard = ({ item, index, socialToggleHandler }) => {
                         : null}
                 </Accordion>
             </div>
+
+            {item.state && <div
+                style={suggestedViewContainer}
+            >
+                <SuggestedView bookId={item.id} />
+            </div>
+            }
+
         </>
     );
 };
 
 export default function MyLibrary() {
-    const [data, setData] = useState([]);
+    // const [data, setData] = useState([]);
+    const [data, setData] = useState(booksData);
     const currentLocation = window.location.pathname;
     const [breadcrumbs, setBreadcrumbs] = useState([
         <Link
@@ -431,7 +454,6 @@ export default function MyLibrary() {
         let tempData = JSON.parse(JSON.stringify(data));
         tempData[index].state = !tempData[index].state;
         setData(tempData);
-
         // breadcumAddition(title);
     };
     const fetchLibraryData = () => {
@@ -487,7 +509,9 @@ export default function MyLibrary() {
                     {breadcrumbs}
                 </Breadcrumbs>
             </div>
-            <div className="feedBoxLayout">
+            <div className="feedBoxLayout" style={{
+                position: 'relative',
+            }}>
                 {!data.length ? (
                     <Stack
                         direction={"row"}

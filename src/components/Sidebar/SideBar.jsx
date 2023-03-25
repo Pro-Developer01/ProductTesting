@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { FaBars, FaLock, FaMoneyBill, FaUser } from "react-icons/fa";
 import { BiSearch } from "react-icons/bi";
 import { useState } from "react";
@@ -17,38 +17,37 @@ const routes = [
     path: "/",
     name: "Home",
     icon: "Home",
-    state: false
+    state: false,
   },
   {
     path: "/users",
     name: "Navigate",
     icon: "explore",
-    state: false
+    state: false,
   },
   {
     path: "/messages",
     name: "Search",
     icon: "search",
-    state: false
+    state: false,
   },
   {
     path: "/analytics",
     name: "Show",
     icon: "visibility",
-    state: false
+    state: false,
   },
   {
     path: "/file-manager",
     name: "Filter",
     icon: "filter_alt",
-    state: false
-   
+    state: false,
   },
   {
     path: "/order",
     name: "Template",
     icon: "dashboard",
-    state: false
+    state: false,
   },
 ];
 
@@ -62,12 +61,11 @@ const SideBar = ({ children }) => {
     if (!title) setIsOpen(true);
   }, [title]);
 
-
   const handleNavigationButtons = (name, i) => {
-    routes.forEach((item)=>{
-      item.state=false;
-    })
-    routes[i].state=!routes[i].state;
+    routes.forEach((item) => {
+      item.state = false;
+    });
+    routes[i].state = !routes[i].state;
     if (name !== "Home") {
       setTitle(name);
       setTiggerModal(!tiggerModal);
@@ -117,7 +115,6 @@ const SideBar = ({ children }) => {
         <motion.div
           animate={{
             width: isOpen ? "208px" : "54px",
-
             transition: {
               duration: 0.5,
               type: "spring",
@@ -170,7 +167,11 @@ const SideBar = ({ children }) => {
               )}
             </AnimatePresence>
           </div> */}
-            <section className={isOpen ? "routes mainmenu" : "routesCollapsible mainmenu"}>
+            <section
+              className={
+                isOpen ? "routes mainmenu" : "routesCollapsible mainmenu"
+              }
+            >
               {routes.map((route, index) => {
                 if (route.subRoutes) {
                   return (

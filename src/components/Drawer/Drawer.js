@@ -24,20 +24,22 @@ import CloseIcon from '@mui/icons-material/Close';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 const drawerWidth = 590;
 const clossDoubleArrowStyle = {
-    background: 'var(--BackgroundColor)',
+    background: 'var(--white)',
     borderRadius: "33px",
     // fontSize: "32px",
     border: "1px solid var(--borderColors)",
-    position: "absolute",
-    top: "14px",
-    right: "539px"
+    position: "relative",
+    top: "-3px",
+    right: "-14px",
+    cursor: 'pointer'
 }
 const closeCrossButtonStyle = {
     borderRadius: "33px",
     position: "absolute",
-    top: "65px",
-    right: "29px",
-    zIndex: 10
+    top: "46px",
+    right: "32px",
+    zIndex: 10,
+    cursor: 'pointer'
 }
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
@@ -46,6 +48,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        zIndex: '10',
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -102,7 +105,6 @@ export default function PersistentDrawerRight({ open, setOpen, childrenx }) {
     return (
         <Box sx={{ display: 'flex' }}>
             <Main open={open}>
-                <DrawerHeader />
                 {childrenx}
             </Main>
             <Drawer
@@ -113,6 +115,7 @@ export default function PersistentDrawerRight({ open, setOpen, childrenx }) {
                         width: drawerWidth,
                         background: 'transparent',
                         border: 'none',
+                        top: '19px'
                     },
                 }}
                 variant="persistent"
@@ -127,8 +130,8 @@ export default function PersistentDrawerRight({ open, setOpen, childrenx }) {
                     </IconButton>
                 </DrawerHeader> */}
                 {/* <Divider /> */}
-                {/* <KeyboardDoubleArrowRightIcon fontSize='large' style={clossDoubleArrowStyle} onClick={() => setOpen(!open)} />
-                <CloseIcon fontSize='medium' style={closeCrossButtonStyle} onClick={() => setOpen(!open)} /> */}
+                <KeyboardDoubleArrowRightIcon fontSize='large' style={clossDoubleArrowStyle} onClick={() => setOpen(!open)} />
+                <CloseIcon fontSize='medium' style={closeCrossButtonStyle} onClick={() => setOpen(!open)} />
                 <IdeaCardPage />
             </Drawer>
         </Box>

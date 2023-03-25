@@ -15,6 +15,7 @@
   --greyColor: grey;
   --primaryColor: #ff6600;
   --cardBackgraoundColor: #fff;
+  --cardBorderRadius: 12px;
 }
 
 * {

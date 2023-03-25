@@ -2,6 +2,7 @@ import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import "./Pages.css";
+import { Link } from "react-router-dom";
 
 const routes = [
   {
@@ -20,7 +21,7 @@ const routes = [
     icon: "local_library",
   },
   {
-    path: "/analytics",
+    path: "/library",
     name: "My library",
     icon: "library_books",
   },
@@ -170,7 +171,6 @@ const Navigation = () => {
                             value={item.name}
                             // {item.state?checked:checked}
                             checked={item.state}
-                            
                           />
                           <label for={item.name}>{item.name}</label>
                         </span>
@@ -184,25 +184,27 @@ const Navigation = () => {
         }
 
         return (
-          <button
-            key={index}
-            className={isOpen ? "linkCollapsible" : "link"}
-            // id={isOpen ? "active" : "activeCollapsible"}
-            onClick={() => handleNavigationButtons(route.name)}
-          >
-            <AnimatePresence>
-              <span className="material-symbols-outlined"> {route.icon}</span>
-              <motion.div
-                variants={showAnimation}
-                initial="hidden"
-                animate="show"
-                exit="hidden"
-                className="link_text"
-              >
-                {route.name}
-              </motion.div>
-            </AnimatePresence>
-          </button>
+          <Link to={route.path}>
+            <button
+              key={index}
+              className={isOpen ? "linkCollapsible" : "link"}
+              // id={isOpen ? "active" : "activeCollapsible"}
+              onClick={() => handleNavigationButtons(route.name)}
+            >
+              <AnimatePresence>
+                <span className="material-symbols-outlined"> {route.icon}</span>
+                <motion.div
+                  variants={showAnimation}
+                  initial="hidden"
+                  animate="show"
+                  exit="hidden"
+                  className="link_text"
+                >
+                  {route.name}
+                </motion.div>
+              </AnimatePresence>
+            </button>
+          </Link>
         );
       })}
     </div>

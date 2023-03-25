@@ -33,8 +33,8 @@ function App() {
       <ThemeProvider theme={theme}>
 
         <div className="rootContainer">
-          <SideBar />
           <Router>
+            <SideBar />
             <Routes>
               <Route path="/*" element={<DashBoard />} />
               <Route path="*" element={<> not found</>} />

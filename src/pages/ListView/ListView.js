@@ -14,6 +14,7 @@ import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import "./ListView.css";
 import { dynamicBulletHandler } from "../IdeacardPage/IdeaCardPage";
 import PersistentDrawerRight from "../../components/Drawer/Drawer";
+import { useLocation } from "react-router-dom";
 const book = {
     asin: "B01N5AX61W",
     author: "Clear, James",
@@ -53,28 +54,29 @@ const ideacardIconStyling = {
 const IdeacardDivComponent = ({ setOpen, label, type }) => {
     const [callingIdeaCard, setCallingIdeaCard] = useState(false);
     useEffect(() => {
-        setOpen(callingIdeaCard)
-    }, [callingIdeaCard])
+        setOpen(callingIdeaCard);
+    }, [callingIdeaCard]);
     return (
-        <div className="ideacardDiv" style={{ border: callingIdeaCard ? "2px solid orange" : null }} onClick={() => setCallingIdeaCard(!callingIdeaCard)} aria-label="open drawer"
+        <div
+            className="ideacardDiv"
+            style={{ border: callingIdeaCard ? "2px solid orange" : null }}
+            onClick={() => setCallingIdeaCard(!callingIdeaCard)}
+            aria-label="open drawer"
         >
-            {dynamicBulletHandler(
-                type || "keyword",
-                "small",
-                ideacardIconStyling
-            )}{" "}
+            {dynamicBulletHandler(type || "keyword", "small", ideacardIconStyling)}{" "}
             <span>
                 <b> {label || ""}</b>
             </span>
         </div>
-    )
-}
+    );
+};
 
 function ListView(props) {
     /* STATES */
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
-
+    let { state } = useLocation();
+    console.log(state);
     // const handleDrawerOpen = () => {
     //     setOpen(true);
     // };
@@ -112,18 +114,11 @@ function ListView(props) {
                                 >
                                     <PlayArrowIcon id="caret-arrow" />
                                     {k.ideacard ? (
-                                        // <div className="ideacardDiv" style={{ border: callingIdeaCard ? "2px solid orange" : null }} onClick={() => setCallingIdeaCard(!callingIdeaCard)} aria-label="open drawer"
-                                        // >
-                                        //     {dynamicBulletHandler(
-                                        //         k.type || "keyword",
-                                        //         "small",
-                                        //         ideacardIconStyling
-                                        //     )}{" "}
-                                        //     <span>
-                                        //         <b> {k.ideacard || ""}</b>
-                                        //     </span>
-                                        // </div>
-                                        <IdeacardDivComponent setOpen={setOpen} label={k.ideacard} type={k.type} />
+                                        <IdeacardDivComponent
+                                            setOpen={setOpen}
+                                            label={k.ideacard}
+                                            type={k.type}
+                                        />
                                     ) : (
                                         <>
                                             <PlayArrowOutlinedIcon
@@ -190,8 +185,11 @@ function ListView(props) {
 
     return (
         <>
-            <div className="feedParentContainer">
-                <div className="breadcumContainer" style={{ marginBottom: '16px' }}>
+            <div
+                className="feedParentContainer"
+                style={{ alignItems: !open ? "center" : "start" }}
+            >
+                <div className="breadcumContainer" style={{ marginBottom: "16px" }}>
                     {/* <Breadcrumbs
                     separator={<NavigateNextIcon fontSize="small" />}
                     aria-label="breadcrumb"
@@ -202,9 +200,16 @@ function ListView(props) {
                 </div>
                 {!loading && (
                     <>
-                        <PersistentDrawerRight open={open} setOpen={setOpen}
+                        <PersistentDrawerRight
+                            open={open}
+                            setOpen={setOpen}
                             childrenx={
-                                <div style={{ width: open ? '100%' : '50%' }} >
+                                <div
+                                    style={{
+                                        width: open ? "100%" : "50%",
+                                        minWidth: open ? null : "527px",
+                                    }}
+                                >
                                     {book && <BookDetails book={book} />}
                                     <CardStrucutureBook>
                                         <ChaptersUl style={{ margin: "0", border: "none" }}>
@@ -232,9 +237,8 @@ function ListView(props) {
                                         </ChaptersUl>
                                     </CardStrucutureBook>
                                 </div>
-                            } >
-
-                        </PersistentDrawerRight>
+                            }
+                        ></PersistentDrawerRight>
                     </>
                 )}
             </div>

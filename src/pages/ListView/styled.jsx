@@ -3,7 +3,7 @@ import { styled, css } from "@mui/material/styles";
 export const CardStrucutureBook = styled("div")(
   ({ theme }) =>
     css`
-      margin-top: 15px;
+      margin-top: 10px;
       border: 1px solid var(--borderColors);
       border-radius: 12px;
       background-color: var(--cardBackgraoundColor);

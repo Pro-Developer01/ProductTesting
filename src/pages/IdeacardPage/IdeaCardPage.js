@@ -156,7 +156,7 @@ export default function IdeaCardPage() {
   // }
 
   return (
-    <div className="feedParentContainer" style={{ paddingTop: '0' }}>
+    <div className="feedParentContainer" style={{ padding: '0 10px' }}>
       {/* <div className="breadcumContainer"> <Breadcrumbs
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"

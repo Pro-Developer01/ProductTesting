@@ -9,7 +9,7 @@ export default function DashBoard() {
     <div style={{ width: '100%' }}>
       <Routes>
         <Route path="/library" element={<MyLibrary />} />
-        <Route path="/ideacard" element={<IdeaCardPage />} />
+        {/* <Route path="/ideacard" element={<IdeaCardPage />} /> */}
         <Route path="/listview" element={<ListView />} />
       </Routes>
     </div>
