@@ -25,19 +25,30 @@
             {
               "label": "1 – A Ideia de uma história universal de um ponto de vista cosmopolita: progresso político e moral, sua justificação teórica e o curso da história",
               "tocPositionId": 24431,
-              "entries": [
+              "HighLights": [
                 {
                   "label": "1.1 Determinando o fim <Zweck> da ideia de uma história universal: progresso e moral",
                   "tocPositionId": 26097
                 },
                 {
                   "label": "1.2 História, sistema e intenção da natureza: a justificação teórica da unidade da ideia de história como progresso",
-                  "tocPositionId": 39849
+                  "tocPositionId": 39849,
+                  "ideacard": [
+                    {
+                      "ideacard": "história como progresso",
+                      "tocPositionId": 56564
+                    },
+                    {
+                      "ideacard": "história como progresso",
+                      "tocPositionId": 56564
+                    },
+                    {
+                      "ideacard": "história como progresso",
+                      "tocPositionId": 56564
+                    }
+                  ]
                 },
-                {
-                  "ideacard": "história como progresso",
-                  "tocPositionId": 56564
-                },
+
                 {
                   "label": "1.3 O curso da história: desenvolvimento das disposições naturais originárias, insociável sociabilidade e ordem jurídica",
                   "tocPositionId": 68812
@@ -49,7 +60,21 @@
                 },
                 {
                   "label": "1.4 Utilidade da ideia de uma história universal da humanidade",
-                  "tocPositionId": 109503
+                  "tocPositionId": 109503,
+                  "ideacard": [
+                    {
+                      "ideacard": "história como progresso",
+                      "tocPositionId": 56564
+                    },
+                    {
+                      "ideacard": "história como progresso",
+                      "tocPositionId": 56564
+                    },
+                    {
+                      "ideacard": "história como progresso",
+                      "tocPositionId": 56564
+                    }
+                  ]
                 }
               ]
             },

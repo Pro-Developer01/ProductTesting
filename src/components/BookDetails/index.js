@@ -53,12 +53,12 @@ function BookDetails(props) {
       <Stack direction="row"
         justifyContent="flex-start"
         alignItems="center"
-        spacing={2}>
+        spacing={2} sx={{ width: '85%' }}>
         <CardBookImg classname='Card-image-w50-h50' src={book.img_path} alt={book.title} />
         <Stack direction="column"
           justifyContent="space-between"
           alignItems="flex-start"
-          spacing={0}>
+          spacing={0} sx={{ width: '90%' }}>
           <CardBookTitle>{book.title || ''}</CardBookTitle>
           <span>{book.author}</span>
         </Stack>

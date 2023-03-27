@@ -38,9 +38,10 @@ import MuiAccordionSummary, {
     AccordionSummaryProps,
 } from "@mui/material/AccordionSummary";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
-import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
 import loginAuths from "../../helperFunctions/logingFunction";
 import SuggestedView from "../../components/SuggestedView/SuggestedView";
+import { apiRoot } from "../../helperFunctions/apiRoot";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -211,10 +212,10 @@ const BookViewCard = ({ item, index, socialToggleHandler }) => {
 
     const cardClickHandler = (e, index, title, state) => {
         socialToggleHandler(index, title);
-    }
+    };
     const timelineSpanStyle = {
-        width: '119.666px'
-    }
+        width: "119.666px",
+    };
     const fetchFullData = (event, bookId) => {
         event.stopPropagation();
         setLoadingFullData(true);
@@ -222,7 +223,7 @@ const BookViewCard = ({ item, index, socialToggleHandler }) => {
         const userId = localStorage.getItem("userId");
         axios
             .get(
-                `https://app.deepread.com/api/library/metadata?title=&asin=&author=&book_id=${bookId}&user_id=${userId}`,
+                `${apiRoot.endpoint}/api/library/metadata?title=&asin=&author=&book_id=${bookId}&user_id=${userId}`,
                 {
                     headers: {
                         authorization: token,
@@ -234,18 +235,17 @@ const BookViewCard = ({ item, index, socialToggleHandler }) => {
                 console.log("fullData, ", res.data.data[0].progress);
                 setMetaData(res.data.data);
                 setLoadingFullData(false);
-                setStepperCount(3)
+                setStepperCount(3);
             })
             .catch((err) => {
                 console.log("err", err);
             });
     };
     const suggestedViewContainer = {
-        position: 'absolute',
-        top: '12px',
-        right: '-231px'
-
-    }
+        position: "absolute",
+        top: "0px",
+        right: "-229px",
+    };
     return (
         <>
             <div key={item.id} className="libraryListsContainer">
@@ -265,7 +265,9 @@ const BookViewCard = ({ item, index, socialToggleHandler }) => {
                     >
                         <div
                             className="libraryLists"
-                            onClick={(e) => { cardClickHandler(e, index, item.title, item.state) }}
+                            onClick={(e) => {
+                                cardClickHandler(e, index, item.title, item.state);
+                            }}
                         >
                             <Stack direction="row" spacing={2}>
                                 <div>
@@ -343,25 +345,43 @@ const BookViewCard = ({ item, index, socialToggleHandler }) => {
                                                 style={{
                                                     display: "flex",
                                                     justifyContent: "space-around",
-                                                    textAlign: 'center'
+                                                    textAlign: "center",
                                                     // marginTop: "16px",
                                                 }}
                                             >
-                                                {!metaData?.length ? (loadingFullData ? <>
-                                                    <LinearDotsLoading />
-                                                    <LinearDotsLoading />
-                                                    <LinearDotsLoading />
-                                                </> :
+                                                {!metaData?.length ? (
+                                                    loadingFullData ? (
+                                                        <>
+                                                            <LinearDotsLoading />
+                                                            <LinearDotsLoading />
+                                                            <LinearDotsLoading />
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <span>...</span>
+                                                            <span>...</span>
+                                                            <span>...</span>
+                                                        </>
+                                                    )
+                                                ) : (
                                                     <>
-                                                        <span>...</span>
-                                                        <span>...</span>
-                                                        <span>...</span>
-                                                    </>) :
-                                                    (<>
-                                                        <span style={timelineSpanStyle} >{metaData[0].progress ? `${metaData[0].progress}%` : '0%'}</span>
-                                                        <span style={timelineSpanStyle} >{metaData[0].h_progress ? `${metaData[0].h_progress}%` : '0%'}</span>
-                                                        <span style={timelineSpanStyle}>{metaData[0].idea?.length ? `${metaData[0].idea?.length}%` : '0'}</span>
-                                                    </>)}
+                                                        <span style={timelineSpanStyle}>
+                                                            {metaData[0].progress
+                                                                ? `${metaData[0].progress}%`
+                                                                : "0%"}
+                                                        </span>
+                                                        <span style={timelineSpanStyle}>
+                                                            {metaData[0].h_progress
+                                                                ? `${metaData[0].h_progress}%`
+                                                                : "0%"}
+                                                        </span>
+                                                        <span style={timelineSpanStyle}>
+                                                            {metaData[0].idea?.length
+                                                                ? `${metaData[0].idea?.length}%`
+                                                                : "0"}
+                                                        </span>
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -370,8 +390,10 @@ const BookViewCard = ({ item, index, socialToggleHandler }) => {
                             <div className="fetchStatusIconContainer">
                                 {loadingFullData ? (
                                     <CircularLoading />
+                                ) : metaData.length ? (
+                                    <PublishedWithChangesIcon sx={{ color: "lightgreen" }} />
                                 ) : (
-                                    metaData.length ? <PublishedWithChangesIcon sx={{ color: "lightgreen" }} /> : <AutorenewIcon
+                                    <AutorenewIcon
                                         sx={{ color: "var(--primaryColor)" }}
                                         onClick={(e) => fetchFullData(e, item._id)}
                                     />
@@ -382,8 +404,8 @@ const BookViewCard = ({ item, index, socialToggleHandler }) => {
 
                         {item.state && (
                             <>
-
-                                <div className="reactionButtonsContainer"
+                                <div
+                                    className="reactionButtonsContainer"
                                     onClick={(e) => {
                                         e.stopPropagation();
                                     }}
@@ -403,30 +425,27 @@ const BookViewCard = ({ item, index, socialToggleHandler }) => {
                                     </div>
                                 </div>
                             </>
-
                         )}
                     </AccordionSummaryCustom>
-                    {metaData.length ? <AccordionDetails
-                        sx={{
-                            borderTop: "1px Solid var(--borderColors)",
-                            color: "var(--fontColor)",
-                        }}
-                    >
-                        <div className="otherAccordians">
-                            <LibraryAccordian metaData={metaData} />
-                        </div>
-                    </AccordionDetails>
-                        : null}
+                    {metaData.length ? (
+                        <AccordionDetails
+                            sx={{
+                                borderTop: "1px Solid var(--borderColors)",
+                                color: "var(--fontColor)",
+                            }}
+                        >
+                            <div className="otherAccordians">
+                                <LibraryAccordian metaData={metaData} />
+                            </div>
+                        </AccordionDetails>
+                    ) : null}
                 </Accordion>
+                {item.state && (
+                    <div style={suggestedViewContainer}>
+                        <SuggestedView bookId={item._id} userId={item.user_id} />
+                    </div>
+                )}
             </div>
-
-            {item.state && <div
-                style={suggestedViewContainer}
-            >
-                <SuggestedView bookId={item.id} />
-            </div>
-            }
-
         </>
     );
 };
@@ -460,8 +479,9 @@ export default function MyLibrary() {
         const token = localStorage.getItem("token");
         const userId = localStorage.getItem("userId");
         console.log("token, userId", token, userId);
+
         axios
-            .get(`https://app.deepread.com/api/library/fetch?user_id=${userId}`, {
+            .get(`${apiRoot.endpoint}/api/library/fetch?user_id=${userId}`, {
                 headers: {
                     // 'Accept': 'application/json',
                     // 'Content-Type': 'application/json',
@@ -476,10 +496,10 @@ export default function MyLibrary() {
             })
             .catch((err) => {
                 console.log("err", err);
-                loginAuths()
+                loginAuths();
                 setTimeout(() => {
-                    alert('Token or UserId is Invalid Please Reload!')
-                }, 4000)
+                    alert("Token or UserId is Invalid Please Reload!");
+                }, 4000);
             });
     };
 
@@ -509,9 +529,7 @@ export default function MyLibrary() {
                     {breadcrumbs}
                 </Breadcrumbs>
             </div>
-            <div className="feedBoxLayout" style={{
-                position: 'relative',
-            }}>
+            <div className="feedBoxLayout">
                 {!data.length ? (
                     <Stack
                         direction={"row"}

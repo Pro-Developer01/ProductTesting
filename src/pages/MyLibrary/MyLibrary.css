@@ -23,6 +23,7 @@
 }
 .libraryListsContainer {
   margin: 11px 0px;
+  position: relative;
   /* border: 1px solid grey;
   border-radius: 9px;
   padding: 0px 3px; */

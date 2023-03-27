@@ -7,7 +7,6 @@ import { CardStrucutureBook, ChaptersUl, ChaptersLi } from "./styled";
 /* COMPONENTS */
 import BookDetails from "../../components/BookDetails/index";
 import CONTENT_TEMP from "../../mongodb_collections/test_content2.json";
-// import '../MyLibrary/MyLibrary.css';
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
@@ -15,6 +14,10 @@ import "./ListView.css";
 import { dynamicBulletHandler } from "../IdeacardPage/IdeaCardPage";
 import PersistentDrawerRight from "../../components/Drawer/Drawer";
 import { useLocation } from "react-router-dom";
+import ExpandIcon from "@mui/icons-material/Expand";
+import { apiRoot } from "../../helperFunctions/apiRoot";
+import axios from "axios";
+
 const book = {
     asin: "B01N5AX61W",
     author: "Clear, James",
@@ -37,9 +40,6 @@ const book = {
 const sub_chapter_divs = {
     display: "flex",
     gap: "7px",
-    // borderLeft: "1px solid grey",
-    // paddingLeft: "20px",
-    // marginLeft: "31px"
 };
 const ideacardIconStyling = {
     backgroundColor: "var(--primaryColor)",
@@ -49,6 +49,18 @@ const ideacardIconStyling = {
     marginTop: "1px",
     marginRight: "3px",
     marginLeft: "4px",
+};
+const resizeHandleStyle = {
+    position: "absolute",
+    top: "12px",
+    right: "-29px",
+    cursor: "col-resize",
+    background: "white",
+    color: "var(--fontColor)",
+    borderRadius: "33px",
+    border: "1px solid var(--borderColors)",
+    padding: "2px",
+    transform: "rotate(90deg)",
 };
 
 const IdeacardDivComponent = ({ setOpen, label, type }) => {
@@ -75,11 +87,44 @@ function ListView(props) {
     /* STATES */
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
+    const [resizableWidth, setResizableWidth] = useState("527px");
+    const [listViewData, setListViewData] = useState([]);
     let { state } = useLocation();
     console.log(state);
-    // const handleDrawerOpen = () => {
-    //     setOpen(true);
-    // };
+
+    const handleResize = (e) => {
+        console.log("e.pageX", e.pageX);
+        console.log(e);
+        setResizableWidth(`${e.pageX - 527}px`);
+    };
+
+    const fetchListViewData = () => {
+        const token = localStorage.getItem("token");
+        const userId = localStorage.getItem("userId");
+        console.log("token, userId", token, userId);
+        axios
+            .get(
+                `${apiRoot.endpoint}/api/content/highlights?user_id=${userId}&book_id=${state.bookId}`,
+                {
+                    headers: {
+                        authorization: token,
+                    },
+                }
+            )
+            .then((res) => {
+                console.log("res, ", res.data);
+                const datax = res.data;
+                console.log("Listview, ", datax.length);
+                setListViewData(datax);
+            })
+            .catch((err) => {
+                console.log("err", err);
+                // loginAuths()
+                // setTimeout(() => {
+                //     alert('Token or UserId is Invalid Please Reload!')
+                // }, 4000)
+            });
+    };
 
     // const handleDrawerClose = () => {
     //     setOpen(false);
@@ -92,6 +137,7 @@ function ListView(props) {
             setLoading(false);
         }
         fetchAll();
+        fetchListViewData();
         console.log("CONTENT_TEMP", CONTENT_TEMP);
     }, []);
 
@@ -125,7 +171,7 @@ function ListView(props) {
                                                 // fontSize="small"
                                                 id="lastItemDot"
                                             />{" "}
-                                            <span>{k.label || ""}</span>
+                                            <span >{k.label || ""}</span>
                                         </>
                                     )}
                                 </div>
@@ -206,10 +252,26 @@ function ListView(props) {
                             childrenx={
                                 <div
                                     style={{
-                                        width: open ? "100%" : "50%",
-                                        minWidth: open ? null : "527px",
+                                        width: open ? "100%" : resizableWidth,
+                                        position: "relative",
                                     }}
                                 >
+                                    {!open && (
+                                        <ExpandIcon
+                                            style={resizeHandleStyle}
+                                            onMouseDown={(e) => {
+                                                e.preventDefault();
+                                                document.addEventListener("mousemove", handleResize);
+                                                document.addEventListener("mouseup", () => {
+                                                    document.removeEventListener(
+                                                        "mousemove",
+                                                        handleResize
+                                                    );
+                                                });
+                                            }}
+                                            fontSize="medium"
+                                        />
+                                    )}
                                     {book && <BookDetails book={book} />}
                                     <CardStrucutureBook>
                                         <ChaptersUl style={{ margin: "0", border: "none" }}>
@@ -229,7 +291,7 @@ function ListView(props) {
                                                             // fontSize="small"
                                                             id="lastItemDot"
                                                         />
-                                                        <span>{item.label || ""}</span>
+                                                        <span className="ellipsisStyling">{item.label || ""}</span>
                                                     </div>
                                                     {getContentRecursive(item)}
                                                 </ChaptersLi>

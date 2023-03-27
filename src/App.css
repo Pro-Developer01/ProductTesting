@@ -308,3 +308,10 @@ input::placeholder {
   object-fit: cover;
   object-position: center;
 }
+
+.ellipsisStyling {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}

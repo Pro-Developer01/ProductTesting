@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FaBars, FaLock, FaMoneyBill, FaUser } from "react-icons/fa";
 import { BiSearch } from "react-icons/bi";
 import { useState } from "react";
@@ -56,6 +56,7 @@ const SideBar = ({ children }) => {
   const [tiggerModal, setTiggerModal] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
   const toggle = () => setIsOpen(!isOpen);
+  const navigate = useNavigate;
 
   useEffect(() => {
     if (!title) setIsOpen(true);
@@ -72,6 +73,7 @@ const SideBar = ({ children }) => {
       setIsOpen(false);
     } else {
       setTitle(null);
+      navigate("/listview");
     }
   };
 

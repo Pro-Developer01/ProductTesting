@@ -43,6 +43,10 @@ export const CardBookTitle = styled('h4')(
     css`
       // font-size: 15px;
       margin: 0;
+      white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
     `
 );
 
