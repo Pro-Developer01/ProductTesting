@@ -452,7 +452,7 @@ const BookViewCard = ({ item, index, socialToggleHandler }) => {
 
 export default function MyLibrary() {
     // const [data, setData] = useState([]);
-    const [data, setData] = useState(booksData);
+    const [data, setData] = useState([]);
     const currentLocation = window.location.pathname;
     const [breadcrumbs, setBreadcrumbs] = useState([
         <Link

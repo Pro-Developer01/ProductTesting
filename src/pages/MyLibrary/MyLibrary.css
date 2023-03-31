@@ -14,7 +14,7 @@
 .libraryLists {
   width: 100%;
   display: flex;
-  background: white;
+  background: transparent;
   justify-content: space-between;
   /* gap: 13px; */
 }

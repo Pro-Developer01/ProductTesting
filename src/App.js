@@ -7,6 +7,7 @@ import NewIdeaButton from "./components/NewIdea/NewIdeaButton";
 import DashBoard from "./pages/DashBoard/DashBoard";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import loginAuths from "./helperFunctions/logingFunction";
+import fetchIdeacardIcons from "./helperFunctions/getIdeacardIcons";
 
 const theme = createTheme({
   typography: {
@@ -19,12 +20,17 @@ const theme = createTheme({
   color: 'var(--fontColor)'
 });
 function App() {
-  const token = localStorage.getItem('token')
-  const userId = localStorage.getItem('userId')
   useEffect(() => {
+    const token = localStorage.getItem('token')
+    const userId = localStorage.getItem('userId')
+    const ideacardIcons = localStorage.getItem('ideacardIcons');
     if (!token || !userId) {
       loginAuths()
       console.log('Login Called from App.js');
+    }
+    if (!ideacardIcons) {
+      fetchIdeacardIcons();
+      console.log('fetchIdeacardIcons Called from App.js', ideacardIcons);
     }
   }, [])
 

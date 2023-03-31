@@ -2,26 +2,12 @@ import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import CssBaseline from "@mui/material/CssBaseline";
-import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import { Children } from "react";
+import { useSelector, useDispatch } from 'react-redux'
 import IdeaCardPage from "../../pages/IdeacardPage/IdeaCardPage";
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import { updateIdeacardData } from "../../Utils/Features/IdeacardSlice";
+
 const drawerWidth = 590;
 const clossDoubleArrowStyle = {
     background: "var(--white)",
@@ -65,10 +51,11 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
     })
 );
 
-export default function PersistentDrawerRight({ open, setOpen, childrenx }) {
+export default function PersistentDrawerRight({ childrenx }) {
     const theme = useTheme();
     // const [open, setOpen] = React.useState(false);
-
+    const ideacardData = useSelector((state) => state.ideacardReducer.value)
+    const dispatch = useDispatch();
     // const handleDrawerOpen = () => {
     //     setOpen(true);
     // };
@@ -79,7 +66,7 @@ export default function PersistentDrawerRight({ open, setOpen, childrenx }) {
 
     return (
         <Box sx={{ display: "flex" }}>
-            <Main open={open}>{childrenx}</Main>
+            <Main open={ideacardData}>{childrenx}</Main>
             <Drawer
                 sx={{
                     width: 564,
@@ -94,17 +81,17 @@ export default function PersistentDrawerRight({ open, setOpen, childrenx }) {
                 }}
                 variant="persistent"
                 anchor="right"
-                open={open}
+                open={ideacardData}
             >
                 <KeyboardDoubleArrowRightIcon
                     fontSize="medium"
                     style={clossDoubleArrowStyle}
-                    onClick={() => setOpen(!open)}
+                    onClick={() => dispatch(updateIdeacardData(null))}
                 />
                 <CloseIcon
                     fontSize="medium"
                     style={closeCrossButtonStyle}
-                    onClick={() => setOpen(!open)}
+                    onClick={() => dispatch(updateIdeacardData(null))}
                 />
                 <IdeaCardPage />
             </Drawer>

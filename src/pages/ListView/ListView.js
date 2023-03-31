@@ -5,36 +5,42 @@ import react, { useState, useEffect } from "react";
 import { CardStrucutureBook, ChaptersUl, ChaptersLi } from "./styled";
 
 /* COMPONENTS */
+import Stack from "@mui/material/Stack";
 import BookDetails from "../../components/BookDetails/index";
-import CONTENT_TEMP from "../../mongodb_collections/test_content2.json";
+import CONTENT_TEMP from "../../mongodb_collections/contentHighlights.json";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import "./ListView.css";
-import { dynamicBulletHandler } from "../IdeacardPage/IdeaCardPage";
 import PersistentDrawerRight from "../../components/Drawer/Drawer";
 import { useLocation } from "react-router-dom";
 import ExpandIcon from "@mui/icons-material/Expand";
 import { apiRoot } from "../../helperFunctions/apiRoot";
 import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
+import SquareIcon from '@mui/icons-material/Square';
+import { dynamicBulletHandler, getIdeacardIcons } from "../../helperFunctions/getIdeacardIcons";
+import { useSelector, useDispatch } from 'react-redux'
+import { updateIdeacardData } from "../../Utils/Features/IdeacardSlice";
 
-const book = {
-    asin: "B01N5AX61W",
-    author: "Clear, James",
-    created_at: 1678962214701,
-    deleted_at: null,
-    demo: true,
-    img_path: "https://m.media-amazon.com/images/I/51-nXsSRfZL._SY400_.jpg",
-    my_notes: [],
-    rating: 0,
-    recomendation: "",
-    seen_at: null,
-    tags: [],
-    title: "Atomic Habits: the life-changing million-copy #1 bestseller",
-    updated_at: null,
-    user_id: "6412ede6ce27a2003406a81c",
-    _id: "6412ee26ce27a2003406a84e",
-};
+
+// let book = {
+//     asin: "B01N5AX61W",
+//     author: "Clear, James",
+//     created_at: 1678962214701,
+//     deleted_at: null,
+//     demo: true,
+//     img_path: "https://m.media-amazon.com/images/I/51-nXsSRfZL._SY400_.jpg",
+//     my_notes: [],
+//     rating: 0,
+//     recomendation: "",
+//     seen_at: null,
+//     tags: [],
+//     title: "Atomic Habits: the life-changing million-copy #1 bestseller",
+//     updated_at: null,
+//     user_id: "6412ede6ce27a2003406a81c",
+//     _id: "6412ee26ce27a2003406a84e",
+// };
 
 // styling
 const sub_chapter_divs = {
@@ -63,21 +69,35 @@ const resizeHandleStyle = {
     transform: "rotate(90deg)",
 };
 
-const IdeacardDivComponent = ({ setOpen, label, type }) => {
+const IdeacardDivComponent = ({ data, setOpen }) => {
     const [callingIdeaCard, setCallingIdeaCard] = useState(false);
+    const ideacardData = useSelector((state) => state.ideacardReducer.value)
+    const dispatch = useDispatch();
+    const clickHandler = () => {
+        setCallingIdeaCard(!callingIdeaCard)
+        if (!callingIdeaCard)
+            dispatch(updateIdeacardData(data));
+        else
+            dispatch(updateIdeacardData(null));
+
+    }
     useEffect(() => {
-        setOpen(callingIdeaCard);
-    }, [callingIdeaCard]);
+        if (!ideacardData)
+            setCallingIdeaCard(false)
+
+        setOpen(ideacardData)
+    }, [ideacardData])
     return (
         <div
             className="ideacardDiv"
             style={{ border: callingIdeaCard ? "2px solid orange" : null }}
-            onClick={() => setCallingIdeaCard(!callingIdeaCard)}
+            onClick={clickHandler}
             aria-label="open drawer"
         >
-            {dynamicBulletHandler(type || "keyword", "small", ideacardIconStyling)}{" "}
+            {/* {dynamicBulletHandler(type || "keyword", "small", ideacardIconStyling)}{" "} */}
+            <span>{getIdeacardIcons(data.label_id)}</span>
             <span>
-                <b> {label || ""}</b>
+                <b> {data.title || ""}</b>
             </span>
         </div>
     );
@@ -88,7 +108,9 @@ function ListView(props) {
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
     const [resizableWidth, setResizableWidth] = useState("527px");
-    const [listViewData, setListViewData] = useState([]);
+    const [listViewData, setListViewData] = useState({});
+    const [bookMetaData, setBookMetaData] = useState({});
+
     let { state } = useLocation();
     console.log(state);
 
@@ -104,7 +126,7 @@ function ListView(props) {
         console.log("token, userId", token, userId);
         axios
             .get(
-                `${apiRoot.endpoint}/api/content/highlights?user_id=${userId}&book_id=${state.bookId}`,
+                `${apiRoot.endpoint}/api/content/highlights?user_id=${userId}&book_id=${state?.bookId}`,
                 {
                     headers: {
                         authorization: token,
@@ -112,10 +134,11 @@ function ListView(props) {
                 }
             )
             .then((res) => {
-                console.log("res, ", res.data);
-                const datax = res.data;
-                console.log("Listview, ", datax.length);
-                setListViewData(datax);
+                console.log("res, ", res.data.data[0]);
+                const datax = res.data.data[0];
+                console.log("Listview, ", datax?.data.length);
+                setListViewData(res.data.data[0]);
+                setLoading(false);
             })
             .catch((err) => {
                 console.log("err", err);
@@ -132,22 +155,13 @@ function ListView(props) {
     /* HOOKS  */
     //   const { book } = useSelector((state) => state.library);
 
-    useEffect(() => {
-        async function fetchAll() {
-            setLoading(false);
-        }
-        fetchAll();
-        fetchListViewData();
-        console.log("CONTENT_TEMP", CONTENT_TEMP);
-    }, []);
-
     /* ARROW FUNCTIONS */
 
     /* FUNCTION RECURSIVE TO SHOW ALL SUBCHAPTERS */
     const getContentRecursive = (item) => {
         return (
             <>
-                {item.entries && (
+                {item.entries?.length ? (
                     <ChaptersUl>
                         {item.entries.map((k, i) => (
                             <ChaptersLi key={i} id={`chapters-${k.tocPositionId}`}>
@@ -171,7 +185,7 @@ function ListView(props) {
                                                 // fontSize="small"
                                                 id="lastItemDot"
                                             />{" "}
-                                            <span >{k.label || ""}</span>
+                                            <span>{k.label || ""}</span>
                                         </>
                                     )}
                                 </div>
@@ -179,7 +193,35 @@ function ListView(props) {
                             </ChaptersLi>
                         ))}
                     </ChaptersUl>
-                )}
+                ) : null}
+                {item.highlights?.length ? (
+                    <ChaptersUl>
+                        {item.highlights.map((highlight, i) => (
+                            <ChaptersLi
+                                key={highlight._id}
+                                id={`chapters-${highlight.position}`}
+                            >
+                                <div
+                                    className="highlightDiv"
+                                >
+                                    <SquareIcon fontSize={'small'} />
+                                    <span>
+                                        {highlight.context || "No Content..."}
+                                    </span>
+                                </div>
+                                {highlight.idea_cards?.length ?
+                                    highlight.idea_cards.map((ideacards, index) => {
+                                        return (<IdeacardDivComponent
+                                            data={ideacards}
+                                            setOpen={setOpen}
+                                        />)
+                                    }) : null}
+
+                                {/* {getContentRecursive(k)} */}
+                            </ChaptersLi>
+                        ))}
+                    </ChaptersUl>
+                ) : null}
             </>
         );
     };
@@ -229,6 +271,16 @@ function ListView(props) {
         }
     };
 
+    useEffect(() => {
+        fetchListViewData();
+    }, []);
+    useEffect(() => {
+        if (listViewData?.book) {
+            setBookMetaData(listViewData?.book[0]);
+            console.log("book", bookMetaData);
+        }
+    }, [listViewData]);
+
     return (
         <>
             <div
@@ -244,11 +296,9 @@ function ListView(props) {
                 </Breadcrumbs> */}
                     <span>kmckdckdmkcmdkcd</span>
                 </div>
-                {!loading && (
+                {!loading ? (
                     <>
                         <PersistentDrawerRight
-                            open={open}
-                            setOpen={setOpen}
                             childrenx={
                                 <div
                                     style={{
@@ -272,36 +322,70 @@ function ListView(props) {
                                             fontSize="medium"
                                         />
                                     )}
-                                    {book && <BookDetails book={book} />}
+                                    {bookMetaData && <BookDetails book={bookMetaData} />}
                                     <CardStrucutureBook>
-                                        <ChaptersUl style={{ margin: "0", border: "none" }}>
-                                            {CONTENT_TEMP.data.map((item, index) => (
-                                                <ChaptersLi key={index} id={`chapters-${index}`}>
-                                                    <div
-                                                        className={`${item.entries
-                                                            ? "caret caret-down-45"
-                                                            : "caret-without-content-outer"
-                                                            }`}
-                                                        id={`caret-${index}`}
-                                                        style={{ display: "flex", gap: "7px" }}
-                                                        onClick={() => openOrCloseChapters(index)}
-                                                    >
-                                                        <PlayArrowIcon />
-                                                        <PlayArrowOutlinedIcon
-                                                            // fontSize="small"
-                                                            id="lastItemDot"
-                                                        />
-                                                        <span className="ellipsisStyling">{item.label || ""}</span>
-                                                    </div>
-                                                    {getContentRecursive(item)}
-                                                </ChaptersLi>
-                                            ))}
-                                        </ChaptersUl>
+                                        {listViewData?.data?.length ? (
+                                            <ChaptersUl style={{ margin: "0", border: "none" }}>
+                                                {listViewData?.data?.map((item, index) => (
+                                                    <ChaptersLi key={index} id={`chapters-${index}`}>
+                                                        <div
+                                                            className={`${item.entries
+                                                                ? "caret caret-down-45"
+                                                                : "caret-without-content-outer"
+                                                                }`}
+                                                            id={`caret-${index}`}
+                                                            style={{ display: "flex", gap: "7px" }}
+                                                            onClick={() => openOrCloseChapters(index)}
+                                                        >
+                                                            <PlayArrowIcon />
+                                                            <PlayArrowOutlinedIcon
+                                                                // fontSize="small"
+                                                                id="lastItemDot"
+                                                            />
+                                                            <span className="ellipsisStyling">
+                                                                {item.label || ""}
+                                                            </span>
+                                                        </div>
+                                                        {getContentRecursive(item)}
+                                                    </ChaptersLi>
+                                                ))}
+                                            </ChaptersUl>
+                                        ) : (
+                                            <Stack
+                                                direction={"column"}
+                                                justifyContent={"center"}
+                                                alignItems={"center"}
+                                                spacing={2}
+                                                sx={{
+                                                    height: "78vh",
+                                                    textAlign: "center",
+                                                }}
+                                            >
+                                                <h3>
+                                                    Oops! There are no Highlights or Ideacards <br />
+                                                    for this Particular Book
+                                                </h3>
+                                                <h4>
+                                                    Highlight your favorite passages and share your
+                                                    insights with us <br />
+                                                    😊
+                                                </h4>
+                                            </Stack>
+                                        )}
                                     </CardStrucutureBook>
                                 </div>
                             }
                         ></PersistentDrawerRight>
                     </>
+                ) : (
+                    <Stack
+                        direction={"row"}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        sx={{ height: "100vh" }}
+                    >
+                        <CircularProgress sx={{ color: "var(--primaryColor)" }} />
+                    </Stack>
                 )}
             </div>
         </>

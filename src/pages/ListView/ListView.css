@@ -36,7 +36,22 @@ svg:hover {
   display: flex;
   gap: 7px;
   width: 100%;
-  padding: 5px 0px;
   box-sizing: border-box;
   border-radius: 6px;
+  margin-left: 1px;
+  padding: 5px;
+  color: black;
+  margin-top: 7px;
+  margin-bottom: -10px;
+}
+
+.highlightDiv {
+  display: flex;
+  gap: 12px;
+  margin-left: 13px;
+  align-items: center;
+  color: black;
+}
+.highlightDiv svg {
+  font-size: 0.5rem;
 }
