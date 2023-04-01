@@ -30,7 +30,6 @@ const fetchIdeacardIcons = () => {
 
 }
 export const dynamicBulletHandler = (option, fontSizeRequested, iconStyleRequested) => {
-    console.log('option', option)
     const fontSize = fontSizeRequested || 'large';
     let labelIconStyle = labelIconStyleInitial
     if (iconStyleRequested) {
@@ -58,10 +57,20 @@ export const dynamicBulletHandler = (option, fontSizeRequested, iconStyleRequest
 
 export const getIdeacardIcons = (label_id, fontSize = 'small', fontStyle = labelIconStyleInitial) => {
     const allIcons = JSON.parse(localStorage.getItem('ideacardIcons'))
+    if (!label_id) { label_id = allIcons[0]._id }
     if (allIcons) {
         const filteredIcon = allIcons.filter((item) => item._id === label_id);
         if (filteredIcon) {
             return dynamicBulletHandler(filteredIcon[0].label, fontSize, fontStyle);
+        }
+    }
+}
+export const getLabelId = (keyword = 'KEYWORDS') => {
+    const allIcons = JSON.parse(localStorage.getItem('ideacardIcons'))
+    if (allIcons) {
+        const filteredLabelId = allIcons.filter((item) => item.label === keyword);
+        if (filteredLabelId) {
+            return filteredLabelId[0]._id;
         }
     }
 }

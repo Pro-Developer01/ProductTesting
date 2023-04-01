@@ -98,6 +98,7 @@ const MyNotes = ({ myNotesData }) => {
     const [newNotes, setNewNotes] = useState('');
     const [notesData, setNotesData] = useState(myNotesData);
     const open = Boolean(anchorEl);
+
     const inputFeildStyle = {
         width: '100%',
         padding: '3px 0px',
@@ -135,7 +136,7 @@ const MyNotes = ({ myNotesData }) => {
     const handleTags = (event) => {
         setNewNotes(event.target.value)
     }
-    const dynamicBulletHandler = (option) => {
+    const dynamicBulletHandler = (option = 'neutral') => {
         switch (option) {
             case 'neutral':
                 return (<CircleIcon sx={{
@@ -163,6 +164,7 @@ const MyNotes = ({ myNotesData }) => {
         tempNotes[i].content += event.target.value;
         setNotesData(tempNotes);
     }
+    useEffect(() => { setNotesData(myNotesData) }, [myNotesData])
     return (
         <>
             <AccordionDetails>
@@ -180,7 +182,7 @@ const MyNotes = ({ myNotesData }) => {
 
                                     <MyNotesTextField
                                         multiline
-                                        value={item.content}
+                                        value={item}
                                         onChange={(e) => handleNotesChange(e, index)}
                                         variant="standard"
                                     />
@@ -504,7 +506,8 @@ export default function LibraryAccordian({ metaData }) {
     )
 }
 
-export function IdeaCardAccordian() {
+export function IdeaCardAccordian({ data }) {
+    console.log('data of Ideacard', data)
     return (
         <div>
             {/* //Mynotes */}
@@ -518,7 +521,7 @@ export function IdeaCardAccordian() {
                 >
                     MY NOTES
                 </AccordionSummary>
-                <MyNotes myNotesData={myNotes} />
+                <MyNotes myNotesData={data.own_thoughts} />
             </Accordion>
 
             {/* //Topic */}
@@ -530,7 +533,7 @@ export function IdeaCardAccordian() {
                 >
                     TOPICS
                 </AccordionSummary>
-                <Topics tagData={topics} />
+                <Topics tagData={data.tags} />
             </Accordion>
 
             {/* //LINKED HIGHLIGHTS */}

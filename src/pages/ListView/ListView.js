@@ -166,7 +166,7 @@ function ListView(props) {
                         {item.entries.map((k, i) => (
                             <ChaptersLi key={i} id={`chapters-${k.tocPositionId}`}>
                                 <div
-                                    className={`${k.entries ? "caret caret-down-45" : "caret-without-content"
+                                    className={`${k.entries || k.highlights?.length ? "caret caret-down-45" : "caret-without-content"
                                         }`}
                                     style={sub_chapter_divs}
                                     id={`caret-${k.tocPositionId}`}
@@ -201,14 +201,14 @@ function ListView(props) {
                                 key={highlight._id}
                                 id={`chapters-${highlight.position}`}
                             >
-                                <div
+                                {highlight.context && <div
                                     className="highlightDiv"
                                 >
                                     <SquareIcon fontSize={'small'} />
                                     <span>
-                                        {highlight.context || "No Content..."}
+                                        {highlight.context}
                                     </span>
-                                </div>
+                                </div>}
                                 {highlight.idea_cards?.length ?
                                     highlight.idea_cards.map((ideacards, index) => {
                                         return (<IdeacardDivComponent
@@ -329,7 +329,7 @@ function ListView(props) {
                                                 {listViewData?.data?.map((item, index) => (
                                                     <ChaptersLi key={index} id={`chapters-${index}`}>
                                                         <div
-                                                            className={`${item.entries
+                                                            className={`${item.entries || item.highlights.length
                                                                 ? "caret caret-down-45"
                                                                 : "caret-without-content-outer"
                                                                 }`}
