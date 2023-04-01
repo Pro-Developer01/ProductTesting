@@ -10,7 +10,7 @@ export default function DashBoard() {
       <Routes>
         <Route path="/library" element={<MyLibrary />} />
         {/* <Route path="/ideacard" element={<IdeaCardPage />} /> */}
-        <Route path="/listview" element={<ListView />} />
+        <Route path="/library/listview" element={<ListView />} />
       </Routes>
     </div>
   )

@@ -14,7 +14,6 @@ import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import "./ListView.css";
 import PersistentDrawerRight from "../../components/Drawer/Drawer";
 import { useLocation } from "react-router-dom";
-import ExpandIcon from "@mui/icons-material/Expand";
 import { apiRoot } from "../../helperFunctions/apiRoot";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -22,6 +21,7 @@ import SquareIcon from '@mui/icons-material/Square';
 import { dynamicBulletHandler, getIdeacardIcons } from "../../helperFunctions/getIdeacardIcons";
 import { useSelector, useDispatch } from 'react-redux'
 import { updateIdeacardData } from "../../Utils/Features/IdeacardSlice";
+import Breadcum from "../../components/Breadcum/Breadcum";
 
 
 // let book = {
@@ -56,18 +56,7 @@ const ideacardIconStyling = {
     marginRight: "3px",
     marginLeft: "4px",
 };
-const resizeHandleStyle = {
-    position: "absolute",
-    top: "12px",
-    right: "-29px",
-    cursor: "col-resize",
-    background: "white",
-    color: "var(--fontColor)",
-    borderRadius: "33px",
-    border: "1px solid var(--borderColors)",
-    padding: "2px",
-    transform: "rotate(90deg)",
-};
+
 
 const IdeacardDivComponent = ({ data, setOpen }) => {
     const [callingIdeaCard, setCallingIdeaCard] = useState(false);
@@ -114,11 +103,7 @@ function ListView(props) {
     let { state } = useLocation();
     console.log(state);
 
-    const handleResize = (e) => {
-        console.log("e.pageX", e.pageX);
-        console.log(e);
-        setResizableWidth(`${e.pageX - 527}px`);
-    };
+
 
     const fetchListViewData = () => {
         const token = localStorage.getItem("token");
@@ -287,15 +272,7 @@ function ListView(props) {
                 className="feedParentContainer"
                 style={{ alignItems: !open ? "center" : "start" }}
             >
-                <div className="breadcumContainer" style={{ marginBottom: "16px" }}>
-                    {/* <Breadcrumbs
-                    separator={<NavigateNextIcon fontSize="small" />}
-                    aria-label="breadcrumb"
-                >
-                    {breadcrumbs}
-                </Breadcrumbs> */}
-                    <span>kmckdckdmkcmdkcd</span>
-                </div>
+
                 {!loading ? (
                     <>
                         <PersistentDrawerRight
@@ -306,23 +283,9 @@ function ListView(props) {
                                         position: "relative",
                                     }}
                                 >
-                                    {!open && (
-                                        <ExpandIcon
-                                            style={resizeHandleStyle}
-                                            onMouseDown={(e) => {
-                                                e.preventDefault();
-                                                document.addEventListener("mousemove", handleResize);
-                                                document.addEventListener("mouseup", () => {
-                                                    document.removeEventListener(
-                                                        "mousemove",
-                                                        handleResize
-                                                    );
-                                                });
-                                            }}
-                                            fontSize="medium"
-                                        />
-                                    )}
-                                    {bookMetaData && <BookDetails book={bookMetaData} />}
+                                    <Breadcum />
+
+                                    {bookMetaData && <BookDetails book={bookMetaData} open={open} resizableWidth={resizableWidth} setResizableWidth={setResizableWidth} />}
                                     <CardStrucutureBook>
                                         {listViewData?.data?.length ? (
                                             <ChaptersUl style={{ margin: "0", border: "none" }}>

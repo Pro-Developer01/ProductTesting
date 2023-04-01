@@ -26,9 +26,9 @@ const cardChipStyle = {
     cursor: "pointer",
 };
 const SuggestedViews = [
-    { label: "Feed", icon: <DynamicFeedIcon />, url: "feedview" },
-    { label: "List", icon: <FormatListBulletedIcon />, url: "listview" },
-    { label: "Tiles", icon: <GridViewIcon />, url: "tileview" },
+    { label: "Feed", icon: <DynamicFeedIcon />, url: "library/feedview" },
+    { label: "List", icon: <FormatListBulletedIcon />, url: "library/listview" },
+    { label: "Tiles", icon: <GridViewIcon />, url: "library/tileview" },
 ];
 export default function SuggestedView({ bookId, userId }) {
     return (

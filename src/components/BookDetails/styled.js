@@ -8,7 +8,7 @@ export const CardBook = styled('div')(
     border-radius: 12px;
     background-color: var(--cardBackgraoundColor);
     position: sticky;
-    top: -19px;
+    top: 62px;
     z-index: 10;
     box-shadow: 0px 3px 5px lightgray;
 

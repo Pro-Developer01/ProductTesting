@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 0;
   /* background-color: var(--BackgroundColor); */
 }
 .feedBoxLayout {
@@ -24,6 +25,7 @@
 .libraryListsContainer {
   margin: 11px 0px;
   position: relative;
+  margin-top: 0;
   /* border: 1px solid grey;
   border-radius: 9px;
   padding: 0px 3px; */

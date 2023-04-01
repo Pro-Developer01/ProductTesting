@@ -1,5 +1,6 @@
 import { Stack } from '@mui/system';
 import react from 'react';
+import ExpandIcon from "@mui/icons-material/Expand";
 
 /* STYLES */
 import {
@@ -10,13 +11,27 @@ import {
   CardBookGridOne,
   CardBookAuthor,
 } from './styled';
-
+const resizeHandleStyle = {
+  position: "absolute",
+  right: "-29px",
+  cursor: "col-resize",
+  background: "white",
+  color: "var(--fontColor)",
+  borderRadius: "33px",
+  border: "1px solid var(--borderColors)",
+  padding: "2px",
+  transform: "rotate(90deg)",
+};
 function BookDetails(props) {
   /* PROPS */
-  const { book } = props;
+  const { book, open, resizableWidth, setResizableWidth } = props;
 
   /* FUNCTIONS */
-
+  const handleResize = (e) => {
+    console.log("e.pageX", e.pageX);
+    console.log(e);
+    setResizableWidth(`${e.pageX - 527}px`);
+  };
   const calcAfterColor = (read, hightlights, idea, metadata) => {
     let val = 0;
     if (read > 0) {
@@ -50,6 +65,22 @@ function BookDetails(props) {
   return (
 
     <CardBook >
+      {!open && (
+        <ExpandIcon
+          style={resizeHandleStyle}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            document.addEventListener("mousemove", handleResize);
+            document.addEventListener("mouseup", () => {
+              document.removeEventListener(
+                "mousemove",
+                handleResize
+              );
+            });
+          }}
+          fontSize="medium"
+        />
+      )}
       <Stack direction="row"
         justifyContent="flex-start"
         alignItems="center"

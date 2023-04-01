@@ -32,27 +32,27 @@ import {
 } from "../../helperFunctions/getIdeacardIcons";
 import { useSelector } from "react-redux";
 
-let booksData = {
-  _id: "642325574dc0760034d8f977",
-  book_id: "642325564dc0760034d8981f",
-  label_id: "63584f343bcadd010442c447",
-  highlight_id: "642325574dc0760034d8aae9",
-  user_id: "642325564dc0760034d897ed",
-  title: "To write a great book, you must first become the book.",
-  description: [],
-  own_thoughts: [],
-  picture_link: "",
-  rating: 0,
-  tags: [],
-  level: 0,
-  start: 17320,
-  end: 17401,
-  created_at: 1673730692254,
-  updated_at: null,
-  retrieved_at: 1673730692254,
-  deleted_at: null,
-  lastviewed_at: null,
-};
+// let booksData = {
+//   _id: "642325574dc0760034d8f977",
+//   book_id: "642325564dc0760034d8981f",
+//   label_id: "63584f343bcadd010442c447",
+//   highlight_id: "642325574dc0760034d8aae9",
+//   user_id: "642325564dc0760034d897ed",
+//   title: "To write a great book, you must first become the book.",
+//   description: [],
+//   own_thoughts: [],
+//   picture_link: "",
+//   rating: 0,
+//   tags: [],
+//   level: 0,
+//   start: 17320,
+//   end: 17401,
+//   created_at: 1673730692254,
+//   updated_at: null,
+//   retrieved_at: 1673730692254,
+//   deleted_at: null,
+//   lastviewed_at: null,
+// };
 const MenuItemStyles = {
   margin: "5px 1px",
   borderRadius: "30px",
@@ -107,6 +107,7 @@ export default function IdeaCardPage() {
     setAnchorEl(null);
     // setIconOption(option);
     const tempNotes = data;
+    console.log("tempNotes", tempNotes);
     tempNotes.label_id = iconLabelId;
     console.log("iconLabelId", iconLabelId);
     setData(tempNotes);

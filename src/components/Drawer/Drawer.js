@@ -75,7 +75,7 @@ export default function PersistentDrawerRight({ childrenx }) {
                         width: drawerWidth,
                         background: "transparent",
                         border: "none",
-                        top: "25px",
+                        top: "33px",
                         paddingTop: "4px",
                     },
                 }}
