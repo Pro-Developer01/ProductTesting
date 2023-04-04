@@ -109,6 +109,24 @@ const MyNotes = ({ myNotesData }) => {
         fontSize: '21px',
         fontWeight: 600
     }
+
+    const notesDataValidator = () => {
+        if (myNotesData.length && typeof myNotesData[0] === 'string') {
+            const updatedMyNotesData = []
+            myNotesData.forEach((item) => {
+                updatedMyNotesData.push(
+                    {
+                        bullet: 'neutral',
+                        content: item
+                    }
+                )
+            })
+            setNotesData(updatedMyNotesData)
+        }
+        else (
+            setNotesData(myNotesData)
+        )
+    }
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -136,6 +154,7 @@ const MyNotes = ({ myNotesData }) => {
     const handleTags = (event) => {
         setNewNotes(event.target.value)
     }
+    console.log('notesData', notesData);
     const dynamicBulletHandler = (option = 'neutral') => {
         switch (option) {
             case 'neutral':
@@ -164,7 +183,7 @@ const MyNotes = ({ myNotesData }) => {
         tempNotes[i].content += event.target.value;
         setNotesData(tempNotes);
     }
-    useEffect(() => { setNotesData(myNotesData) }, [myNotesData])
+    useEffect(() => { notesDataValidator() }, [myNotesData])
     return (
         <>
             <AccordionDetails>
@@ -182,7 +201,7 @@ const MyNotes = ({ myNotesData }) => {
 
                                     <MyNotesTextField
                                         multiline
-                                        value={item}
+                                        value={item.content}
                                         onChange={(e) => handleNotesChange(e, index)}
                                         variant="standard"
                                     />

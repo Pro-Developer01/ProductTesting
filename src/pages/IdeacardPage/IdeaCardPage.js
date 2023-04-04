@@ -118,153 +118,126 @@ export default function IdeaCardPage() {
   }, [ideacardData]);
 
   return (
-    <div className="feedParentContainer" style={{ padding: "0 10px" }}>
-      {/* <div className="breadcumContainer"> <Breadcrumbs
-        separator={<NavigateNextIcon fontSize="small" />}
-        aria-label="breadcrumb"
-      >
-        {breadcrumbs}
-      </Breadcrumbs></div> */}
+    <>
+
       {data && (
         <>
           {" "}
 
-          <div className="libraryListsContainer" style={{ marginTop: "0", width: '100%' }}>
-            <Accordion
-              elevation={0}
+          <div
+            style={{
+              border: "1px solid var(--borderColors)",
+              padding: "7px",
+              borderRadius: "12px ",
+              background: 'white',
+              margin: '0 0 0 0.7rem',
+              padding: '0.5rem 0',
+              paddingTop: '0'
+
+            }}
+          >
+            <div className="ideacard-Title">
+              {/* //Shared by */}
+              <Stack
+                direction="row"
+                justifyContent="left"
+                alignItems="center"
+                spacing={1}
+                mb={1}
+                sx={{ paddingLeft: '3.4rem', paddingRight: '0.5rem' }}
+              >
+                <PortraitIcon
+                  sx={{ fontSize: "14px", color: "lightslategrey" }}
+                />
+                <span
+                  style={{
+                    fontSize: "12px",
+                    color: "lightslategrey",
+                  }}
+                >
+                  Shared By: <b>Mauro Guerini</b>{" "}
+                </span>
+              </Stack>
+              {/* //CardHeaderTitle */}
+              <Stack
+                direction="row"
+                justifyContent="left"
+                alignItems="center"
+                spacing={1.5}
+                mb={1}
+                sx={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}
+              >
+                <span
+                  id="ideaCardLabels"
+                  aria-controls={open ? "ideaCardLabelsMenu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={(e) => {
+                    handleClick(e);
+                    e.stopPropagation();
+                  }}
+                // style={{
+                //   height: "fit-content",
+                //   display: "inline-block",
+                //   marginTop: "17px",
+                // }}
+                >
+                  {getIdeacardIcons(data.label_id, "large")}
+                </span>
+                <h3> {data.title}</h3>
+              </Stack>
+            </div>
+            {/* //Graphics */}
+            <div
               style={{
-                border: "1px solid var(--borderColors)",
-                padding: "7px",
-                borderRadius: "12px ",
+                display: "flex",
+                alignItems: "center",
+                marginTop: "12px",
+                paddingLeft: '3.6rem',
+                paddingRight: '0.5rem'
               }}
             >
-              <AccordionSummaryCustom
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-                sx={{ padding: 0 }}
-              >
-                <Stack direction="column" sx={{ width: '100%' }} >
-                  <div
-                    className="libraryLists"
-                    style={{ gap: "14px", justifyContent: 'flex-start' }}
-                    onClick={() => socialToggleHandler()}
-                  >
-                    <div>
-                      <span
-                        id="ideaCardLabels"
-                        aria-controls={
-                          open ? "ideaCardLabelsMenu" : undefined
-                        }
-                        aria-haspopup="true"
-                        aria-expanded={open ? "true" : undefined}
-                        onClick={(e) => {
-                          handleClick(e);
-                          e.stopPropagation();
-                        }}
-                        style={{
-                          height: "fit-content",
-                          display: "inline-block",
-                          marginTop: "17px",
-                        }}
-                      >
-                        {getIdeacardIcons(data.label_id, 'large')}
-                      </span>
-                    </div>
-                    <div style={{ width: '100%' }}>
-                      {/* //CardHeaderTitle */}
-                      <div>
-                        {/* <Tooltip title={item.title} arrow> */}
-                        <Stack
-                          direction="row"
-                          justifyContent="left"
-                          alignItems="center"
-                          spacing={1}
-                          mb={1}
-                        >
-                          <PortraitIcon
-                            sx={{ fontSize: "14px", color: "lightslategrey" }}
-                          />
-                          <span
-                            style={{
-                              fontSize: "12px",
-                              color: "lightslategrey",
-                            }}
-                          >
-                            Shared By: <b>Mauro Guerini</b>{" "}
-                          </span>
-                        </Stack>
+              {data.picture_link && (
+                <img
+                  src={data.picture_link}
+                  alt={data.title}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: "12px ",
+                  }}
+                />
+              )}
+            </div>
 
-                        {data.description.length ? (
-                          <h3> {data.description}</h3>
-                        ) : (
-                          "No Description for this IdeaCard...."
-                        )}
-                        {/* </Tooltip> */}
-                      </div>
+            {/* //SocialButtons */}
 
-                      {/* //Graphics */}
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          marginTop: "12px",
-                        }}
-                      >
-                        {data.picture_link && (
-                          <img
-                            src={data.picture_link}
-                            alt={data.title}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              borderRadius: "12px ",
-                            }}
-                          />
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  {/* //SocialButtons */}
-                  {data.state && (
-                    <div
-                      className="reactionButtonsContainer"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                    >
-                      <div
-                        className="socialButtons"
-                        style={{ marginLeft: "40px" }}
-                      >
-                        <Stack direction="row" spacing={3}>
-                          <FavoriteBorder
-                            sx={{ color: "var(--primaryColor)" }}
-                          />
-                          <ChatBubbleOutline sx={socialButtonsStyle} />
-                          <ShareIcon sx={socialButtonsStyle} />
-                        </Stack>
-                      </div>
-                      <div className="bookmarkButtons">
-                        <Stack direction="row" spacing={3}>
-                          <BookmarkBorderIcon sx={socialButtonsStyle} />
-                          <MoreVertIcon sx={socialButtonsStyle} />
-                        </Stack>
-                      </div>
-                    </div>
-                  )}
+            <div
+              className="reactionButtonsContainer"
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              style={{ paddingLeft: '3.4rem', paddingRight: '0.5rem' }}
+            >
+              <div className="socialButtons" >
+                <Stack direction="row" spacing={3}>
+                  <FavoriteBorder sx={{ color: "var(--primaryColor)" }} />
+                  <ChatBubbleOutline sx={socialButtonsStyle} />
+                  <ShareIcon sx={socialButtonsStyle} />
                 </Stack>
-              </AccordionSummaryCustom>
-              <AccordionDetails
-                sx={{ borderTop: "1px Solid var(--borderColors)" }}
-              >
-                <div
-                  className="otherAccordians"
-                  style={{ marginLeft: "11px" }}
-                >
-                  <IdeaCardAccordian data={data} />
-                </div>
-              </AccordionDetails>
-            </Accordion>
+              </div>
+              <div className="bookmarkButtons">
+                <Stack direction="row" spacing={3}>
+                  <BookmarkBorderIcon sx={socialButtonsStyle} />
+                  <MoreVertIcon sx={socialButtonsStyle} />
+                </Stack>
+              </div>
+            </div>
+            <hr style={{ border: '1px solid var(--borderColors)' }} />
+            <div className="otherAccordians" >
+              <IdeaCardAccordian data={data} />
+            </div>
+
           </div>
 
           <Menu
@@ -299,6 +272,6 @@ export default function IdeaCardPage() {
           </Menu>
         </>
       )}
-    </div>
+    </>
   );
 }

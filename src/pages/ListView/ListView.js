@@ -22,6 +22,7 @@ import { dynamicBulletHandler, getIdeacardIcons } from "../../helperFunctions/ge
 import { useSelector, useDispatch } from 'react-redux'
 import { updateIdeacardData } from "../../Utils/Features/IdeacardSlice";
 import Breadcum from "../../components/Breadcum/Breadcum";
+import TriangleRight, { TriangleRightOutlined } from "../../Assets/triangleRight";
 
 
 // let book = {
@@ -79,7 +80,7 @@ const IdeacardDivComponent = ({ data, setOpen }) => {
     return (
         <div
             className="ideacardDiv"
-            style={{ border: callingIdeaCard ? "2px solid orange" : null }}
+            style={{ border: callingIdeaCard ? "2px solid var(--primaryColor)" : null }}
             onClick={clickHandler}
             aria-label="open drawer"
         >
@@ -105,6 +106,7 @@ function ListView(props) {
 
 
 
+    console.log("listViewData", listViewData.data);
     const fetchListViewData = () => {
         const token = localStorage.getItem("token");
         const userId = localStorage.getItem("userId");
@@ -157,7 +159,7 @@ function ListView(props) {
                                     id={`caret-${k.tocPositionId}`}
                                     onClick={() => openOrCloseChapters(k.tocPositionId)}
                                 >
-                                    <PlayArrowIcon id="caret-arrow" />
+                                    <TriangleRight id="caret-arrow" />
                                     {k.ideacard ? (
                                         <IdeacardDivComponent
                                             setOpen={setOpen}
@@ -166,7 +168,7 @@ function ListView(props) {
                                         />
                                     ) : (
                                         <>
-                                            <PlayArrowOutlinedIcon
+                                            <TriangleRightOutlined
                                                 // fontSize="small"
                                                 id="lastItemDot"
                                             />{" "}
@@ -186,14 +188,23 @@ function ListView(props) {
                                 key={highlight._id}
                                 id={`chapters-${highlight.position}`}
                             >
-                                {highlight.context && <div
+                                {highlight.context ? <div
                                     className="highlightDiv"
                                 >
                                     <SquareIcon fontSize={'small'} />
                                     <span>
                                         {highlight.context}
                                     </span>
-                                </div>}
+                                </div> :
+                                    <div
+                                        className="highlightDiv"
+                                    >
+                                        <SquareIcon fontSize={'small'} />
+                                        <span>
+                                            Highlight without context.
+                                        </span>
+                                    </div>
+                                }
                                 {highlight.idea_cards?.length ?
                                     highlight.idea_cards.map((ideacards, index) => {
                                         return (<IdeacardDivComponent
@@ -218,7 +229,11 @@ function ListView(props) {
         console.log("element", element);
         console.log("el", el);
         console.log("index", index);
-
+        if (el.classList.value === "caret caret-down-45") {
+            el.classList.remove("caret-down-45");
+        } else if (el.classList.value === "caret") {
+            el.classList.add("caret-down-45");
+        }
         for (var i = 0; i < element.length; ++i) {
             let item = element[i].classList;
             if (item) {
@@ -227,11 +242,7 @@ function ListView(props) {
                 } else {
                     element[i].classList.add("d-none");
                 }
-                if (el.classList.value === "caret caret-down-45") {
-                    el.classList.remove("caret-down-45");
-                } else {
-                    el.classList.add("caret-down-45");
-                }
+
             }
         }
     };
@@ -300,8 +311,8 @@ function ListView(props) {
                                                             style={{ display: "flex", gap: "7px" }}
                                                             onClick={() => openOrCloseChapters(index)}
                                                         >
-                                                            <PlayArrowIcon />
-                                                            <PlayArrowOutlinedIcon
+                                                            <TriangleRight />
+                                                            <TriangleRightOutlined
                                                                 // fontSize="small"
                                                                 id="lastItemDot"
                                                             />

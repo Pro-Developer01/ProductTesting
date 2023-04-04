@@ -13,18 +13,18 @@ const clossDoubleArrowStyle = {
     background: "var(--white)",
     borderRadius: "33px",
     border: "1px solid var(--borderColors)",
-    position: "relative",
-    top: "-3px",
-    right: "-14px",
+    position: "fixed",
+    top: "38px",
+    right: "35.5rem",
     cursor: "pointer",
     color: "var(--fontColor)",
 };
 const closeCrossButtonStyle = {
     borderRadius: "33px",
-    position: "absolute",
-    top: "46px",
+    position: "fixed",
+    top: "82px",
     right: "32px",
-    zIndex: 10,
+    zIndex: 13,
     cursor: "pointer",
     color: "var(--fontColor)",
 };
@@ -69,14 +69,14 @@ export default function PersistentDrawerRight({ childrenx }) {
             <Main open={ideacardData}>{childrenx}</Main>
             <Drawer
                 sx={{
-                    width: 564,
+                    width: 573,
                     flexShrink: 0,
                     "& .MuiDrawer-paper": {
                         width: drawerWidth,
                         background: "transparent",
                         border: "none",
-                        top: "33px",
-                        paddingTop: "4px",
+                        top: '64px',
+                        right: '9px',
                     },
                 }}
                 variant="persistent"

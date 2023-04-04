@@ -49,45 +49,28 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 35px;
+  margin: 1.5rem 0;
 }
-.socialButtons {
-  margin-left: 28px;
+.otherAccordians {
+  margin-left: 2.5rem;
+  margin-top: 0.6rem;
+  margin-right: 0.5rem;
+  margin-bottom: 3rem;
 }
 .fetchStatusIconContainer {
   padding-top: 6px;
 }
-::-webkit-input-placeholder {
-  font-style: italic;
-}
-:-moz-placeholder {
-  font-style: italic;
-}
-::-moz-placeholder {
-  font-style: italic;
-}
-:-ms-input-placeholder {
-  font-style: italic;
-}
-.myNotesInput ::-webkit-input-placeholder {
-  font-style: italic;
-  font-size: 21px;
-}
-.myNotesInput :-moz-placeholder {
-  font-style: italic;
-  font-size: 21px;
-}
-.myNotesInput ::-moz-placeholder {
-  font-style: italic;
-  font-size: 21px;
-}
-.myNotesInput :-ms-input-placeholder {
-  font-style: italic;
-  font-size: 21px;
-}
-/* 
-.myNotesInput input,
-input::placeholder {
-  font-size: 21px;
 
-} */
+/* //IdeacardStyling */
+
+.myNotesInput::placeholder {
+  font-size: 21px;
+}
+.ideacard-Title {
+  position: sticky;
+  top: -2px;
+  background: white;
+  z-index: 11;
+  padding-top: 0.5rem;
+  border-radius: 12px;
+}

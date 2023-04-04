@@ -16,7 +16,7 @@ export const ChaptersUl = styled("ul")(
     css`
       padding: 0;
       margin: 0;
-      margin-left: 12px;
+      margin-left: 15px;
       border-left: 1px solid var(--greyColor);
     `
 );

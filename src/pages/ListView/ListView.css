@@ -2,7 +2,7 @@
   display: none;
 }
 .caret-down-45 svg {
-  transform: rotate(90deg);
+  transform: rotate(45deg);
 }
 .caret-without-content #caret-arrow {
   display: none;
@@ -38,7 +38,7 @@ svg:hover {
   width: 100%;
   box-sizing: border-box;
   border-radius: 6px;
-  margin-left: 1px;
+  margin-left: -4px;
   padding: 5px;
   color: black;
   margin-top: 7px;
@@ -48,7 +48,7 @@ svg:hover {
 .highlightDiv {
   display: flex;
   gap: 12px;
-  margin-left: 13px;
+  margin-left: 6.5px;
   align-items: center;
   color: black;
 }
