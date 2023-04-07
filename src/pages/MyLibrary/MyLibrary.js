@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-
 import "./MyLibrary.css";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
@@ -9,20 +8,12 @@ import StepLabel from "@mui/material/StepLabel";
 import Rating from "@mui/material/Rating";
 import PropTypes from "prop-types";
 import { styled } from "@mui/material/styles";
-import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import ChatBubbleOutline from "@mui/icons-material/ChatBubbleOutline";
-import ShareIcon from "@mui/icons-material/Share";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import StepConnector, {
     stepConnectorClasses,
 } from "@mui/material/StepConnector";
 import CircularProgress from "@mui/material/CircularProgress";
-import Accordion from "@mui/material/Accordion";
-import AccordionDetails from "@mui/material/AccordionDetails";
 import Stack from "@mui/material/Stack";
-import LibraryAccordian from "../../components/AccordianCollections/AccordianCollections";
 import PortraitIcon from "@mui/icons-material/Portrait";
 import CircularLoading from "../../Assets/circularLoadingANI/CircularLoading";
 import LinearDotsLoading from "../../Assets/LinearDotsLoading/LinearDotsLoading";
@@ -31,9 +22,9 @@ import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
 import loginAuths from "../../helperFunctions/logingFunction";
-import SuggestedView from "../../components/SuggestedView/SuggestedView";
 import { apiRoot } from "../../helperFunctions/apiRoot";
 import Breadcum from "../../components/Breadcum/Breadcum";
+import { Link, useNavigate } from "react-router-dom";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -115,21 +106,6 @@ const stepLabelStyling = {
     },
 };
 
-const AccordionSummaryCustom = styled((props) => (
-    <MuiAccordionSummary {...props} />
-))(({ theme }) => ({
-    "& .MuiAccordionSummary-content": {
-        margin: 0,
-    },
-    "&& .Mui-expanded": {
-        margin: 0,
-        marginBottom: "23px",
-        display: "flex",
-        justifyContent: "center",
-        flexFlow: "column",
-    },
-}));
-
 const steps = ["Read", "Highlights", "Idea Cards"];
 let booksData = [
     {
@@ -189,18 +165,14 @@ let booksData = [
         index: 1,
     },
 ];
-const titleStyle = {
-    width: "359px",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-};
-const socialButtonsStyle = { color: "darkgrey" };
+
 
 const BookViewCard = ({ item, index, socialToggleHandler }) => {
     const [loadingFullData, setLoadingFullData] = useState(false);
     const [stepperCount, setStepperCount] = useState(-1);
     const [metaData, setMetaData] = useState([]);
+    const navigate = useNavigate();
+    const currentLocation = window.location.pathname;
 
     const cardClickHandler = (e, index, title, state) => {
         socialToggleHandler(index, title);
@@ -233,219 +205,180 @@ const BookViewCard = ({ item, index, socialToggleHandler }) => {
                 console.log("err", err);
             });
     };
-    const suggestedViewContainer = {
-        position: "absolute",
-        top: "0px",
-        right: "-229px",
-    };
-    const itemIdCreator = (title) => {
-        const splitedTitle = title.split(' ');
-        const requiredTitle = '#' + splitedTitle.join('-');
-        return requiredTitle;
-    }
-    return (
-        <>
-            <div key={item.id} id={item.title} className="libraryListsContainer">
-                <a href={itemIdCreator(item.title)}>
-                    <Accordion
-                        elevation={0}
-                        sx={{
-                            border: "1px solid var(--borderColors)",
-                            padding: "7px",
-                            borderRadius: "12px !important",
-                        }}
-                        rounded
-                    >
-                        <AccordionSummaryCustom
-                            aria-controls="panel1a-content"
-                            id="panel1a-header"
-                            sx={{ padding: 0 }}
-                        >
-                            <div
-                                className="libraryLists"
-                                onClick={(e) => {
-                                    cardClickHandler(e, index, item.title, item.state);
-                                }}
-                            >
-                                <Stack direction="row" spacing={2}>
-                                    <div>
-                                        <img
-                                            src={item.img_path}
-                                            alt={item.title}
-                                            className="libraryListsImg"
-                                        />
-                                        <div className="rating">
-                                            <Rating
-                                                name="read-only"
-                                                sx={{ color: "#FF6600" }}
-                                                value={item.rating}
-                                                readOnly
-                                            />
-                                        </div>
-                                    </div>
-                                    <Stack direction="column" justifyContent="space-between">
-                                        {/* //CardHeaderTitle */}
-                                        <div className="">
-                                            {/* <Tooltip title={item.title} arrow> */}
-                                            <Stack
-                                                direction="row"
-                                                justifyContent="left"
-                                                alignItems="center"
-                                                spacing={1}
-                                                mb={1}
-                                            >
-                                                {" "}
-                                                <PortraitIcon
-                                                    sx={{ fontSize: "14px", color: "lightslategrey" }}
-                                                />
-                                                <span
-                                                    style={{
-                                                        fontSize: "12px",
-                                                        color: "lightslategrey",
-                                                    }}
-                                                >
-                                                    Shared By: <b>Mauro Guerini</b>{" "}
-                                                </span>
-                                            </Stack>
-                                            <h3 style={titleStyle}>{item.title}</h3>
-                                            {/* </Tooltip> */}
-                                            <span className="">By {item.author}</span>
-                                        </div>
 
-                                        {/* //Timline */}
+    const itemIdCreator = (title) => {
+        const splitedTitle = title.split(" ");
+        const requiredTitle = splitedTitle.join("-");
+        const requiredTitleSplit = requiredTitle.split("#");
+        const titleWithoutHash = requiredTitleSplit.join("");
+        return titleWithoutHash;
+    };
+    const bookCardClickHandler = (index, item) => {
+        const bookState = {
+            index,
+            item,
+            bookName: itemIdCreator(item.title),
+        };
+        localStorage.setItem("bookState", JSON.stringify(bookState));
+        navigate(currentLocation + "/" + itemIdCreator(item.title));
+    };
+    return (
+        <div
+            key={item?.id}
+            id={item?.title}
+            className="libraryListsContainer"
+            onClick={() => bookCardClickHandler(index, item)}
+            style={{ cursor: 'pointer' }}
+        >
+            <div
+                style={{
+                    border: "1px solid var(--borderColors)",
+                    borderRadius: "12px ",
+                    background: "white",
+                    padding: "0.7rem",
+                }}
+            >
+                <Stack direction={"column"} sx={{ width: "100%" }}>
+                    <div
+                        className="libraryLists"
+                        onClick={(e) => {
+                            cardClickHandler(e, index, item?.title, item?.state);
+                        }}
+                    >
+                        <Stack direction="row" spacing={2} sx={{ width: '100%' }}>
+                            <div>
+                                <img
+                                    src={item?.img_path}
+                                    alt={item?.title}
+                                    className="libraryListsImg"
+                                />
+                                <div className="rating">
+                                    <Rating
+                                        name="read-only"
+                                        sx={{ color: "#FF6600" }}
+                                        value={item?.rating}
+                                        readOnly
+                                    />
+                                </div>
+                            </div>
+                            <Stack direction="column" justifyContent="space-between" sx={{ width: '100%' }}>
+                                {/* //CardHeaderTitle */}
+                                <div className="">
+                                    {/* <Tooltip title={item.title} arrow> */}
+                                    <Stack
+                                        direction="row"
+                                        justifyContent="left"
+                                        alignItems="center"
+                                        spacing={1}
+                                        mb={1}
+                                    >
+                                        {" "}
+                                        <PortraitIcon
+                                            sx={{ fontSize: "14px", color: "lightslategrey" }}
+                                        />
+                                        <span
+                                            style={{
+                                                fontSize: "12px",
+                                                color: "lightslategrey",
+                                            }}
+                                        >
+                                            Shared By: <b>Mauro Guerini</b>{" "}
+                                        </span>
+                                    </Stack>
+                                    <h3 >{item?.title.length > 98 ? item?.title.slice(0, 99) + '...' : item?.title}</h3>
+                                    {/* </Tooltip> */}
+                                    <span className="">By {item?.author}</span>
+                                </div>
+
+                                {/* //Timline */}
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        marginBottom: "12px",
+                                    }}
+                                >
+                                    <div style={{ flex: 1 }}>
+                                        <Box sx={{ width: "100%", marginTop: "32px" }}>
+                                            <Stepper
+                                                alternativeLabel
+                                                activeStep={stepperCount}
+                                                connector={<QontoConnector />}
+                                            >
+                                                {steps.map((label) => (
+                                                    <Step key={label}>
+                                                        <StepLabel
+                                                            StepIconComponent={QontoStepIcon}
+                                                            sx={stepLabelStyling}
+                                                        >
+                                                            {label}
+                                                        </StepLabel>
+                                                    </Step>
+                                                ))}
+                                            </Stepper>
+                                        </Box>
                                         <div
                                             style={{
                                                 display: "flex",
-                                                alignItems: "center",
-                                                marginBottom: "12px",
+                                                justifyContent: "space-around",
+                                                textAlign: "center",
+                                                // marginTop: "16px",
                                             }}
                                         >
-                                            <div style={{ flex: 1 }}>
-                                                <Box sx={{ width: "100%", marginTop: "32px" }}>
-                                                    <Stepper
-                                                        alternativeLabel
-                                                        activeStep={stepperCount}
-                                                        connector={<QontoConnector />}
-                                                    >
-                                                        {steps.map((label) => (
-                                                            <Step key={label}>
-                                                                <StepLabel
-                                                                    StepIconComponent={QontoStepIcon}
-                                                                    sx={stepLabelStyling}
-                                                                >
-                                                                    {label}
-                                                                </StepLabel>
-                                                            </Step>
-                                                        ))}
-                                                    </Stepper>
-                                                </Box>
-                                                <div
-                                                    style={{
-                                                        display: "flex",
-                                                        justifyContent: "space-around",
-                                                        textAlign: "center",
-                                                        // marginTop: "16px",
-                                                    }}
-                                                >
-                                                    {!metaData?.length ? (
-                                                        loadingFullData ? (
-                                                            <>
-                                                                <LinearDotsLoading />
-                                                                <LinearDotsLoading />
-                                                                <LinearDotsLoading />
-                                                            </>
-                                                        ) : (
-                                                            <>
-                                                                <span>...</span>
-                                                                <span>...</span>
-                                                                <span>...</span>
-                                                            </>
-                                                        )
-                                                    ) : (
-                                                        <>
-                                                            <span style={timelineSpanStyle}>
-                                                                {metaData[0].progress
-                                                                    ? `${metaData[0].progress}%`
-                                                                    : "0%"}
-                                                            </span>
-                                                            <span style={timelineSpanStyle}>
-                                                                {metaData[0].h_progress
-                                                                    ? `${metaData[0].h_progress}%`
-                                                                    : "0%"}
-                                                            </span>
-                                                            <span style={timelineSpanStyle}>
-                                                                {metaData[0].idea?.length
-                                                                    ? `${metaData[0].idea?.length}%`
-                                                                    : "0"}
-                                                            </span>
-                                                        </>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </Stack>
-                                </Stack>
-                                <div className="fetchStatusIconContainer">
-                                    {loadingFullData ? (
-                                        <CircularLoading />
-                                    ) : metaData.length ? (
-                                        <PublishedWithChangesIcon sx={{ color: "lightgreen" }} />
-                                    ) : (
-                                        <AutorenewIcon
-                                            sx={{ color: "var(--primaryColor)" }}
-                                            onClick={(e) => fetchFullData(e, item._id)}
-                                        />
-                                    )}
-                                </div>
-                            </div>
-                            {/* //SocialButtons */}
-
-                            {item.state && (
-                                <>
-                                    <div
-                                        className="reactionButtonsContainer"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                        }}
-                                    >
-                                        <div className="socialButtons">
-                                            <Stack direction="row" spacing={3}>
-                                                <FavoriteBorder sx={{ color: "#FF6600" }} />
-                                                <ChatBubbleOutline sx={socialButtonsStyle} />
-                                                <ShareIcon sx={socialButtonsStyle} />
-                                            </Stack>
-                                        </div>
-                                        <div className="bookmarkButtons">
-                                            <Stack direction="row" spacing={3}>
-                                                <BookmarkBorderIcon sx={socialButtonsStyle} />
-                                                <MoreVertIcon sx={socialButtonsStyle} />
-                                            </Stack>
+                                            {!metaData?.length ? (
+                                                loadingFullData ? (
+                                                    <>
+                                                        <LinearDotsLoading />
+                                                        <LinearDotsLoading />
+                                                        <LinearDotsLoading />
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <span>...</span>
+                                                        <span>...</span>
+                                                        <span>...</span>
+                                                    </>
+                                                )
+                                            ) : (
+                                                <>
+                                                    <span style={timelineSpanStyle}>
+                                                        {metaData[0].progress
+                                                            ? `${metaData[0].progress}%`
+                                                            : "0%"}
+                                                    </span>
+                                                    <span style={timelineSpanStyle}>
+                                                        {metaData[0].h_progress
+                                                            ? `${metaData[0].h_progress}%`
+                                                            : "0%"}
+                                                    </span>
+                                                    <span style={timelineSpanStyle}>
+                                                        {metaData[0].idea?.length
+                                                            ? `${metaData[0].idea?.length}%`
+                                                            : "0"}
+                                                    </span>
+                                                </>
+                                            )}
                                         </div>
                                     </div>
-                                </>
-                            )}
-                        </AccordionSummaryCustom>
-                        {metaData.length ? (
-                            <AccordionDetails
-                                sx={{
-                                    borderTop: "1px Solid var(--borderColors)",
-                                    color: "var(--fontColor)",
-                                }}
-                            >
-                                <div className="otherAccordians">
-                                    <LibraryAccordian metaData={metaData} />
                                 </div>
-                            </AccordionDetails>
-                        ) : null}
-                    </Accordion>
-                    {item.state && (
-                        <div style={suggestedViewContainer}>
-                            <SuggestedView bookId={item._id} userId={item.user_id} />
+                            </Stack>
+                        </Stack>
+                        <div className="fetchStatusIconContainer">
+                            {loadingFullData ? (
+                                <CircularLoading />
+                            ) : metaData.length ? (
+                                <PublishedWithChangesIcon sx={{ color: "lightgreen" }} />
+                            ) : (
+                                <AutorenewIcon
+                                    sx={{ color: "var(--primaryColor)" }}
+                                    onClick={(e) => fetchFullData(e, item?._id)}
+                                />
+                            )}
                         </div>
-                    )}
-                </a>
+                    </div>
+                </Stack>
             </div>
-        </>
+        </div>
     );
 };
 
@@ -456,7 +389,6 @@ export default function MyLibrary() {
         let tempData = JSON.parse(JSON.stringify(data));
         tempData[index].state = !tempData[index].state;
         setData(tempData);
-        // breadcumAddition(title);
     };
     const fetchLibraryData = () => {
         const token = localStorage.getItem("token");
@@ -486,15 +418,12 @@ export default function MyLibrary() {
             });
     };
 
-
-
     useEffect(() => {
         fetchLibraryData();
     }, []);
 
     return (
         <div className="feedParentContainer">
-
             <div className="feedBoxLayout">
                 <Breadcum />
                 {!data.length ? (

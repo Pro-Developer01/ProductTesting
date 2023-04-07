@@ -1,12 +1,18 @@
-import React, { useEffect } from 'react'
-import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
+import React, { useEffect, useState } from "react";
 import Chip from "@mui/material/Chip";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-import { useDispatch, useSelector } from 'react-redux';
-import { updateBreadcumArray } from '../../Utils/Features/breadcumSlice';
+import { useDispatch, useSelector } from "react-redux";
+import { updateBreadcumArray } from "../../Utils/Features/breadcumSlice";
+import Menu from "@mui/material/Menu";
+import DynamicFeedIcon from "@mui/icons-material/DynamicFeed";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import GridViewIcon from "@mui/icons-material/GridView";
+import MenuItem from "@mui/material/MenuItem";
+import { useNavigate } from "react-router-dom";
+import ImportContactsIcon from "@mui/icons-material/ImportContacts";
+
 const breadcrumbStyle = {
     display: "flex",
     justifyContent: "flex-start",
@@ -16,79 +22,134 @@ const breadcrumbStyle = {
     zIndex: ["10px", 3],
     background: "var(--BackgroundColor)",
     padding: "16px 0",
-    zIndex: '10',
-    borderRadius: '2px'
+    zIndex: "10",
+    borderRadius: "2px",
+};
+const dropdownChipStyle = {
+    width: "6.7rem",
+    justifyContent: "flex-start",
+    fontWeight: 600,
+    textTransform: "capitalize",
+    // gap: "10px",dww
+    paddingLeft: "2px",
+    cursor: "pointer",
+    background: "var(--borderColors)",
+};
+const cardChipStyle = {
+    justifyContent: "flex-start",
+    fontWeight: 600,
+    textTransform: "capitalize",
+    // gap: "10px",dww
+    paddingLeft: "2px",
+    cursor: "pointer",
+    background: "var(--borderColors)",
+};
 
-}
+const breadcrumbMenuItems = [
+    { label: "ListView", icon: <FormatListBulletedIcon />, href: "listview" },
+    { label: "TileView", icon: <GridViewIcon />, href: "tileview" },
+    { label: "FeedView", icon: <DynamicFeedIcon />, href: "feedview" },
+];
 
-export default function Breadcum() {
+export default function Breadcum({ state }) {
     const [breadcrumbs, setBreadcrumbs] = React.useState([]);
+    const [isMenuVisible, setIsMenuVisible] = React.useState(false);
+    const [selectedItem, setSelectedItem] = useState(breadcrumbMenuItems[1]);
+    const [anchorEl, setAnchorEl] = React.useState(null);
     const currentLocation = window.location.pathname;
     const breadcumArray = useSelector((state) => state.breadcumReducer.value);
+    const navigate = useNavigate();
 
-    // const [breadcumArray, setBreadcrumbArray] = React.useState([
-    //     {
-    //         path: '/library',
-    //         title: 'library'
-    //     }
-    // ])
-
-    const dispatch = useDispatch();
-    const breadcumAddition = (title) => {
-        let template = <Typography >{title}</Typography>;
-        let tempData = [...breadcrumbs];
-        tempData.push(template);
-        setBreadcrumbs(tempData);
+    const open = Boolean(anchorEl);
+    const handleMenuClick = (event) => {
+        setAnchorEl(event.currentTarget);
     };
 
+    const dispatch = useDispatch();
+
+    const renderMenu = (viewType) => {
+        setIsMenuVisible(true);
+        console.log(
+            "renderMenu",
+            breadcrumbMenuItems.find((item) => item.href === viewType)
+        );
+        setSelectedItem(breadcrumbMenuItems.find((item) => item.href === viewType));
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    const handleSelectChange = (index) => {
+        const url = currentLocation.split("/");
+        url[url.length - 1] = breadcrumbMenuItems[index].href;
+        setSelectedItem(breadcrumbMenuItems[index]);
+        console.log(url.join("/"));
+        navigate(url.join("/"), { state });
+        setAnchorEl(null);
+    };
+    const getBreadcumIcon = (title) => {
+        switch (title) {
+            case "library":
+                return <LibraryBooksIcon />;
+            default:
+                return <ImportContactsIcon />;
+        }
+    };
     const urlChecker = () => {
-        const locationArray = currentLocation.split('/');
-        console.log('breadcumArray', breadcumArray);
-        console.log(currentLocation);
-        console.log(locationArray);
-        let path = '';
+        const locationArray = currentLocation.split("/");
+        let path = "";
         let resultedArray = [];
         for (let i = 1; i < locationArray.length; i++) {
-            path += '/' + locationArray[i];
-            const LocationObj = {
-                path,
-                title: locationArray[i]
+            if (
+                locationArray[i] === "listview" ||
+                locationArray[i] === "tileview" ||
+                locationArray[i] === "feedview"
+            ) {
+                renderMenu(locationArray[i]);
+            } else {
+                path += "/" + locationArray[i];
+                let title = locationArray[i];
+                let icon = getBreadcumIcon(locationArray[i]);
+                if (locationArray[i].length > 15) {
+                    title = title.slice(0, 15) + "...";
+                }
+                const LocationObj = {
+                    path,
+                    title: title,
+                    icon,
+                };
+                resultedArray.push(LocationObj);
             }
-            resultedArray.push(LocationObj);
         }
-        console.log('resultedArray', resultedArray);
         dispatch(updateBreadcumArray(resultedArray));
-    }
+    };
 
     const breadcumCreator = () => {
         const newBreadcumData = breadcumArray.map((item, index) => {
             return (
-                <Link
-                    underline="hover"
-                    key={index + 1}
-                    color="inherit"
-                    href={item.path}
-                    onClick={(e) => handleClick(e, item.path)}
-                >
-                    <Chip
-                        avatar={<LibraryBooksIcon />}
-                        sx={{ fontWeight: 600 }}
-                        label={item.title}
-                    />
-                </Link>
-            )
-        })
+                <Chip
+                    avatar={item.icon}
+                    sx={cardChipStyle}
+                    label={item.title}
+                    onClick={(e) => handleClick(e, item.path, item.title)}
+                />
+            );
+        });
 
         setBreadcrumbs(newBreadcumData);
-
-    }
-    function handleClick(event, path) {
+    };
+    function handleClick(event, path, title) {
         // event.preventDefault();
         console.info("You clicked a breadcrumb.");
-        console.info(path);
+        navigate(path);
+        console.info(path, title);
     }
-    useEffect(() => { urlChecker() }, [currentLocation]);
-    useEffect(() => { breadcumCreator() }, [breadcumArray]);
+    useEffect(() => {
+        urlChecker();
+        console.info("currentLocation", currentLocation);
+    }, [currentLocation]);
+    useEffect(() => {
+        breadcumCreator();
+    }, [breadcumArray]);
     return (
         <div className="breadcumContainer" style={breadcrumbStyle}>
             <Breadcrumbs
@@ -96,7 +157,51 @@ export default function Breadcum() {
                 aria-label="breadcrumb"
             >
                 {breadcrumbs}
+                {isMenuVisible && (
+                    <Chip
+                        id="basic-button"
+                        aria-controls={open ? "basic-menu" : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? "true" : undefined}
+                        onClick={handleMenuClick}
+                        sx={cardChipStyle}
+                        icon={selectedItem?.icon}
+                        label={selectedItem?.label}
+                    />
+                )}
             </Breadcrumbs>
+            <Menu
+                elevation={0}
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                }}
+                sx={{
+                    "& .MuiPaper-root": {
+                        background: "transparent",
+                        "& .MuiMenuItem-root": {
+                            paddingLeft: 0,
+                            "&:hover": {
+                                backgroundColor: "transparent",
+                            },
+                        },
+                    },
+                }}
+            >
+                {breadcrumbMenuItems.map((item, index) => (
+                    <MenuItem
+                        sx={{ paddingTop: "0" }}
+                        key={item.href + index}
+                        value={index}
+                        onClick={() => handleSelectChange(index)}
+                    >
+                        <Chip sx={dropdownChipStyle} icon={item.icon} label={item.label} />
+                    </MenuItem>
+                ))}
+            </Menu>
         </div>
-    )
+    );
 }

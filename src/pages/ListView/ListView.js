@@ -8,9 +8,6 @@ import { CardStrucutureBook, ChaptersUl, ChaptersLi } from "./styled";
 import Stack from "@mui/material/Stack";
 import BookDetails from "../../components/BookDetails/index";
 import CONTENT_TEMP from "../../mongodb_collections/contentHighlights.json";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import "./ListView.css";
 import PersistentDrawerRight from "../../components/Drawer/Drawer";
 import { useLocation } from "react-router-dom";
@@ -18,7 +15,7 @@ import { apiRoot } from "../../helperFunctions/apiRoot";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import SquareIcon from '@mui/icons-material/Square';
-import { dynamicBulletHandler, getIdeacardIcons } from "../../helperFunctions/getIdeacardIcons";
+import { getIdeacardIcons } from "../../helperFunctions/getIdeacardIcons";
 import { useSelector, useDispatch } from 'react-redux'
 import { updateIdeacardData } from "../../Utils/Features/IdeacardSlice";
 import Breadcum from "../../components/Breadcum/Breadcum";
@@ -149,15 +146,17 @@ function ListView(props) {
         return (
             <>
                 {item.entries?.length ? (
-                    <ChaptersUl>
+                    <ChaptersUl className="d-none">
                         {item.entries.map((k, i) => (
                             <ChaptersLi key={i} id={`chapters-${k.tocPositionId}`}>
                                 <div
-                                    className={`${k.entries || k.highlights?.length ? "caret caret-down-45" : "caret-without-content"
+                                    className={`${k.entries || k.highlights?.length ? "caret" : "caret-without-content"
                                         }`}
                                     style={sub_chapter_divs}
                                     id={`caret-${k.tocPositionId}`}
                                     onClick={() => openOrCloseChapters(k.tocPositionId)}
+                                // onDoubleClick={() => doubleClickOpenOrCloseChapters(k.tocPositionId)}
+
                                 >
                                     <TriangleRight id="caret-arrow" />
                                     {k.ideacard ? (
@@ -182,7 +181,7 @@ function ListView(props) {
                     </ChaptersUl>
                 ) : null}
                 {item.highlights?.length ? (
-                    <ChaptersUl>
+                    <ChaptersUl className="d-none">
                         {item.highlights.map((highlight, i) => (
                             <ChaptersLi
                                 key={highlight._id}
@@ -221,30 +220,70 @@ function ListView(props) {
             </>
         );
     };
+    const arrowOpenCloseHandler = (elementItself) => {
+        if (elementItself.classList.value === "caret caret-down-45") {
+            elementItself.classList.remove("caret-down-45");
+        } else if (elementItself.classList.value === "caret") {
+            elementItself.classList.add("caret-down-45");
+        }
+    }
+    const displayNoneHandler = (ulChilds) => {
+        for (var i = 0; i < ulChilds.length; ++i) {
+            let item = ulChilds[i].classList;
+            if (item) {
+                if (item.value.indexOf("d-none") != -1) {
+                    ulChilds[i].classList.remove("d-none");
+                } else {
+                    ulChilds[i].classList.add("d-none");
+                }
 
+            }
+        }
+    }
+    const displayNoneHandlerForAll = (ulChilds) => {
+        for (var i = 0; i < ulChilds.length; ++i) {
+            let item = ulChilds[i].classList;
+            if (item && ulChilds[i].tagName === 'UL') {
+                if (item.value.indexOf("d-none") != -1) {
+                    ulChilds[i].classList.remove("d-none");
+                } else {
+                    ulChilds[i].classList.add("d-none");
+                }
+
+            }
+            let liChilds = document.querySelectorAll(`.${item.value}> li `);
+            for (let j = 0; j < liChilds.length; j++) {
+                let ulSubChilds = document.querySelectorAll(`#${liChilds[j].id}> ul `)
+                displayNoneHandlerForAll(ulSubChilds)
+            }
+
+        }
+    }
     /* FUNCTION TO OPEN OR CLOSE SUBCHAPTERS */
+    // const openOrCloseChapters = (index) => {
+    //     const ulChilds = document.querySelectorAll(`#chapters-${index} > ul `);
+    //     const elementItself = document.querySelector(`#caret-${index}`);
+    //     console.log("ulChilds", ulChilds);
+    //     console.log("elementItself", elementItself);
+    //     arrowOpenCloseHandler(elementItself);
+    //     displayNoneHandlerForAll(ulChilds);
+    // };
     const openOrCloseChapters = (index) => {
         const element = document.querySelectorAll(`#chapters-${index} > ul `);
         const el = document.querySelector(`#caret-${index}`);
         console.log("element", element);
         console.log("el", el);
-        console.log("index", index);
-        if (el.classList.value === "caret caret-down-45") {
-            el.classList.remove("caret-down-45");
-        } else if (el.classList.value === "caret") {
-            el.classList.add("caret-down-45");
-        }
-        for (var i = 0; i < element.length; ++i) {
-            let item = element[i].classList;
-            if (item) {
-                if (item.value.indexOf("d-none") != -1) {
-                    element[i].classList.remove("d-none");
-                } else {
-                    element[i].classList.add("d-none");
-                }
+        arrowOpenCloseHandler(el);
+        displayNoneHandler(element);
+    };
+    const doubleClickOpenOrCloseChapters = (index) => {
+        const ulChilds = document.querySelectorAll(`#chapters-${index} > ul `);
+        const elementItself = document.querySelector(`#caret-${index}`);
+        console.log("ulChilds", ulChilds);
+        console.log("elementItself", elementItself);
+        arrowOpenCloseHandler(elementItself);
+        displayNoneHandlerForAll(ulChilds);
 
-            }
-        }
     };
 
     /* FUNCTION TO GET THE EXACT ARROW CARET */
@@ -294,7 +333,7 @@ function ListView(props) {
                                         position: "relative",
                                     }}
                                 >
-                                    <Breadcum />
+                                    <Breadcum state={state} />
 
                                     {bookMetaData && <BookDetails book={bookMetaData} open={open} resizableWidth={resizableWidth} setResizableWidth={setResizableWidth} />}
                                     <CardStrucutureBook>
@@ -304,12 +343,13 @@ function ListView(props) {
                                                     <ChaptersLi key={index} id={`chapters-${index}`}>
                                                         <div
                                                             className={`${item.entries || item.highlights.length
-                                                                ? "caret caret-down-45"
+                                                                ? "caret"
                                                                 : "caret-without-content-outer"
                                                                 }`}
                                                             id={`caret-${index}`}
                                                             style={{ display: "flex", gap: "7px" }}
                                                             onClick={() => openOrCloseChapters(index)}
+                                                        // onDoubleClick={() => doubleClickOpenOrCloseChapters(index)}
                                                         >
                                                             <TriangleRight />
                                                             <TriangleRightOutlined

@@ -119,21 +119,18 @@ export default function IdeaCardPage() {
 
   return (
     <>
-
       {data && (
         <>
           {" "}
-
           <div
             style={{
               border: "1px solid var(--borderColors)",
               padding: "7px",
               borderRadius: "12px ",
-              background: 'white',
-              margin: '0 0 0 0.7rem',
-              padding: '0.5rem 0',
-              paddingTop: '0'
-
+              background: "white",
+              margin: "0 0 0 0.7rem",
+              padding: "0.5rem 0",
+              paddingTop: "0",
             }}
           >
             <div className="ideacard-Title">
@@ -144,7 +141,7 @@ export default function IdeaCardPage() {
                 alignItems="center"
                 spacing={1}
                 mb={1}
-                sx={{ paddingLeft: '3.4rem', paddingRight: '0.5rem' }}
+                sx={{ paddingLeft: "3.4rem", paddingRight: "0.5rem" }}
               >
                 <PortraitIcon
                   sx={{ fontSize: "14px", color: "lightslategrey" }}
@@ -165,7 +162,7 @@ export default function IdeaCardPage() {
                 alignItems="center"
                 spacing={1.5}
                 mb={1}
-                sx={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}
+                sx={{ paddingLeft: "0.5rem", paddingRight: "0.5rem" }}
               >
                 <span
                   id="ideaCardLabels"
@@ -193,8 +190,8 @@ export default function IdeaCardPage() {
                 display: "flex",
                 alignItems: "center",
                 marginTop: "12px",
-                paddingLeft: '3.6rem',
-                paddingRight: '0.5rem'
+                paddingLeft: "3.6rem",
+                paddingRight: "0.5rem",
               }}
             >
               {data.picture_link && (
@@ -217,9 +214,9 @@ export default function IdeaCardPage() {
               onClick={(e) => {
                 e.stopPropagation();
               }}
-              style={{ paddingLeft: '3.4rem', paddingRight: '0.5rem' }}
+              style={{ paddingLeft: "3.4rem", paddingRight: "0.5rem" }}
             >
-              <div className="socialButtons" >
+              <div className="socialButtons">
                 <Stack direction="row" spacing={3}>
                   <FavoriteBorder sx={{ color: "var(--primaryColor)" }} />
                   <ChatBubbleOutline sx={socialButtonsStyle} />
@@ -233,13 +230,11 @@ export default function IdeaCardPage() {
                 </Stack>
               </div>
             </div>
-            <hr style={{ border: '1px solid var(--borderColors)' }} />
-            <div className="otherAccordians" >
+            <hr style={{ border: "1px solid var(--borderColors)" }} />
+            <div className="otherAccordians">
               <IdeaCardAccordian data={data} />
             </div>
-
           </div>
-
           <Menu
             id="ideaCardLabelsMenu"
             anchorEl={anchorEl}

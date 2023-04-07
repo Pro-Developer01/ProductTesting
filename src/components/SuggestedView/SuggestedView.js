@@ -26,20 +26,29 @@ const cardChipStyle = {
     cursor: "pointer",
 };
 const SuggestedViews = [
-    { label: "Feed", icon: <DynamicFeedIcon />, url: "library/feedview" },
-    { label: "List", icon: <FormatListBulletedIcon />, url: "library/listview" },
-    { label: "Tiles", icon: <GridViewIcon />, url: "library/tileview" },
+    { label: "Feed", icon: <DynamicFeedIcon />, url: "feedview" },
+    { label: "List", icon: <FormatListBulletedIcon />, url: "listview" },
+    { label: "Tiles", icon: <GridViewIcon />, url: "tileview" },
 ];
-export default function SuggestedView({ bookId, userId }) {
+
+export default function SuggestedView({ bookId, userId, bookName }) {
     return (
         <div style={cardStyle}>
             <span style={cardSpanStyle}>Suggested View</span>
             <Stack direction="column" spacing={1} alignItems="flex-start">
                 {SuggestedViews.map((item) => {
                     return (
-                        <Link to={`/${item.url}`} state={{ bookId: bookId, userId }}>
+                        <Link
+                            to={`/library/${bookName + "/" + item.url}`}
+                            state={{ bookId: bookId, userId }}
+                        >
                             {" "}
-                            <Chip sx={cardChipStyle} icon={item.icon} label={item.label} onClick={() => { }} />
+                            <Chip
+                                sx={cardChipStyle}
+                                icon={item.icon}
+                                label={item.label}
+                                onClick={() => { }}
+                            />
                         </Link>
                     );
                 })}
