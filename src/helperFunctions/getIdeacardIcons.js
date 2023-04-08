@@ -21,7 +21,7 @@ const fetchIdeacardIcons = () => {
         }
     )
         .then((res) => {
-            console.log("ideacard, ", res.data.data);
+            // console.log("ideacard, ", res.data.data);
             localStorage.setItem('ideacardIcons', JSON.stringify(res.data.data));
         })
         .catch((err) => {
@@ -67,8 +67,11 @@ export const getIdeacardIcons = (label_id, fontSize = 'small', fontStyle = label
 }
 export const getLabelId = (keyword = 'KEYWORDS') => {
     const allIcons = JSON.parse(localStorage.getItem('ideacardIcons'))
+    // console.log("keyword", keyword);
+
     if (allIcons) {
         const filteredLabelId = allIcons.filter((item) => item.label === keyword);
+        // console.log("filteredLabelId", filteredLabelId);
         if (filteredLabelId) {
             return filteredLabelId[0]._id;
         }

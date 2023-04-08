@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import "./Pages.css";
+import {
+  dynamicBulletHandler,
+  getLabelId,
+} from "../helperFunctions/getIdeacardIcons";
 
 const routes = [
   {
@@ -15,43 +19,8 @@ const routes = [
     icon: "lightbulb",
     subRoutes: [
       {
-        name: "Keywords",
+        name: "KEYWORDS",
         icon: "vpn_key",
-        state: true,
-      },
-      {
-        name: "Main claims",
-        icon: "double_arrow",
-        state: true,
-      },
-      {
-        name: "Quotes",
-        icon: "format_quote",
-        state: true,
-      },
-      {
-        name: "Arguments",
-        icon: "auto_stories",
-        state: true,
-      },
-      {
-        name: "Action items",
-        icon: "campaign",
-        state: true,
-      },
-      {
-        name: "Custom1",
-        icon: "settings",
-        state: true,
-      },
-      {
-        name: "Custom2",
-        icon: "settings",
-        state: true,
-      },
-      {
-        name: "Custom3",
-        icon: "settings",
         state: true,
       },
     ],
@@ -68,6 +37,12 @@ const routes = [
   },
 ];
 
+const labelIconStyleInitial = {
+  backgroundColor: "var(--fontColor)",
+  borderRadius: "33px",
+  color: "gainsboro",
+  padding: "3px",
+};
 const ShowMenu = () => {
   const [selectState, setSelectState] = useState({
     selectAll: true,
@@ -76,7 +51,8 @@ const ShowMenu = () => {
   const [bookmarkState, setBookmarkState] = useState(false);
   const [ideaCardActiveState, setIdeaCardActiveState] = useState(false);
   const [counter, setCounter] = useState(0);
-
+  const [highlightState, setHighlightState] = useState(true);
+  const allIcons = JSON.parse(localStorage.getItem("ideacardIcons"));
 
   const stateCheckerLoop = () => {
     let selectCounter = 0;
@@ -110,9 +86,26 @@ const ShowMenu = () => {
       stateCheckerLoop();
     }
   };
+  const collectSelectedIdeas = (data) => {
+    const filteredDataTrue = data.filter((item) => item.state === true);
+    const filteredDataFalse = data.filter((item) => item.state === false);
+    filteredDataTrue.forEach((item) => {
+      const liChilds = document.querySelectorAll(`.ideacard-${item.id}`);
+      liChilds.forEach((li) => {
+        li.classList.remove("d-none");
+      });
+    });
+    filteredDataFalse.forEach((item) => {
+      const liChilds = document.querySelectorAll(`.ideacard-${item.id}`);
+      liChilds.forEach((li) => {
+        li.classList.add("d-none");
+      });
+    });
+  };
   const CardsClicked = (index) => {
     routes[1].subRoutes[index].state = !routes[1].subRoutes[index].state;
     stateCheckerLoop();
+    collectSelectedIdeas(routes[1].subRoutes);
   };
 
   const selectHandler = () => {
@@ -163,6 +156,42 @@ const ShowMenu = () => {
       },
     },
   };
+
+  //ClickHandlers
+  const showMenuClickHandler = (menuItem, id) => {
+    if (menuItem === "Highlights") {
+      const ulChilds = document.querySelectorAll(".highlightUl");
+      const highlightButton = document.querySelector(`#${id}`);
+      setHighlightState(!highlightState);
+      if (highlightState) {
+        highlightButton.classList.remove("link");
+        highlightButton.classList.add("activeState");
+      } else {
+        highlightButton.classList.add("link");
+        highlightButton.classList.remove("activeState");
+      }
+      for (var i = 0; i < ulChilds.length; ++i) {
+        let item = ulChilds[i].classList;
+        if (item) {
+          if (highlightState) {
+            ulChilds[i].classList.remove("d-none");
+          } else {
+            ulChilds[i].classList.add("d-none");
+          }
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    const stateFullAllIcons = allIcons.map((item) => ({
+      name: item.label.toLowerCase(),
+      icon: item.label,
+      state: true,
+      id: item._id,
+    }));
+    routes[1].subRoutes = stateFullAllIcons;
+  }, []);
   return (
     <div className="NavigationMenu">
       {routes.map((route, index) => {
@@ -198,10 +227,7 @@ const ShowMenu = () => {
 
               {bookmarkState && (
                 <div className="radioInputs">
-                  <span
-                    className={"link selectCheckbox"}
-                    id="bookmarPageRadio"
-                  >
+                  <span className={"link selectCheckbox"} id="bookmarPageRadio">
                     <input
                       type="checkBox"
                       id={"selectAll"}
@@ -209,27 +235,35 @@ const ShowMenu = () => {
                       checked={selectState.selectAll}
                       onChange={selectHandler}
                     />
-                    <label for="selectAll" className="checkBoxLabel">Select all</label>
+                    <label for="selectAll" className="checkBoxLabel">
+                      Select all
+                    </label>
                   </span>
                   {route.subRoutes?.map((item, i) => {
                     return (
                       <button
-                        key={index}
+                        key={i}
                         className={item.state ? "activeState" : "link"}
                         // id={isOpen ? "active" : "activeCollapsible"}
                         onClick={() => CardsClicked(i)}
                       >
                         <AnimatePresence>
-                          <span className="material-symbols-outlined">
+                          {/* <span className="material-symbols-outlined">
                             {" "}
                             {item.icon}
-                          </span>
+                          </span> */}
+                          {dynamicBulletHandler(
+                            item.icon,
+                            "medium",
+                            labelIconStyleInitial
+                          )}
                           <motion.div
                             variants={showAnimation}
                             initial="hidden"
                             animate="show"
                             exit="hidden"
                             className="link_text"
+                            style={{ textTransform: "capitalize" }}
                           >
                             {item.name}
                           </motion.div>
@@ -247,7 +281,10 @@ const ShowMenu = () => {
           <button
             key={index}
             className={isOpen ? "linkCollapsible" : "link"}
-            // id={isOpen ? "active" : "activeCollapsible"}
+            id={route.name + "-" + index}
+            onClick={() =>
+              showMenuClickHandler(route.name, route.name + "-" + index)
+            }
           >
             <AnimatePresence>
               <span className="material-symbols-outlined"> {route.icon}</span>

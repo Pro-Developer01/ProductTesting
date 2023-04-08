@@ -68,6 +68,7 @@ const IdeacardDivComponent = ({ data, setOpen }) => {
             dispatch(updateIdeacardData(null));
 
     }
+    // console.log('ideacard data', data)
     useEffect(() => {
         if (!ideacardData)
             setCallingIdeaCard(false)
@@ -76,7 +77,7 @@ const IdeacardDivComponent = ({ data, setOpen }) => {
     }, [ideacardData])
     return (
         <div
-            className="ideacardDiv"
+            className={`ideacardDiv ideacard-${data.label_id}`}
             style={{ border: callingIdeaCard ? "2px solid var(--primaryColor)" : null }}
             onClick={clickHandler}
             aria-label="open drawer"
@@ -181,7 +182,7 @@ function ListView(props) {
                     </ChaptersUl>
                 ) : null}
                 {item.highlights?.length ? (
-                    <ChaptersUl className="d-none">
+                    <ChaptersUl className="d-none highlightUl">
                         {item.highlights.map((highlight, i) => (
                             <ChaptersLi
                                 key={highlight._id}
