@@ -504,16 +504,17 @@ const LinkStructure = () => {
                     horizontal: 28,
                 }}
             >
-                <MenuItem sx={MenuItemStyles} onClick={() => handleClose("up")}>
-                    <UpgradeIcon
+                <MenuItem sx={MenuItemStyles} onClick={() => handleClose("horizontal")}>
+                <HeightIcon
                         sx={{
                             backgroundColor: "grey",
                             borderRadius: "33px",
                             color: "white",
                             width: 19,
                             height: 19,
+                            transform: "rotateZ(90deg)",
                         }}
-                    />
+                    />                    
                     &nbsp; Neutral Link
                 </MenuItem>
                 <MenuItem sx={MenuItemStyles} onClick={() => handleClose("down")}>
@@ -529,15 +530,14 @@ const LinkStructure = () => {
                     />
                     &nbsp; Child link
                 </MenuItem>
-                <MenuItem sx={MenuItemStyles} onClick={() => handleClose("horizontal")}>
-                    <HeightIcon
+                <MenuItem sx={MenuItemStyles} onClick={() => handleClose("up")}>
+                <UpgradeIcon
                         sx={{
                             backgroundColor: "grey",
                             borderRadius: "33px",
                             color: "white",
                             width: 19,
                             height: 19,
-                            transform: "rotateZ(90deg)",
                         }}
                     />
                     &nbsp; Parent link
