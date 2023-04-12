@@ -287,7 +287,10 @@ const BookViewCard = ({ item, index, socialToggleHandler }) => {
                                     </Stack>
                                     <h3 >{item?.title.length > 98 ? item?.title.slice(0, 99) + '...' : item?.title}</h3>
                                     {/* </Tooltip> */}
-                                    <span className="">By {item?.author}</span>
+                                    {/* code to make author name in order */}
+                                    <span className="">{item?.author.split(',').join('').split(' ').reverse().join(' ')}</span>
+
+
                                 </div>
 
                                 {/* //Timline */}
@@ -343,17 +346,17 @@ const BookViewCard = ({ item, index, socialToggleHandler }) => {
                                                 <>
                                                     <span style={timelineSpanStyle}>
                                                         {metaData[0].progress
-                                                            ? `${metaData[0].progress}%`
+                                                            ? `${Math.round(metaData[0].progress)}%`
                                                             : "0%"}
                                                     </span>
                                                     <span style={timelineSpanStyle}>
                                                         {metaData[0].h_progress
-                                                            ? `${metaData[0].h_progress}%`
+                                                            ? `${Math.round(metaData[0].h_progress)}%`
                                                             : "0%"}
                                                     </span>
                                                     <span style={timelineSpanStyle}>
                                                         {metaData[0].idea?.length
-                                                            ? `${metaData[0].idea?.length}%`
+                                                            ? `${metaData[0].idea?.length}`
                                                             : "0"}
                                                     </span>
                                                 </>
