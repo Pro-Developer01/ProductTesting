@@ -587,7 +587,7 @@ export default function LibraryAccordian({ metaData }) {
     return (
         <div>
             {/* //Mynotes */}
-            <Accordion elevation={0}>
+            <Accordion elevation={0} defaultExpanded={true}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -600,7 +600,7 @@ export default function LibraryAccordian({ metaData }) {
             </Accordion>
 
             {/* //Topic */}
-            <Accordion elevation={0} sx={accordianBorder}>
+            <Accordion elevation={0} sx={accordianBorder} defaultExpanded={true}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -612,7 +612,7 @@ export default function LibraryAccordian({ metaData }) {
             </Accordion>
 
             {/* //Recommendation */}
-            <Accordion elevation={0} sx={accordianBorder}>
+            <Accordion elevation={0} sx={accordianBorder} defaultExpanded={true}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -624,7 +624,7 @@ export default function LibraryAccordian({ metaData }) {
             </Accordion>
 
             {/* //Graphs */}
-            <Accordion elevation={0} sx={accordianBorder}>
+            <Accordion elevation={0} sx={accordianBorder} defaultExpanded={true}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -645,7 +645,7 @@ export function IdeaCardAccordian({ data }) {
     return (
         <div>
             {/* //Mynotes */}
-            <Accordion elevation={0}>
+            <Accordion elevation={0} defaultExpanded={true}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -658,7 +658,7 @@ export function IdeaCardAccordian({ data }) {
             </Accordion>
 
             {/* //Topic */}
-            <Accordion elevation={0} sx={accordianBorder}>
+            <Accordion elevation={0} sx={accordianBorder} defaultExpanded={true}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -670,7 +670,7 @@ export function IdeaCardAccordian({ data }) {
             </Accordion>
 
             {/* //LINKED HIGHLIGHTS */}
-            <Accordion elevation={0} sx={accordianBorder}>
+            <Accordion elevation={0} sx={accordianBorder} defaultExpanded={true}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -682,7 +682,7 @@ export function IdeaCardAccordian({ data }) {
             </Accordion>
 
             {/* //BOOK STRUCTURE */}
-            <Accordion elevation={0} sx={accordianBorder}>
+            <Accordion elevation={0} sx={accordianBorder} defaultExpanded={true}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -696,7 +696,7 @@ export function IdeaCardAccordian({ data }) {
             </Accordion>
 
             {/* //LINK STRUCTURE */}
-            <Accordion elevation={0} sx={accordianBorder}>
+            <Accordion elevation={0} sx={accordianBorder} defaultExpanded={true}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
