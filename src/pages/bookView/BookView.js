@@ -237,7 +237,7 @@ export default function BookView() {
 
     console.log("BookView", bookState);
     return (
-        <div className="feedParentContainer">
+        <div className="feedParentContainer" style={{ overflow: 'auto' }}>
             <div className="feedBoxLayout">
                 <Breadcum />
                 <div key={item?.id} id={item?.title} className="libraryListsContainer">
