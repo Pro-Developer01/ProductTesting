@@ -354,17 +354,17 @@ export default function BookView() {
                                                         <>
                                                             <span style={timelineSpanStyle}>
                                                                 {metaData[0].progress
-                                                                    ? `${metaData[0].progress}%`
+                                                                    ? `${Math.round(metaData[0].progress)}%`
                                                                     : "0%"}
                                                             </span>
                                                             <span style={timelineSpanStyle}>
                                                                 {metaData[0].h_progress
-                                                                    ? `${metaData[0].h_progress}%`
+                                                                    ? `${Math.round(metaData[0].h_progress)}%`
                                                                     : "0%"}
                                                             </span>
                                                             <span style={timelineSpanStyle}>
                                                                 {metaData[0].idea?.length
-                                                                    ? `${metaData[0].idea?.length}%`
+                                                                    ? `${metaData[0].idea?.length}`
                                                                     : "0"}
                                                             </span>
                                                         </>
