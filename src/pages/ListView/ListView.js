@@ -57,28 +57,21 @@ const ideacardIconStyling = {
 
 
 const IdeacardDivComponent = ({ data, setOpen }) => {
-    const [callingIdeaCard, setCallingIdeaCard] = useState(false);
     const ideacardData = useSelector((state) => state.ideacardReducer.value)
     const dispatch = useDispatch();
     const clickHandler = () => {
-        setCallingIdeaCard(!callingIdeaCard)
-        if (!callingIdeaCard)
+        if (!ideacardData || ideacardData?._id !== data?._id)
             dispatch(updateIdeacardData(data));
         else
             dispatch(updateIdeacardData(null));
-
     }
-    // console.log('ideacard data', data)
     useEffect(() => {
-        if (!ideacardData)
-            setCallingIdeaCard(false)
-
         setOpen(ideacardData)
     }, [ideacardData])
     return (
         <div
             className={`ideacardDiv ideacard-${data.label_id}`}
-            style={{ border: callingIdeaCard ? "2px solid var(--primaryColor)" : null }}
+            style={{ border: ideacardData?._id === data?._id ? "2px solid var(--primaryColor)" : null }}
             onClick={clickHandler}
             aria-label="open drawer"
         >
