@@ -88,7 +88,7 @@ function ListView(props) {
     /* STATES */
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
-    const [resizableWidth, setResizableWidth] = useState("527px");
+    const [resizableWidth, setResizableWidth] = useState(527);
     const [listViewData, setListViewData] = useState({});
     const [bookMetaData, setBookMetaData] = useState({});
 
@@ -323,7 +323,7 @@ function ListView(props) {
                             childrenx={
                                 <div
                                     style={{
-                                        width: open ? "100%" : resizableWidth,
+                                        width: open ? "100%" : `${resizableWidth}px`,
                                         position: "relative",
                                         height: '84%'
                                     }}
