@@ -190,11 +190,12 @@ let booksData = [
 const socialButtonsStyle = { color: "darkgrey" };
 
 export default function BookView() {
+    const bookState = JSON.parse(localStorage.getItem("bookState"));
+    const { index, item, bookName } = bookState;
     const [loadingFullData, setLoadingFullData] = useState(false);
     const [stepperCount, setStepperCount] = useState(-1);
     const [metaData, setMetaData] = useState([]);
-    const bookState = JSON.parse(localStorage.getItem("bookState"));
-    const { index, item, bookName } = bookState;
+    const [bookData, setBookData] = useState(item);
     const cardClickHandler = (e, index, title, state) => { };
     const timelineSpanStyle = {
         width: "119.666px",
@@ -240,7 +241,7 @@ export default function BookView() {
         <div className="feedParentContainer" style={{ overflow: 'auto' }}>
             <div className="feedBoxLayout">
                 <Breadcum />
-                <div key={item?.id} id={item?.title} className="libraryListsContainer">
+                <div key={bookData?.id} id={bookData?.title} className="libraryListsContainer">
                     <div
                         style={{
                             border: "1px solid var(--borderColors)",
@@ -253,29 +254,34 @@ export default function BookView() {
                             <div
                                 className="libraryLists"
                                 onClick={(e) => {
-                                    cardClickHandler(e, index, item?.title, item?.state);
+                                    cardClickHandler(e, index, bookData?.title, bookData?.state);
                                 }}
                             >
                                 <Stack direction="row" spacing={2} sx={{ width: '100%' }}>
                                     <div>
                                         <img
-                                            src={item?.img_path}
-                                            alt={item?.title}
+                                            src={bookData?.img_path}
+                                            alt={bookData?.title}
                                             className="libraryListsImg"
                                         />
                                         <div className="rating">
                                             <Rating
                                                 name="read-only"
                                                 sx={{ color: "#FF6600" }}
-                                                value={item?.rating}
-                                                readOnly
+                                                value={bookData?.rating}
+                                                onChange={(event, newValue) => {
+                                                    const tempObj = { ...bookData }
+                                                    tempObj.rating = newValue;
+                                                    setBookData(tempObj);
+                                                }}
+
                                             />
                                         </div>
                                     </div>
                                     <Stack direction="column" justifyContent="space-between" sx={{ width: '100%' }}>
                                         {/* //CardHeaderTitle */}
                                         <div className="">
-                                            {/* <Tooltip title={item.title} arrow> */}
+                                            {/* <Tooltip title={bookData.title} arrow> */}
                                             <Stack
                                                 direction="row"
                                                 justifyContent="left"
@@ -296,9 +302,9 @@ export default function BookView() {
                                                     Shared By: <b>Mauro Guerini</b>{" "}
                                                 </span>
                                             </Stack>
-                                            <h3 >{item?.title.length > 98 ? item?.title.slice(0, 99) + '...' : item?.title}</h3>
+                                            <h3 >{bookData?.title.length > 98 ? bookData?.title.slice(0, 99) + '...' : bookData?.title}</h3>
                                             {/* </Tooltip> */}
-                                            <span className="">By {item?.author}</span>
+                                            <span className="">By {bookData?.author}</span>
                                         </div>
 
                                         {/* //Timline */}
@@ -382,7 +388,7 @@ export default function BookView() {
                                     ) : (
                                         <AutorenewIcon
                                             sx={{ color: "var(--primaryColor)" }}
-                                            onClick={(e) => fetchFullData(e, item?._id)}
+                                            onClick={(e) => fetchFullData(e, bookData?._id)}
                                         />
                                     )}
                                 </div>
@@ -416,8 +422,8 @@ export default function BookView() {
                     </div>
                     <div style={suggestedViewContainer}>
                         <SuggestedView
-                            bookId={item?._id}
-                            userId={item?.user_id}
+                            bookId={bookData?._id}
+                            userId={bookData?.user_id}
                             bookName={bookName}
                         />
                     </div>
