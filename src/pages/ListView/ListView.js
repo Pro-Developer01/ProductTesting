@@ -332,6 +332,7 @@ function ListView(props) {
                                     style={{
                                         width: open ? "100%" : resizableWidth,
                                         position: "relative",
+                                        height: '84%'
                                     }}
                                 >
                                     <Breadcum state={state} />
