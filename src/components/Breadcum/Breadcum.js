@@ -45,7 +45,7 @@ const cardChipStyle = {
     background: "var(--borderColors)",
 };
 
-const breadcrumbMenuItems = [
+let breadcrumbMenuItems = [
     { label: "ListView", icon: <FormatListBulletedIcon />, href: "listview" },
     { label: "TileView", icon: <GridViewIcon />, href: "tileview" },
     { label: "FeedView", icon: <DynamicFeedIcon />, href: "feedview" },
@@ -69,10 +69,14 @@ export default function Breadcum({ state }) {
 
     const renderMenu = (viewType) => {
         setIsMenuVisible(true);
-        console.log(
-            "renderMenu",
-            breadcrumbMenuItems.find((item) => item.href === viewType)
-        );
+        const modifiedBreadcrum = breadcrumbMenuItems.map((item) => {
+            if (item.href === viewType) {
+                return { ...item, activeNow: true };
+            } else {
+                return { ...item, activeNow: false };
+            }
+        });
+        breadcrumbMenuItems = modifiedBreadcrum;
         setSelectedItem(breadcrumbMenuItems.find((item) => item.href === viewType));
     };
     const handleClose = () => {
@@ -82,7 +86,6 @@ export default function Breadcum({ state }) {
         const url = currentLocation.split("/");
         url[url.length - 1] = breadcrumbMenuItems[index].href;
         setSelectedItem(breadcrumbMenuItems[index]);
-        console.log(url.join("/"));
         navigate(url.join("/"), { state });
         setAnchorEl(null);
     };
@@ -138,8 +141,6 @@ export default function Breadcum({ state }) {
         setBreadcrumbs(newBreadcumData);
     };
     function handleClick(event, path, title) {
-        // event.preventDefault();
-        console.info("You clicked a breadcrumb.");
         navigate(path);
         console.info(path, title);
     }
@@ -191,16 +192,22 @@ export default function Breadcum({ state }) {
                     },
                 }}
             >
-                {breadcrumbMenuItems.map((item, index) => (
-                    <MenuItem
-                        sx={{ paddingTop: "0" }}
-                        key={item.href + index}
-                        value={index}
-                        onClick={() => handleSelectChange(index)}
-                    >
-                        <Chip sx={dropdownChipStyle} icon={item.icon} label={item.label} />
-                    </MenuItem>
-                ))}
+                {breadcrumbMenuItems.map((item, index) => {
+                    return (
+                        !item.activeNow && <MenuItem
+                            sx={{ paddingTop: "0" }}
+                            key={item.href + index}
+                            value={index}
+                            onClick={() => handleSelectChange(index)}
+                        >
+                            <Chip
+                                sx={dropdownChipStyle}
+                                icon={item.icon}
+                                label={item.label}
+                            />
+                        </MenuItem>
+                    );
+                })}
             </Menu>
         </div>
     );
