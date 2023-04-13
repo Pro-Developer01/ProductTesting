@@ -15,7 +15,7 @@ const clossDoubleArrowStyle = {
     border: "1px solid var(--borderColors)",
     position: "fixed",
     top: "38px",
-    right: "35.5rem",
+    right: "34.8rem",
     cursor: "pointer",
     color: "var(--fontColor)",
 };
@@ -65,7 +65,7 @@ export default function PersistentDrawerRight({ childrenx }) {
     // };
 
     return (
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex", height: '100%' }}>
             <Main open={ideacardData}>{childrenx}</Main>
             <Drawer
                 sx={{
@@ -76,7 +76,6 @@ export default function PersistentDrawerRight({ childrenx }) {
                         background: "transparent",
                         border: "none",
                         top: '64px',
-                        right: '9px',
                     },
                 }}
                 variant="persistent"

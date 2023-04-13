@@ -8,6 +8,8 @@ export const CardStrucutureBook = styled("div")(
       border-radius: 12px;
       background-color: var(--cardBackgraoundColor);
       padding: 7px;
+      height: 100%;
+      overflow: auto;
     `
 );
 
