@@ -426,7 +426,7 @@ export default function MyLibrary() {
     }, []);
 
     return (
-        <div className="feedParentContainer">
+        <div className="feedParentContainer" style={{ overflow: 'auto' }}>
             <div className="feedBoxLayout">
                 <Breadcum />
                 {!data.length ? (
