@@ -1,7 +1,5 @@
 .feedParentContainer {
   height: 100vh;
-  overflow: auto;
-
   padding: 18px;
   display: flex;
   flex-direction: column;

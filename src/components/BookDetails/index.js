@@ -25,13 +25,24 @@ const resizeHandleStyle = {
 function BookDetails(props) {
   /* PROPS */
   const { book, open, resizableWidth, setResizableWidth } = props;
-
+  let startX;
+  let startWidth;
   /* FUNCTIONS */
-  const handleResize = (e) => {
-    console.log("e.pageX", e.pageX);
-    console.log(e);
-    setResizableWidth(`${e.pageX - 527}px`);
-  };
+  function startResize(e) {
+    startX = e.pageX;
+    startWidth = parseInt(resizableWidth);
+    window.addEventListener('mousemove', resize);
+    window.addEventListener('mouseup', stopResize);
+  }
+
+  function resize(e) {
+    const width = startWidth + e.pageX - startX;
+    setResizableWidth(width)
+  }
+
+  function stopResize() {
+    window.removeEventListener('mousemove', resize);
+  }
   const calcAfterColor = (read, hightlights, idea, metadata) => {
     let val = 0;
     if (read > 0) {
@@ -70,13 +81,7 @@ function BookDetails(props) {
           style={resizeHandleStyle}
           onMouseDown={(e) => {
             e.preventDefault();
-            document.addEventListener("mousemove", handleResize);
-            document.addEventListener("mouseup", () => {
-              document.removeEventListener(
-                "mousemove",
-                handleResize
-              );
-            });
+            document.addEventListener('mousedown', startResize);
           }}
           fontSize="medium"
         />

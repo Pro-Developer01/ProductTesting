@@ -288,7 +288,7 @@ const BookViewCard = ({ item, index, socialToggleHandler }) => {
                                     <h3 >{item?.title.length > 98 ? item?.title.slice(0, 99) + '...' : item?.title}</h3>
                                     {/* </Tooltip> */}
                                     {/* code to make author name in order */}
-                                    <span className="">{item?.author.split(',').join('').split(' ').reverse().join(' ')}</span>
+                                    <span className="">By {item?.author.split(',').reverse().join(' ')}</span>
 
 
                                 </div>
@@ -426,7 +426,7 @@ export default function MyLibrary() {
     }, []);
 
     return (
-        <div className="feedParentContainer">
+        <div className="feedParentContainer" style={{ overflow: 'auto' }}>
             <div className="feedBoxLayout">
                 <Breadcum />
                 {!data.length ? (
