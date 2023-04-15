@@ -4,8 +4,9 @@ import { useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import "./Pages.css";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
-const routes = [
+let routes = [
   {
     path: "/",
     name: "Feed",
@@ -20,21 +21,7 @@ const routes = [
         name: "1st Level:Chapter",
         icon: "playlist_add",
         state: true,
-      },
-      {
-        name: "2st Level:Sub-Chapter",
-        icon: "playlist_add",
-        state: true,
-      },
-      {
-        name: "3rd Level:Section",
-        icon: "playlist_add",
-        state: true,
-      },
-      {
-        name: "4th Level:Sub-Section",
-        icon: "playlist_add",
-        state: true,
+        className: "level-1",
       },
     ],
   },
@@ -46,12 +33,12 @@ const Template = () => {
   });
   const [isOpen, setIsOpen] = useState(false);
   const [bookmarkState, setBookmarkState] = useState(false);
-  const [ideaCardActiveState, setIdeaCardActiveState] = useState(false);
+  const [ideaCardActiveState, setIdeaCardActiveState] = useState(true);
   const [counter, setCounter] = useState(0);
   const [hierarchicalState, setHierarchicalState] = useState(false);
   const [tileState, setTileState] = useState(false);
   const [bidirectionalState, setBidirectionalState] = useState(false);
-
+  let levelCount = useSelector((state) => state.levelCounterReducer.value);
   const handleNavigationButtons = (name) => {
     setIsOpen(false);
   };
@@ -88,10 +75,26 @@ const Template = () => {
       stateCheckerLoop();
     }
   };
-
+  const collectSelectedLevels = (data) => {
+    const filteredDataTrue = data.filter((item) => item.state === true);
+    const filteredDataFalse = data.filter((item) => item.state === false);
+    filteredDataTrue.forEach((item) => {
+      const divChilds = document.querySelectorAll(`.${item.className}`);
+      divChilds.forEach((div) => {
+        div.classList.remove("d-none");
+      });
+    });
+    filteredDataFalse.forEach((item) => {
+      const divChilds = document.querySelectorAll(`.${item.className}`);
+      divChilds.forEach((div) => {
+        div.classList.add("d-none");
+      });
+    });
+  };
   const selectedList = (index) => {
     routes[1].subRoutes[index].state = !routes[1].subRoutes[index].state;
     stateCheckerLoop();
+    collectSelectedLevels(routes[1].subRoutes);
   };
 
   const selectHandler = () => {
@@ -108,6 +111,7 @@ const Template = () => {
       setIdeaCardActiveState(true);
       setSelectState({ ...selectState, selectAll: true });
     }
+    collectSelectedLevels(routes[1].subRoutes);
   };
   const tagIsClicked = () => {
     setTileState(!tileState);
@@ -153,6 +157,38 @@ const Template = () => {
       },
     },
   };
+  const levelObjectConstructor = (level) => {
+    switch (level) {
+      case 1:
+        return "1st Level:Chapter";
+        break;
+      case 2:
+        return "2st Level:Sub-Chapter";
+        break;
+      case 3:
+        return "3rd Level:Section";
+        break;
+
+      case 4:
+        return "4th Level:Sub-Section";
+        break;
+
+      default:
+        return "nth Level";
+    }
+  };
+  useEffect(() => {
+    routes[1].subRoutes = [];
+    for (let i = 1; i <= levelCount; i++) {
+      const obj = {
+        name: levelObjectConstructor(i),
+        icon: "playlist_add",
+        state: true,
+        className: `level-${i}`,
+      };
+      routes[1].subRoutes.push(obj);
+    }
+  }, [levelCount]);
   return (
     <div className="NavigationMenu">
       {routes.map((route, index) => {

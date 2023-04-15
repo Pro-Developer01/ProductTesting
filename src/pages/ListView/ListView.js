@@ -20,6 +20,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { updateIdeacardData } from "../../Utils/Features/IdeacardSlice";
 import Breadcum from "../../components/Breadcum/Breadcum";
 import TriangleRight, { TriangleRightOutlined } from "../../Assets/triangleRight";
+import { updateLevelCounter } from "../../Utils/Features/levelCounterSlice";
 
 
 // let book = {
@@ -69,7 +70,7 @@ const IdeacardDivComponent = ({ data, setOpen }) => {
         setOpen(ideacardData)
     }, [ideacardData])
     return (
-        <div
+        <li
             className={`ideacardDiv ideacard-${data.label_id}`}
             style={{ border: ideacardData?._id === data?._id ? "2px solid var(--primaryColor)" : null }}
             onClick={clickHandler}
@@ -80,7 +81,7 @@ const IdeacardDivComponent = ({ data, setOpen }) => {
             <span>
                 <b> {data.title || ""}</b>
             </span>
-        </div>
+        </li>
     );
 };
 
@@ -91,13 +92,18 @@ function ListView(props) {
     const [resizableWidth, setResizableWidth] = useState(527);
     const [listViewData, setListViewData] = useState({});
     const [bookMetaData, setBookMetaData] = useState({});
+    let levelCount = 1
+    // let levelCount = useSelector((state) => state.levelCounterReducer.value);
+    const dispatch = useDispatch()
 
     let { state } = useLocation();
     console.log(state);
 
+    const callForLevelCounter = (levelCounter) => {
+        dispatch(updateLevelCounter(levelCounter));
+    }
 
-
-    console.log("listViewData", listViewData.data);
+    // console.log("listViewData", listViewData.data);
     const fetchListViewData = () => {
         const token = localStorage.getItem("token");
         const userId = localStorage.getItem("userId");
@@ -136,7 +142,8 @@ function ListView(props) {
     /* ARROW FUNCTIONS */
 
     /* FUNCTION RECURSIVE TO SHOW ALL SUBCHAPTERS */
-    const getContentRecursive = (item) => {
+    const getContentRecursive = (item, levelCount) => {
+        callForLevelCounter(levelCount);
         return (
             <>
                 {item.entries?.length ? (
@@ -144,7 +151,7 @@ function ListView(props) {
                         {item.entries.map((k, i) => (
                             <ChaptersLi key={i} id={`chapters-${k.tocPositionId}`}>
                                 <div
-                                    className={`${k.entries || k.highlights?.length ? "caret" : "caret-without-content"
+                                    className={`${k.entries || k.highlights?.length ? `caret level-${levelCount}` : `caret-without-content level-${levelCount}`
                                         }`}
                                     style={sub_chapter_divs}
                                     id={`caret-${k.tocPositionId}`}
@@ -169,7 +176,7 @@ function ListView(props) {
                                         </>
                                     )}
                                 </div>
-                                {getContentRecursive(k)}
+                                {getContentRecursive(k, levelCount + 1)}
                             </ChaptersLi>
                         ))}
                     </ChaptersUl>
@@ -177,27 +184,22 @@ function ListView(props) {
                 {item.highlights?.length ? (
                     <ChaptersUl className="d-none highlightUl">
                         {item.highlights.map((highlight, i) => (
-                            <ChaptersLi
-                                key={highlight._id}
-                                id={`chapters-${highlight.position}`}
-                            >
-                                {highlight.context ? <div
-                                    className="highlightDiv"
+                            <>
+                                {highlight.context ? <ChaptersLi
+                                    key={highlight._id}
+                                    id={`chapters-${highlight.position}`}
+                                    className="highlightLi"
                                 >
-                                    <SquareIcon fontSize={'small'} />
-                                    <span>
-                                        {highlight.context}
-                                    </span>
-                                </div> :
                                     <div
                                         className="highlightDiv"
                                     >
                                         <SquareIcon fontSize={'small'} />
                                         <span>
-                                            Highlight without context.
+                                            {highlight.context}
                                         </span>
                                     </div>
-                                }
+                                    {/* {getContentRecursive(k)} */}
+                                </ChaptersLi> : null}
                                 {highlight.idea_cards?.length ?
                                     highlight.idea_cards.map((ideacards, index) => {
                                         return (<IdeacardDivComponent
@@ -205,9 +207,7 @@ function ListView(props) {
                                             setOpen={setOpen}
                                         />)
                                     }) : null}
-
-                                {/* {getContentRecursive(k)} */}
-                            </ChaptersLi>
+                            </>
                         ))}
                     </ChaptersUl>
                 ) : null}
@@ -215,9 +215,9 @@ function ListView(props) {
         );
     };
     const arrowOpenCloseHandler = (elementItself) => {
-        if (elementItself.classList.value === "caret caret-down-45") {
+        if (elementItself.classList.value.includes('caret-down-45')) {
             elementItself.classList.remove("caret-down-45");
-        } else if (elementItself.classList.value === "caret") {
+        } else if (!elementItself.classList.value.includes('caret-down-45')) {
             elementItself.classList.add("caret-down-45");
         }
     }
@@ -304,6 +304,9 @@ function ListView(props) {
         fetchListViewData();
     }, []);
     useEffect(() => {
+        console.log('levelCount', levelCount);
+    }, [levelCount]);
+    useEffect(() => {
         if (listViewData?.book) {
             setBookMetaData(listViewData?.book[0]);
             console.log("book", bookMetaData);
@@ -316,7 +319,6 @@ function ListView(props) {
                 className="feedParentContainer"
                 style={{ alignItems: !open ? "center" : "start" }}
             >
-
                 {!loading ? (
                     <>
                         <PersistentDrawerRight
@@ -334,30 +336,32 @@ function ListView(props) {
                                     <CardStrucutureBook>
                                         {listViewData?.data?.length ? (
                                             <ChaptersUl style={{ margin: "0", border: "none" }}>
-                                                {listViewData?.data?.map((item, index) => (
-                                                    <ChaptersLi key={index} id={`chapters-${index}`}>
-                                                        <div
-                                                            className={`${item.entries || item.highlights.length
-                                                                ? "caret"
-                                                                : "caret-without-content-outer"
-                                                                }`}
-                                                            id={`caret-${index}`}
-                                                            style={{ display: "flex", gap: "7px" }}
-                                                            onClick={() => openOrCloseChapters(index)}
-                                                        // onDoubleClick={() => doubleClickOpenOrCloseChapters(index)}
-                                                        >
-                                                            <TriangleRight />
-                                                            <TriangleRightOutlined
-                                                                // fontSize="small"
-                                                                id="lastItemDot"
-                                                            />
-                                                            <span className="ellipsisStyling">
-                                                                {item.label || ""}
-                                                            </span>
-                                                        </div>
-                                                        {getContentRecursive(item)}
-                                                    </ChaptersLi>
-                                                ))}
+                                                {listViewData?.data?.map((item, index) => {
+                                                    return (
+                                                        <ChaptersLi key={index} id={`chapters-${index}`}>
+                                                            <div
+                                                                className={`${item.entries || item.highlights.length
+                                                                    ? `caret level-${levelCount}`
+                                                                    : `caret-without-content-outer level-${levelCount}`
+                                                                    }`}
+                                                                id={`caret-${index}`}
+                                                                style={{ display: "flex", gap: "7px" }}
+                                                                onClick={() => openOrCloseChapters(index)}
+                                                            // onDoubleClick={() => doubleClickOpenOrCloseChapters(index)}
+                                                            >
+                                                                <TriangleRight />
+                                                                <TriangleRightOutlined
+                                                                    // fontSize="small"
+                                                                    id="lastItemDot"
+                                                                />
+                                                                <span className="ellipsisStyling">
+                                                                    {item.label || ""}
+                                                                </span>
+                                                            </div>
+                                                            {getContentRecursive(item, levelCount + 1)}
+                                                        </ChaptersLi>
+                                                    )
+                                                })}
                                             </ChaptersUl>
                                         ) : (
                                             <Stack
