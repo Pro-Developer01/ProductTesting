@@ -49,9 +49,9 @@ const ShowMenu = () => {
   });
   const [isOpen, setIsOpen] = useState(false);
   const [bookmarkState, setBookmarkState] = useState(false);
-  const [ideaCardActiveState, setIdeaCardActiveState] = useState(false);
+  const [ideaCardActiveState, setIdeaCardActiveState] = useState(true);
   const [counter, setCounter] = useState(0);
-  const [highlightState, setHighlightState] = useState(true);
+  const [highlightState, setHighlightState] = useState(false);
   const allIcons = JSON.parse(localStorage.getItem("ideacardIcons"));
 
   const stateCheckerLoop = () => {
@@ -122,6 +122,7 @@ const ShowMenu = () => {
       setIdeaCardActiveState(true);
       setSelectState({ ...selectState, selectAll: true });
     }
+    collectSelectedIdeas(routes[1].subRoutes);
   };
   const inputAnimation = {
     hidden: {
@@ -160,7 +161,7 @@ const ShowMenu = () => {
   //ClickHandlers
   const showMenuClickHandler = (menuItem, id) => {
     if (menuItem === "Highlights") {
-      const ulChilds = document.querySelectorAll(".highlightUl");
+      const liChilds = document.querySelectorAll(".highlightLi");
       const highlightButton = document.querySelector(`#${id}`);
       setHighlightState(!highlightState);
       if (highlightState) {
@@ -170,13 +171,13 @@ const ShowMenu = () => {
         highlightButton.classList.add("link");
         highlightButton.classList.remove("activeState");
       }
-      for (var i = 0; i < ulChilds.length; ++i) {
-        let item = ulChilds[i].classList;
+      for (var i = 0; i < liChilds.length; ++i) {
+        let item = liChilds[i].classList;
         if (item) {
           if (highlightState) {
-            ulChilds[i].classList.remove("d-none");
+            liChilds[i].classList.remove("d-none");
           } else {
-            ulChilds[i].classList.add("d-none");
+            liChilds[i].classList.add("d-none");
           }
         }
       }
@@ -191,6 +192,10 @@ const ShowMenu = () => {
       id: item._id,
     }));
     routes[1].subRoutes = stateFullAllIcons;
+
+    const highlightButton = document.querySelector(`#Highlights-0`);
+    highlightButton.classList.remove("link");
+    highlightButton.classList.add("activeState");
   }, []);
   return (
     <div className="NavigationMenu">
