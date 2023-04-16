@@ -96,7 +96,7 @@ function BookDetails(props) {
           alignItems="flex-start"
           spacing={0} sx={{ width: '90%' }}>
           <CardBookTitle>{book.title || ''}</CardBookTitle>
-          <span>{book.author}</span>
+          <span>{book.author?.replace(/;/g, ' & ').split(' & ').map(name => name.split(', ').reverse().join(' ')).join(' & ')}</span>
         </Stack>
       </Stack>
     </CardBook >

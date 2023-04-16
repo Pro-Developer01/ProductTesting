@@ -304,7 +304,8 @@ export default function BookView() {
                                             </Stack>
                                             <h3 >{bookData?.title.length > 98 ? bookData?.title.slice(0, 99) + '...' : bookData?.title}</h3>
                                             {/* </Tooltip> */}
-                                            <span className="">By {bookData?.author?.split(',').reverse().join(' ')}</span>
+                                            <span className="">By {bookData?.author?.replace(/;/g, ' & ').split(' & ').map(name => name.split(', ').reverse().join(' ')).join(' & ')}
+</span>
                                         </div>
 
                                         {/* //Timline */}

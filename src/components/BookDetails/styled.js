@@ -10,7 +10,7 @@ export const CardBook = styled('div')(
     position: sticky;
     top: 62px;
     z-index: 10;
-    box-shadow: 0px 3px 5px lightgray;
+    
 
     `
 );
