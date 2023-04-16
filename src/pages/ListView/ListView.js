@@ -155,7 +155,8 @@ function ListView(props) {
                                         }`}
                                     style={sub_chapter_divs}
                                     id={`caret-${k.tocPositionId}`}
-                                    onClick={() => openOrCloseChapters(k.tocPositionId)}
+                                    // onClick={() => openOrCloseChapters(k.tocPositionId)}
+                                    onClick={(e) => clickHandler(e, k.tocPositionId)}
                                 // onDoubleClick={() => doubleClickOpenOrCloseChapters(k.tocPositionId)}
 
                                 >
@@ -235,21 +236,24 @@ function ListView(props) {
         }
     }
     const displayNoneHandlerForAll = (ulChilds) => {
-        for (var i = 0; i < ulChilds.length; ++i) {
-            let item = ulChilds[i].classList;
-            if (item && ulChilds[i].tagName === 'UL') {
+        const childNodes = ulChilds.childNodes;
+        for (var i = 0; i < childNodes.length; ++i) {
+            let item = childNodes[i].id
+            console.log('childNodes[i]', item.split('chapters-')[1]);
+
+            if (item && item.tagName === 'UL') {
                 if (item.value.indexOf("d-none") != -1) {
-                    ulChilds[i].classList.remove("d-none");
+                    item.classList.remove("d-none");
                 } else {
-                    ulChilds[i].classList.add("d-none");
+                    item.classList.add("d-none");
                 }
 
             }
-            let liChilds = document.querySelectorAll(`.${item.value}> li `);
-            for (let j = 0; j < liChilds.length; j++) {
-                let ulSubChilds = document.querySelectorAll(`#${liChilds[j].id}> ul `)
-                displayNoneHandlerForAll(ulSubChilds)
-            }
+            // let liChilds = document.querySelectorAll(`.${item.value}> li `);
+            // for (let j = 0; j < liChilds.length; j++) {
+            //     let ulSubChilds = document.querySelectorAll(`#${liChilds[j].id}> ul `)
+            //     displayNoneHandlerForAll(ulSubChilds)
+            // }
 
         }
     }
@@ -265,20 +269,38 @@ function ListView(props) {
     const openOrCloseChapters = (index) => {
         const element = document.querySelectorAll(`#chapters-${index} > ul `);
         const el = document.querySelector(`#caret-${index}`);
-        console.log("element", element);
-        console.log("el", el);
+        // console.log("element", element);
+        // console.log("el", el);
         arrowOpenCloseHandler(el);
         displayNoneHandler(element);
     };
     const doubleClickOpenOrCloseChapters = (index) => {
-        const ulChilds = document.querySelectorAll(`#chapters-${index} > ul `);
-        const elementItself = document.querySelector(`#caret-${index}`);
-        console.log("ulChilds", ulChilds);
-        console.log("elementItself", elementItself);
-        arrowOpenCloseHandler(elementItself);
-        displayNoneHandlerForAll(ulChilds);
+        const ulChilds = document.querySelector(`#chapters-${index} > ul`);
+        // const elementItself = document.querySelector(`#caret-${index}`);
+        // console.log("ulChilds from DBclick", ulChilds);
+        // console.log("elementItself DBclick", elementItself);
+        // arrowOpenCloseHandler(elementItself);
+        const childNodes = ulChilds.childNodes;
+        for (var i = 0; i < childNodes.length; ++i) {
+            let item = childNodes[i].id
+            console.log('childNodes[i]', item.split('chapters-')[1]);
+            openOrCloseChapters(item.split('chapters-')[1]);
+        }
+        // displayNoneHandlerForAll(ulChilds);
 
     };
+
+    const clickHandler = (event, index) => {
+        console.log('event.ctrlKey', event.ctrlKey)
+        if (event.ctrlKey) {
+            // Perform your desired function here
+            openOrCloseChapters(index);
+            doubleClickOpenOrCloseChapters(index)
+        }
+        else {
+            openOrCloseChapters(index);
+        }
+    }
 
     /* FUNCTION TO GET THE EXACT ARROW CARET */
     const getExactCaret = (index) => {
@@ -346,7 +368,7 @@ function ListView(props) {
                                                                     }`}
                                                                 id={`caret-${index}`}
                                                                 style={{ display: "flex", gap: "7px" }}
-                                                                onClick={() => openOrCloseChapters(index)}
+                                                                onClick={(e) => clickHandler(e, index)}
                                                             // onDoubleClick={() => doubleClickOpenOrCloseChapters(index)}
                                                             >
                                                                 <TriangleRight />
