@@ -216,10 +216,12 @@ function ListView(props) {
         );
     };
     const arrowOpenCloseHandler = (elementItself) => {
-        if (elementItself.classList.value.includes('caret-down-45')) {
-            elementItself.classList.remove("caret-down-45");
-        } else if (!elementItself.classList.value.includes('caret-down-45')) {
-            elementItself.classList.add("caret-down-45");
+        if (!elementItself.classList.value.includes('caret-without-content-outer') && !elementItself.classList.value.includes('caret-without-content')) {
+            if (elementItself.classList.value.includes('caret-down-45')) {
+                elementItself.classList.remove("caret-down-45");
+            } else if (!elementItself.classList.value.includes('caret-down-45')) {
+                elementItself.classList.add("caret-down-45");
+            }
         }
     }
     const displayNoneHandler = (ulChilds) => {
