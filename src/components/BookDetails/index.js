@@ -31,17 +31,20 @@ function BookDetails(props) {
   function startResize(e) {
     startX = e.pageX;
     startWidth = parseInt(resizableWidth);
-    window.addEventListener('mousemove', resize);
-    window.addEventListener('mouseup', stopResize);
+    document.body.style.cursor = "col-resize"; // set cursor to col-resize
+    window.addEventListener("mousemove", resize);
+    window.addEventListener("mouseup", stopResize);
   }
-
+  
   function resize(e) {
     const width = startWidth + e.pageX - startX;
-    setResizableWidth(width)
+    setResizableWidth(width);
   }
-
+  
   function stopResize() {
-    window.removeEventListener('mousemove', resize);
+    document.body.style.cursor = "auto"; // set cursor back to auto
+    window.removeEventListener("mousemove", resize);
+    window.removeEventListener("mouseup", stopResize);
   }
   const calcAfterColor = (read, hightlights, idea, metadata) => {
     let val = 0;
@@ -75,18 +78,30 @@ function BookDetails(props) {
   };
   return (
 
-    <CardBook >
-      {!open && (
-        <ExpandIcon
-          style={resizeHandleStyle}
-          onMouseDown={(e) => {
-            e.preventDefault();
-            document.addEventListener('mousedown', startResize);
-          }}
-          fontSize="medium"
-        />
-      )}
-      <Stack direction="row"
+    <CardBook>
+    {!open && (
+      <ExpandIcon
+        style={resizeHandleStyle}
+        onMouseDown={(e) => {
+          e.preventDefault();
+          document.addEventListener("mousedown", startResize);
+        }}
+        onMouseMove={(e) => {
+          if (e.buttons === 1) {
+            e.currentTarget.style.cursor = "col-resize"; // set cursor to col-resize if mouse is clicked
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (e.buttons === 1) {
+            e.currentTarget.style.cursor = "col-resize"; // set cursor to col-resize if mouse is clicked
+          } else {
+            e.currentTarget.style.cursor = "default"; // set cursor back to default if mouse is not clicked
+          }
+        }}
+        fontSize="medium"
+      />
+    )}
+    <Stack direction="row"
         justifyContent="flex-start"
         alignItems="center"
         spacing={2} sx={{ width: '85%' }}>
@@ -99,7 +114,8 @@ function BookDetails(props) {
           <span>{book.author?.replace(/;/g, ' & ').split(' & ').map(name => name.split(', ').reverse().join(' ')).join(' & ')}</span>
         </Stack>
       </Stack>
-    </CardBook >
+  </CardBook>
+    
   );
 }
 
