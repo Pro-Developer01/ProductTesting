@@ -181,7 +181,7 @@ export default function IdeaCardPage() {
                 >
                   {getIdeacardIcons(data.label_id, "large")}
                 </span>
-                <h3> {data.title}</h3>
+                <h3> {data.title?.length > 253 ? data.title?.slice(0, 253) + '...' : data.title}</h3>
               </Stack>
             </div>
             {/* //Graphics */}
