@@ -159,7 +159,7 @@ export default function IdeaCardPage() {
               <Stack
                 direction="row"
                 justifyContent="left"
-                alignItems="center"
+                alignItems="flex-start"
                 spacing={1.5}
                 mb={1}
                 sx={{ paddingLeft: "0.5rem", paddingRight: "0.5rem" }}
