@@ -31,17 +31,20 @@ function BookDetails(props) {
   function startResize(e) {
     startX = e.pageX;
     startWidth = parseInt(resizableWidth);
-    window.addEventListener('mousemove', resize);
-    window.addEventListener('mouseup', stopResize);
+    document.body.style.cursor = "col-resize"; // set cursor to col-resize
+    window.addEventListener("mousemove", resize);
+    window.addEventListener("mouseup", stopResize);
   }
 
   function resize(e) {
     const width = startWidth + e.pageX - startX;
-    setResizableWidth(width)
+    setResizableWidth(width);
   }
 
   function stopResize() {
-    window.removeEventListener('mousemove', resize);
+    document.body.style.cursor = "auto"; // set cursor back to auto
+    window.removeEventListener("mousemove", resize);
+    window.removeEventListener("mouseup", stopResize);
   }
   const calcAfterColor = (read, hightlights, idea, metadata) => {
     let val = 0;
@@ -75,13 +78,13 @@ function BookDetails(props) {
   };
   return (
 
-    <CardBook >
+    <CardBook>
       {!open && (
         <ExpandIcon
           style={resizeHandleStyle}
           onMouseDown={(e) => {
             e.preventDefault();
-            document.addEventListener('mousedown', startResize);
+            document.addEventListener("mousedown", startResize);
           }}
           fontSize="medium"
         />
@@ -96,10 +99,11 @@ function BookDetails(props) {
           alignItems="flex-start"
           spacing={0} sx={{ width: '90%' }}>
           <CardBookTitle>{book.title || ''}</CardBookTitle>
-          <span>{book.author}</span>
+          <span>{book.author?.replace(/;/g, ' & ').split(' & ').map(name => name.split(', ').reverse().join(' ')).join(' & ')}</span>
         </Stack>
       </Stack>
-    </CardBook >
+    </CardBook>
+
   );
 }
 

@@ -159,7 +159,7 @@ export default function IdeaCardPage() {
               <Stack
                 direction="row"
                 justifyContent="left"
-                alignItems="center"
+                alignItems="flex-start"
                 spacing={1.5}
                 mb={1}
                 sx={{ paddingLeft: "0.5rem", paddingRight: "0.5rem" }}
@@ -181,7 +181,7 @@ export default function IdeaCardPage() {
                 >
                   {getIdeacardIcons(data.label_id, "large")}
                 </span>
-                <h3> {data.title}</h3>
+                <h3> {data.title?.length > 253 ? data.title?.slice(0, 253) + '...' : data.title}</h3>
               </Stack>
             </div>
             {/* //Graphics */}

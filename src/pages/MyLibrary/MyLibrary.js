@@ -288,7 +288,7 @@ const BookViewCard = ({ item, index, socialToggleHandler }) => {
                                     <h3 >{item?.title.length > 98 ? item?.title.slice(0, 99) + '...' : item?.title}</h3>
                                     {/* </Tooltip> */}
                                     {/* code to make author name in order */}
-                                    <span className="">By {item?.author.split(',').reverse().join(' ')}</span>
+                                    <span className="">By {item?.author.replace(/;/g, ' & ').split(' & ').map(name => name.split(', ').reverse().join(' ')).join(' & ')}</span>
 
 
                                 </div>
