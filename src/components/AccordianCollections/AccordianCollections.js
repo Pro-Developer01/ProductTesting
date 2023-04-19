@@ -242,7 +242,20 @@ const MyNotes = ({ myNotesData }) => {
                         </div>
                     </>
                 ) : (
-                    <span style={{ color: "var(--fontColor)" }}>No Data Available</span>
+                    <div
+                        style={{ display: "flex", alignItems: "center", gap: "2.7px" }}
+                    >
+                        {dynamicBulletHandler("neutral")} &nbsp;
+                        <input
+                            type="text"
+                            className="myNotesInput"
+                            value={newNotes}
+                            onChange={handleTags}
+                            placeholder="Write here"
+                            style={inputFeildStyle}
+                            onKeyDown={handleKeyDown}
+                        />
+                    </div>
                 )}
             </AccordionDetails>
             <Menu
@@ -331,7 +344,14 @@ const Topics = ({ tagData }) => {
                         />
                     </>
                 ) : (
-                    <span>No Data Available</span>
+                    <input
+                        typr="text"
+                        value={tags}
+                        onChange={handleTags}
+                        placeholder="# Write Here"
+                        style={textFeildStyle}
+                        onKeyDown={handleKeyDown}
+                    />
                 )}
             </AccordionDetails>
         </>
@@ -505,7 +525,7 @@ const LinkStructure = () => {
                 }}
             >
                 <MenuItem sx={MenuItemStyles} onClick={() => handleClose("horizontal")}>
-                <HeightIcon
+                    <HeightIcon
                         sx={{
                             backgroundColor: "grey",
                             borderRadius: "33px",
@@ -514,7 +534,7 @@ const LinkStructure = () => {
                             height: 19,
                             transform: "rotateZ(90deg)",
                         }}
-                    />                    
+                    />
                     &nbsp; Neutral Link
                 </MenuItem>
                 <MenuItem sx={MenuItemStyles} onClick={() => handleClose("down")}>
@@ -531,7 +551,7 @@ const LinkStructure = () => {
                     &nbsp; Child link
                 </MenuItem>
                 <MenuItem sx={MenuItemStyles} onClick={() => handleClose("up")}>
-                <UpgradeIcon
+                    <UpgradeIcon
                         sx={{
                             backgroundColor: "grey",
                             borderRadius: "33px",
@@ -679,6 +699,75 @@ export function IdeaCardAccordian({ data }) {
                     LINKED HIGHLIGHTS
                 </AccordionSummary>
                 <Recommendation recommendationString={recommendation} />
+            </Accordion>
+
+            {/* //BOOK STRUCTURE */}
+            <Accordion elevation={0} sx={accordianBorder} defaultExpanded={true}>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    BOOK STRUCTURE
+                </AccordionSummary>
+                <AccordionDetails>
+                    <p>to be done later</p>
+                </AccordionDetails>
+            </Accordion>
+
+            {/* //LINK STRUCTURE */}
+            <Accordion elevation={0} sx={accordianBorder} defaultExpanded={true}>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    LINK STRUCTURE
+                </AccordionSummary>
+                <LinkStructure />
+            </Accordion>
+        </div>
+    );
+}
+export function CreateIdeaCardAccordian({ data }) {
+    // console.log("data of Ideacard", data);
+    return (
+        <div>
+            {/* //Mynotes */}
+            <Accordion elevation={0} defaultExpanded={true}>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                    sx={{ color: "var(--fontColor)" }}
+                >
+                    MY NOTES
+                </AccordionSummary>
+                <MyNotes />
+            </Accordion>
+
+            {/* //Topic */}
+            <Accordion elevation={0} sx={accordianBorder} defaultExpanded={true}>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    TOPICS
+                </AccordionSummary>
+                <Topics />
+            </Accordion>
+
+            {/* //LINKED HIGHLIGHTS */}
+            <Accordion elevation={0} sx={accordianBorder} defaultExpanded={true}>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    LINKED HIGHLIGHTS
+                </AccordionSummary>
+                <Recommendation />
             </Accordion>
 
             {/* //BOOK STRUCTURE */}
