@@ -7,6 +7,7 @@ import IdeaCardPage from "../../pages/IdeacardPage/IdeaCardPage";
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { updateIdeacardData } from "../../Utils/Features/IdeacardSlice";
+import CreateIdeaCardPage from "../../pages/CreateIdeaCardPage/CreateIdeaCardPage";
 
 const drawerWidth = 590;
 const clossDoubleArrowStyle = {
@@ -92,7 +93,8 @@ export default function PersistentDrawerRight({ childrenx }) {
                     style={closeCrossButtonStyle}
                     onClick={() => dispatch(updateIdeacardData(null))}
                 />
-                <IdeaCardPage />
+                {/* <IdeaCardPage /> */}
+                <CreateIdeaCardPage />
             </Drawer>
         </Box>
     );

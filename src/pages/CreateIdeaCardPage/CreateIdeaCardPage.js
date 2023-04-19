@@ -32,27 +32,27 @@ import {
 } from "../../helperFunctions/getIdeacardIcons";
 import { useSelector } from "react-redux";
 
-// let booksData = {
-//   _id: "642325574dc0760034d8f977",
-//   book_id: "642325564dc0760034d8981f",
-//   label_id: "63584f343bcadd010442c447",
-//   highlight_id: "642325574dc0760034d8aae9",
-//   user_id: "642325564dc0760034d897ed",
-//   title: "To write a great book, you must first become the book.",
-//   description: [],
-//   own_thoughts: [],
-//   picture_link: "",
-//   rating: 0,
-//   tags: [],
-//   level: 0,
-//   start: 17320,
-//   end: 17401,
-//   created_at: 1673730692254,
-//   updated_at: null,
-//   retrieved_at: 1673730692254,
-//   deleted_at: null,
-//   lastviewed_at: null,
-// };
+let dummyData = {
+  _id: "642325574dc0760034d8f977",
+  book_id: "642325564dc0760034d8981f",
+  label_id: "63584f343bcadd010442c447",
+  highlight_id: "642325574dc0760034d8aae9",
+  user_id: "642325564dc0760034d897ed",
+  title: "DUMMY DATA ",
+  description: [],
+  own_thoughts: [],
+  picture_link: "",
+  rating: 0,
+  tags: [],
+  level: 0,
+  start: 17320,
+  end: 17401,
+  created_at: 1673730692254,
+  updated_at: null,
+  retrieved_at: 1673730692254,
+  deleted_at: null,
+  lastviewed_at: null,
+};
 const MenuItemStyles = {
   margin: "5px 1px",
   borderRadius: "30px",
@@ -72,8 +72,8 @@ const AccordionSummaryCustom = styled((props) => (
 }));
 
 export default function CreateIdeaCardPage() {
-  const ideacardData = useSelector((state) => state.ideacardReducer.value);
-  const [data, setData] = useState(ideacardData);
+  // const ideacardData = useSelector((state) => state.ideacardReducer.value);
+  const [data, setData] = useState(dummyData);
   const currentLocation = window.location.pathname;
   const [breadcrumbs, setBreadcrumbs] = useState([
     <Link
@@ -113,160 +113,161 @@ export default function CreateIdeaCardPage() {
     setData(tempNotes);
   };
 
-  useEffect(() => {
-    setData(ideacardData);
-  }, [ideacardData]);
+  // useEffect(() => {
+  //   setData(ideacardData);
+  // }, [ideacardData]);
 
   return (
+
     <>
-      {data && (
-        <>
-          {" "}
-          <div
-            style={{
-              border: "1px solid var(--borderColors)",
-              padding: "7px",
-              borderRadius: "12px ",
-              background: "white",
-              margin: "0 0 0 0.7rem",
-              padding: "0.5rem 0",
-              paddingTop: "0",
-            }}
+
+      {" "}
+      {/* {data && */}
+      <div
+        style={{
+          border: "1px solid var(--borderColors)",
+          padding: "7px",
+          borderRadius: "12px ",
+          background: "white",
+          margin: "0 0 0 0.7rem",
+          padding: "0.5rem 0",
+          paddingTop: "0",
+        }}
+      >
+        <div className="ideacard-Title">
+          {/* //Shared by */}
+          <Stack
+            direction="row"
+            justifyContent="left"
+            alignItems="center"
+            spacing={1}
+            mb={1}
+            sx={{ paddingLeft: "3.4rem", paddingRight: "0.5rem" }}
           >
-            <div className="ideacard-Title">
-              {/* //Shared by */}
-              <Stack
-                direction="row"
-                justifyContent="left"
-                alignItems="center"
-                spacing={1}
-                mb={1}
-                sx={{ paddingLeft: "3.4rem", paddingRight: "0.5rem" }}
-              >
-                <PortraitIcon
-                  sx={{ fontSize: "14px", color: "lightslategrey" }}
-                />
-                <span
-                  style={{
-                    fontSize: "12px",
-                    color: "lightslategrey",
-                  }}
-                >
-                  Shared By: <b>Mauro Guerini</b>{" "}
-                </span>
-              </Stack>
-              {/* //CardHeaderTitle */}
-              <Stack
-                direction="row"
-                justifyContent="left"
-                alignItems="flex-start"
-                spacing={1.5}
-                mb={1}
-                sx={{ paddingLeft: "0.5rem", paddingRight: "0.5rem" }}
-              >
-                <span
-                  id="ideaCardLabels"
-                  aria-controls={open ? "ideaCardLabelsMenu" : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? "true" : undefined}
-                  onClick={(e) => {
-                    handleClick(e);
-                    e.stopPropagation();
-                  }}
-                // style={{
-                //   height: "fit-content",
-                //   display: "inline-block",
-                //   marginTop: "17px",
-                // }}
-                >
-                  {getIdeacardIcons(data.label_id, "large")}
-                </span>
-                <h3> {data.title?.length > 253 ? data.title?.slice(0, 253) + '...' : data.title}</h3>
-              </Stack>
-            </div>
-            {/* //Graphics */}
-            <div
+            <PortraitIcon
+              sx={{ fontSize: "14px", color: "lightslategrey" }}
+            />
+            <span
               style={{
-                display: "flex",
-                alignItems: "center",
-                marginTop: "12px",
-                paddingLeft: "3.6rem",
-                paddingRight: "0.5rem",
+                fontSize: "12px",
+                color: "lightslategrey",
               }}
             >
-              {data.picture_link && (
-                <img
-                  src={data.picture_link}
-                  alt={data.title}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: "12px ",
-                  }}
-                />
-              )}
-            </div>
-
-            {/* //SocialButtons */}
-
-            <div
-              className="reactionButtonsContainer"
+              Shared By: <b>Mauro Guerini</b>{" "}
+            </span>
+          </Stack>
+          {/* //CardHeaderTitle */}
+          <Stack
+            direction="row"
+            justifyContent="left"
+            alignItems="flex-start"
+            spacing={1.5}
+            mb={1}
+            sx={{ paddingLeft: "0.5rem", paddingRight: "0.5rem" }}
+          >
+            <span
+              id="ideaCardLabels"
+              aria-controls={open ? "ideaCardLabelsMenu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
               onClick={(e) => {
+                handleClick(e);
                 e.stopPropagation();
               }}
-              style={{ paddingLeft: "3.4rem", paddingRight: "0.5rem" }}
+            // style={{
+            //   height: "fit-content",
+            //   display: "inline-block",
+            //   marginTop: "17px",
+            // }}
             >
-              <div className="socialButtons">
-                <Stack direction="row" spacing={3}>
-                  <FavoriteBorder sx={{ color: "var(--primaryColor)" }} />
-                  <ChatBubbleOutline sx={socialButtonsStyle} />
-                  <ShareIcon sx={socialButtonsStyle} />
-                </Stack>
-              </div>
-              <div className="bookmarkButtons">
-                <Stack direction="row" spacing={3}>
-                  <BookmarkBorderIcon sx={socialButtonsStyle} />
-                  <MoreVertIcon sx={socialButtonsStyle} />
-                </Stack>
-              </div>
-            </div>
-            <hr style={{ border: "1px solid var(--borderColors)" }} />
-            <div className="otherAccordians">
-              <IdeaCardAccordian data={data} />
-            </div>
+              {getIdeacardIcons(data.label_id, "large")}
+            </span>
+            <h3> {data.title?.length > 253 ? data.title?.slice(0, 253) + '...' : data.title}</h3>
+          </Stack>
+        </div>
+        {/* //Graphics */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginTop: "12px",
+            paddingLeft: "3.6rem",
+            paddingRight: "0.5rem",
+          }}
+        >
+          {data.picture_link && (
+            <img
+              src={data.picture_link}
+              alt={data.title}
+              style={{
+                width: "100%",
+                height: "100%",
+                borderRadius: "12px ",
+              }}
+            />
+          )}
+        </div>
+
+        {/* //SocialButtons */}
+
+        <div
+          className="reactionButtonsContainer"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          style={{ paddingLeft: "3.4rem", paddingRight: "0.5rem" }}
+        >
+          <div className="socialButtons">
+            <Stack direction="row" spacing={3}>
+              <FavoriteBorder sx={{ color: "var(--primaryColor)" }} />
+              <ChatBubbleOutline sx={socialButtonsStyle} />
+              <ShareIcon sx={socialButtonsStyle} />
+            </Stack>
           </div>
-          <Menu
-            id="ideaCardLabelsMenu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={() => handleClose()}
-            MenuListProps={{
-              "aria-labelledby": "ideaCardLabels",
-            }}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "center",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: 28,
-            }}
-          >
-            {allIcons?.map((item, index) => {
-              return (
-                <MenuItem
-                  key={index + item._id}
-                  sx={MenuItemStyles}
-                  onClick={() => handleClose(item._id)}
-                >
-                  {dynamicBulletHandler(item.label, "medium")} &nbsp;{" "}
-                  {item.label}
-                </MenuItem>
-              );
-            })}
-          </Menu>
-        </>
-      )}
+          <div className="bookmarkButtons">
+            <Stack direction="row" spacing={3}>
+              <BookmarkBorderIcon sx={socialButtonsStyle} />
+              <MoreVertIcon sx={socialButtonsStyle} />
+            </Stack>
+          </div>
+        </div>
+        <hr style={{ border: "1px solid var(--borderColors)" }} />
+        <div className="otherAccordians">
+          <IdeaCardAccordian data={data} />
+        </div>
+      </div>
+      {/* } */}
+
+      <Menu
+        id="ideaCardLabelsMenu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={() => handleClose()}
+        MenuListProps={{
+          "aria-labelledby": "ideaCardLabels",
+        }}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: 28,
+        }}
+      >
+        {allIcons?.map((item, index) => {
+          return (
+            <MenuItem
+              key={index + item._id}
+              sx={MenuItemStyles}
+              onClick={() => handleClose(item._id)}
+            >
+              {dynamicBulletHandler(item.label, "medium")} &nbsp;{" "}
+              {item.label}
+            </MenuItem>
+          );
+        })}
+      </Menu>
     </>
   );
 }
