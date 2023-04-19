@@ -93,8 +93,7 @@ export default function PersistentDrawerRight({ childrenx }) {
                     style={closeCrossButtonStyle}
                     onClick={() => dispatch(updateIdeacardData(null))}
                 />
-                {/* <IdeaCardPage /> */}
-                <CreateIdeaCardPage />
+                <IdeaCardPage />
             </Drawer>
         </Box>
     );
