@@ -5,6 +5,12 @@ import Drawer from "@mui/material/Drawer";
 import CreateIdeaCardPage from "../../pages/CreateIdeaCardPage/CreateIdeaCardPage";
 import IdeaCardPage from "../../pages/IdeacardPage/IdeaCardPage";
 import Filter from "../../pages/Filter";
+import highlightTester from "../../helperFunctions/highlightTester";
+import { useSelector, useDispatch } from 'react-redux'
+import { updateIdeacardData } from "../../Utils/Features/IdeacardSlice";
+import {
+    getLabelId
+} from "../../helperFunctions/getIdeacardIcons";
 
 const style = {
     position: "absolute",
@@ -22,6 +28,8 @@ export default function NewIdeaButton() {
     // const open = useState(false)[0]
     // const setOpen = useState(false)[1]
     const [openOptions, setopenOptions] = useState(false);
+    let showIdentifyIC = highlightTester();
+    const currentLocation = window.location.pathname;
     useEffect(() => {
         const handleEsc = (event) => {
             if (event.keyCode === 27) {
@@ -35,6 +43,10 @@ export default function NewIdeaButton() {
             window.removeEventListener("keydown", handleEsc);
         };
     }, []);
+    useEffect(() => {
+        showIdentifyIC = highlightTester();
+        console.log('showIdentifyIC', showIdentifyIC)
+    }, [currentLocation]);
 
     // console.log(open);
     return (
@@ -44,10 +56,10 @@ export default function NewIdeaButton() {
                     {openOptions && (
                         <>
                             <IdeaOptions text={"Create idea"} icon={"tips_and_updates"} />
-                            <IdeaOptions
+                            {showIdentifyIC && <IdeaOptions
                                 text={"Identify idea"}
                                 icon={"drive_file_rename_outline"}
-                            />
+                            />}
                         </>
                     )}
                     {!openOptions && (
@@ -63,17 +75,21 @@ export default function NewIdeaButton() {
 
 const IdeaOptions = ({ text, icon }) => {
     const [open, setOpen] = React.useState(false);
-
-    const toggleDrawer = (open) => (event) => {
-        if (
-            event.type === "keydown" &&
-            (event.key === "Tab" || event.key === "Shift")
-        ) {
-            return;
-        }
-
-        setOpen(open);
+    const labelId = getLabelId('KEYWORDS')
+    let dummyData = {
+        "book_id": "630d2b9510cf9a1ca419ae5b",
+        "label_id": labelId,
+        "highlight_id": "345345345345",
+        "title": "",
+        "my_notes": [],
+        "picture_link": "",
+        "rating": 0,
+        "tags": [],
+        "level": 0,
+        "start": 578072,
+        "end": 578146
     };
+    const dispatch = useDispatch()
     const showAnimation = {
         hidden: {
             width: 0,
@@ -90,13 +106,22 @@ const IdeaOptions = ({ text, icon }) => {
             },
         },
     };
+    const clickHandler = (type) => {
+        console.log(type, type === 'Create idea');
+        if (type === 'Create idea') {
+            setOpen(true)
+        }
+        else if (type === 'Identify idea') {
+            dispatch(updateIdeacardData(dummyData))
+        }
+    }
     return (
         <>
             <button
                 className="link IdeaOptions"
                 // id={isOpen ? "active" : "activeCollapsible"}
                 // id= "IdeaOptions"
-                onClick={toggleDrawer("right", true)}
+                onClick={() => clickHandler(text)}
             >
                 <AnimatePresence>
                     <motion.div
@@ -112,7 +137,7 @@ const IdeaOptions = ({ text, icon }) => {
                 </AnimatePresence>
             </button>
 
-            <Drawer anchor={"right"} open={open} onClose={toggleDrawer(false)}>
+            <Drawer anchor={"right"} open={open} onClose={() => setOpen(false)}>
                 <div>
                     <h1>helllo</h1>
                     <CreateIdeaCardPage />
