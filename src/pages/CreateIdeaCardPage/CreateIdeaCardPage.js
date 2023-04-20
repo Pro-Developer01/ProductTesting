@@ -14,17 +14,9 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Stack from "@mui/material/Stack";
-import { IdeaCardAccordian } from "../../components/AccordianCollections/AccordianCollections";
-import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
-import Chip from "@mui/material/Chip";
+import { CreateIdeaCardAccordian, IdeaCardAccordian } from "../../components/AccordianCollections/AccordianCollections";
 import { styled } from "@mui/material/styles";
-import MuiAccordionSummary, {
-  AccordionSummaryProps,
-} from "@mui/material/AccordionSummary";
+import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import PortraitIcon from "@mui/icons-material/Portrait";
@@ -34,45 +26,49 @@ import {
   getIdeacardIcons,
 } from "../../helperFunctions/getIdeacardIcons";
 import { useSelector } from "react-redux";
+import { TextField } from "@mui/material";
+import axios from "axios";
+import { apiRoot } from "../../helperFunctions/apiRoot";
 
 let dummyData = {
-  _id: "642325574dc0760034d8f977",
-  book_id: "642325564dc0760034d8981f",
-  label_id: "63584f343bcadd010442c447",
-  highlight_id: "642325574dc0760034d8aae9",
-  user_id: "642325564dc0760034d897ed",
-  title: "DUMMY DATA ",
-  description: [],
-  own_thoughts: [],
-  picture_link: "",
-  rating: 0,
-  tags: [],
-  level: 0,
-  start: 17320,
-  end: 17401,
-  created_at: 1673730692254,
-  updated_at: null,
-  retrieved_at: 1673730692254,
-  deleted_at: null,
-  lastviewed_at: null,
+  "book_id": "630d2b9510cf9a1ca419ae5b",
+  "label_id": "630e53a89935150cf9f3c9e7",
+  "highlight_id": "345345345345",
+  "title": "",
+  "my_notes": [],
+  "picture_link": "",
+  "rating": 0,
+  "tags": [],
+  "level": 0,
+  "start": 578072,
+  "end": 578146
 };
 const MenuItemStyles = {
   margin: "5px 1px",
   borderRadius: "30px",
 };
-
-const socialButtonsStyle = { color: "darkgrey" };
-const AccordionSummaryCustom = styled((props) => (
-  <MuiAccordionSummary {...props} />
-))(({ theme }) => ({
-  "& .MuiAccordionSummary-content": {
-    margin: 0,
+const EditableTextField = styled(TextField)(({ theme }) => ({
+  width: "100%",
+  "& .MuiInputBase": {
+    padding: 0,
   },
-  "&& .Mui-expanded": {
-    margin: 0,
-    marginBottom: "23px",
+  "& .MuiInputBase-input": {
+    fontSize: "1.2rem",
+    fontWeight: 700,
+  },
+  "& .MuiInput-underline:after": {
+    border: "none",
+  },
+  "& .MuiInput-underline:before": {
+    border: "none",
+  },
+  "& .MuiInput-underline:hover:before": {
+    border: "none !important",
   },
 }));
+
+const socialButtonsStyle = { color: "darkgrey" };
+
 
 export default function CreateIdeaCardPage() {
   // const ideacardData = useSelector((state) => state.ideacardReducer.value);
@@ -84,30 +80,10 @@ export default function CreateIdeaCardPage() {
 
   const [data, setData] = useState(dummyData);
   const currentLocation = window.location.pathname;
-  const [breadcrumbs, setBreadcrumbs] = useState([
-    <Link
-      underline="hover"
-      key="1"
-      color="inherit"
-      href={currentLocation}
-      onClick={() => { }}
-    >
-      <Chip
-        avatar={<TipsAndUpdatesIcon />}
-        sx={{ fontWeight: 600 }}
-        label={currentLocation.substring(1)}
-      />
-    </Link>,
-  ]);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [timer, setTimer] = React.useState(null);
   const open = Boolean(anchorEl);
   const allIcons = JSON.parse(localStorage.getItem("ideacardIcons"));
-
-  const socialToggleHandler = () => {
-    let tempData = JSON.parse(JSON.stringify(data));
-    tempData.state = !tempData.state;
-    setData(tempData);
-  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -122,9 +98,52 @@ export default function CreateIdeaCardPage() {
     setData(tempNotes);
   };
 
-  // useEffect(() => {
-  //   setData(ideacardData);
-  // }, [ideacardData]);
+  const handleDataChange = (event) => {
+    const tempNotes = JSON.parse(JSON.stringify(data));
+    tempNotes.title = event.target.value;
+    setData(tempNotes);
+  }
+  const postIdeaCardData = () => {
+    const token = localStorage.getItem("token");
+    axios
+      .post(
+        `${apiRoot.endpoint}/api/ideas/store`,
+        data,
+        {
+          headers: {
+            authorization: token,
+          },
+        },
+
+      )
+      .then((res) => {
+        console.log("posted ideacard Successfully", res);
+        // setLoading(false);
+      })
+      .catch((err) => {
+        console.log("err", err);
+        // loginAuths()
+        // setTimeout(() => {
+        //     alert('Token or UserId is Invalid Please Reload!')
+        // }, 4000)
+      });
+  }
+
+  const debaouceApi = () => {
+    if (timer)
+      clearTimeout(timer);
+
+    setTimer(setTimeout(() => { postIdeaCardData(); }, 500))
+  }
+
+  useEffect(() => {
+    if (data.title) {
+      debaouceApi();
+    }
+    else if (!data.title && timer) {
+      clearTimeout(timer)
+    }
+  }, [data]);
 
   return (
 
@@ -168,8 +187,16 @@ export default function CreateIdeaCardPage() {
             //   marginTop: "17px",
             // }}
             >
-              {getIdeacardIcons(data.label_id, "large")}
+              {getIdeacardIcons(getLabelId('KEYWORDS'), "large")}
             </span>
+
+            <EditableTextField
+              multiline
+              value={data?.title}
+              placeholder="Enter Title"
+              onChange={(e) => handleDataChange(e)}
+              variant="standard"
+            />
           </Stack>
         </div>
         {/* //Graphics */}
@@ -289,7 +316,7 @@ export default function CreateIdeaCardPage() {
         </div>
         <hr style={{ border: "1px solid var(--borderColors)" }} />
         <div className="otherAccordians">
-          <IdeaCardAccordian data={data} />
+          <CreateIdeaCardAccordian />
         </div>
       </div>
       {/* } */}
