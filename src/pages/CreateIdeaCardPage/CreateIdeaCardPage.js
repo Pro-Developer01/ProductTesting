@@ -26,7 +26,6 @@ import {
   getIdeacardIcons,
 } from "../../helperFunctions/getIdeacardIcons";
 import { useSelector } from "react-redux";
-import { TextField } from "@mui/material";
 import axios from "axios";
 import { apiRoot } from "../../helperFunctions/apiRoot";
 

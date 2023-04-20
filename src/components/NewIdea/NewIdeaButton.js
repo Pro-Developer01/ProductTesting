@@ -139,7 +139,6 @@ const IdeaOptions = ({ text, icon }) => {
 
             <Drawer anchor={"right"} open={open} onClose={() => setOpen(false)}>
                 <div>
-                    <h1>helllo</h1>
                     <CreateIdeaCardPage />
                 </div>
             </Drawer>
