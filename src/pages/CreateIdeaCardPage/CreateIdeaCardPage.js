@@ -34,7 +34,6 @@ import {
   getIdeacardIcons,
 } from "../../helperFunctions/getIdeacardIcons";
 import { useSelector } from "react-redux";
-import { positions } from "@mui/system";
 
 let dummyData = {
   _id: "642325574dc0760034d8f977",
@@ -171,20 +170,7 @@ export default function CreateIdeaCardPage() {
             >
               {getIdeacardIcons(data.label_id, "large")}
             </span>
-            <input
-                type="text"
-                defaultValue="Write here"
-                onClick={(event) => event.target.defaultValue = ''}
-                style={{
-                  width: '100%',
-                  fontSize: '1.0rem',
-                  fontWeight: 'bold',
-                  border: 'none',
-                  borderBottom: '1px solid #a4a4a4',
-                  outline: 'none',
-                  marginTop: '5px',
-                }}
-              />
+          
 
 
           </Stack>
