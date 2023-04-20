@@ -1,17 +1,20 @@
-.NewIdeaParent
+.NewIdeaParent 
 {
-    position: absolute;
-    top: 78vh;
-    left: 87vw;
+  position: absolute;
+  top: 78vh;
+  left: 87vw;
     /* top: 496px; */
     /* left: 850px; */
-    height: fit-content;
+  height: fit-content;
+  z-index: 9999;
 }
+
 .NewIdeaPosition {
   position: relative;
   /* top: 88vh;
   left: 93vw; */
 }
+
 .NewIdeaButton {
   padding-top: 1px;
   padding-left: 2px;
@@ -24,10 +27,12 @@
   margin: 46px 67px;
 
 }
+
 .NewIdeaButton:hover {
   background: var(--HoverOver);
   /* --weight:900; */
 }
+
 .NewIdeaButton span {
   font-size: 35px;
   color: var(--fontColor);
@@ -39,5 +44,25 @@
     /* position: absolute; */
     /* right: -4px; */
     /* border-radius: 52px; */
-    background: transparent;
+  background: transparent;
 }
+
+.buttons-container {
+  position: relative;
+  z-index: 9999;
+}
+
+
+
+.NewIdeaButton:active {
+  background: #ff6600 !important;
+}
+
+.NewIdeaButton:active span {
+  color: white !important;
+}
+
+.NewIdeaButton:active .material-symbols-outlined {
+  color: white !important;
+}
+
