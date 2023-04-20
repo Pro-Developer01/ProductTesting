@@ -315,14 +315,3 @@ input::placeholder {
   text-overflow: ellipsis;
   width: 100%;
 }
-
-.link:active, 
-.link:focus, 
-#activeMainMenu {
-  background: var(--primaryColor) !important;
-  color: var(--white) !important;
-  --fill: 1 !important;
-  --weight: 900 !important;
-}
-
-

@@ -34,7 +34,6 @@ import {
   getIdeacardIcons,
 } from "../../helperFunctions/getIdeacardIcons";
 import { useSelector } from "react-redux";
-import { positions } from "@mui/system";
 
 let dummyData = {
   _id: "642325574dc0760034d8f977",
@@ -171,22 +170,6 @@ export default function CreateIdeaCardPage() {
             >
               {getIdeacardIcons(data.label_id, "large")}
             </span>
-            <input
-                type="text"
-                defaultValue="Write here"
-                onClick={(event) => event.target.defaultValue = ''}
-                style={{
-                  width: '100%',
-                  fontSize: '1.0rem',
-                  fontWeight: 'bold',
-                  border: 'none',
-                  borderBottom: '1px solid #a4a4a4',
-                  outline: 'none',
-                  marginTop: '5px',
-                }}
-              />
-
-
           </Stack>
         </div>
         {/* //Graphics */}
@@ -198,72 +181,72 @@ export default function CreateIdeaCardPage() {
             paddingLeft: "0.6rem",
             paddingRight: "0.5rem",
           }}
-         >
+        >
           {/* Rectangular Container for Google search bar and upload button  */}
           <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              borderRadius: '10px',
+              width: '305px',
+              height: '253px',
+              border: '1px solid #a4a4a4',
+              backgroundColor: '#ededed',
+              margin: 'auto',
+            }}
+          >
+            {/* Upload button */}
+            <div
               style={{
                 display: 'flex',
-                flexDirection: 'row', 
                 justifyContent: 'center',
-                borderRadius: '10px',
-                width: '305px',
-                height: '253px',
-                border: '1px solid #a4a4a4',
-                backgroundColor: '#ededed',
-                margin: 'auto',
+                borderRadius: '50%',
+                width: '25px',
+                height: '25px',
+                backgroundColor: '#a6a6a6',
+                marginLeft: '-30px',
+                marginTop: '10px',
+                marginRight: '10px',
               }}
             >
-              {/* Upload button */}
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center', 
-                  borderRadius: '50%',
-                  width: '25px',
-                  height: '25px',
-                  backgroundColor: '#a6a6a6',
-                  marginLeft: '-30px',
-                  marginTop: '10px',
-                  marginRight: '10px', 
+              <IconButton onClick={handleButtonClick} style={{ color: 'white' }}>
+                <FileUploadOutlinedIcon />
+              </IconButton>
+            </div>
+            {/* Google Search box */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                backgroundColor: '#f2f2f2',
+                width: '216px',
+                height: '28px',
+                borderRadius: '5px',
+                border: '1px solid #a4a4a4',
+                marginTop: '10px',
+                paddingLeft: '10px',
+                paddingRight: '10px',
+              }}
+            >
+              <TextField
+                fullWidth
+                size="small"
+                variant="standard"
+                placeholder="Search Google Image"
+                InputProps={{
+                  disableUnderline: true,
+                  endAdornment: (
+                    <IconButton edge="end">
+                      <SearchIcon />
+                    </IconButton>
+                  ),
                 }}
-              >
-                <IconButton onClick={handleButtonClick} style={{ color: 'white' }}>
-                  <FileUploadOutlinedIcon />
-                </IconButton>
-              </div>
-              {/* Google Search box */}
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  backgroundColor: '#f2f2f2',
-                  width: '216px',
-                  height: '28px',
-                  borderRadius: '5px',
-                  border: '1px solid #a4a4a4',
-                  marginTop: '10px',
-                  paddingLeft: '10px',
-                  paddingRight: '10px', 
-                }}
-              >
-                <TextField
-                  fullWidth
-                  size="small"
-                  variant="standard"
-                  placeholder="Search Google Image"
-                  InputProps={{
-                    disableUnderline: true,
-                    endAdornment: (
-                      <IconButton edge="end">
-                        <SearchIcon />
-                      </IconButton>
-                    ),
-                  }}
-                />
-              </div>
+              />
+            </div>
             {/* Text */}
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '120px', position:'absolute'}}>
-                <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#a6a6a6'}}>Search and select an Image</span>
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '120px', position: 'absolute' }}>
+              <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#a6a6a6' }}>Search and select an Image</span>
             </div>
           </div>
 
