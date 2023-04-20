@@ -6,6 +6,13 @@ import ChatBubbleOutline from "@mui/icons-material/ChatBubbleOutline";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import { TextField, IconButton } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import Avatar from "@mui/material/Avatar";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
 import Stack from "@mui/material/Stack";
 import { CreateIdeaCardAccordian, IdeaCardAccordian } from "../../components/AccordianCollections/AccordianCollections";
 import { styled } from "@mui/material/styles";
@@ -65,6 +72,12 @@ const socialButtonsStyle = { color: "darkgrey" };
 
 export default function CreateIdeaCardPage() {
   // const ideacardData = useSelector((state) => state.ideacardReducer.value);
+  const handleButtonClick = () => {
+    // Handle button click event here
+    console.log('Button clicked');
+  };
+
+
   const [data, setData] = useState(dummyData);
   const currentLocation = window.location.pathname;
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -150,27 +163,6 @@ export default function CreateIdeaCardPage() {
         }}
       >
         <div className="ideacard-Title">
-          {/* //Shared by */}
-          <Stack
-            direction="row"
-            justifyContent="left"
-            alignItems="center"
-            spacing={1}
-            mb={1}
-            sx={{ paddingLeft: "3.4rem", paddingRight: "0.5rem" }}
-          >
-            <PortraitIcon
-              sx={{ fontSize: "14px", color: "lightslategrey" }}
-            />
-            <span
-              style={{
-                fontSize: "12px",
-                color: "lightslategrey",
-              }}
-            >
-              Shared By: <b>Mauro Guerini</b>{" "}
-            </span>
-          </Stack>
           {/* //CardHeaderTitle */}
           <Stack
             direction="row"
@@ -197,6 +189,7 @@ export default function CreateIdeaCardPage() {
             >
               {getIdeacardIcons(getLabelId('KEYWORDS'), "large")}
             </span>
+
             <EditableTextField
               multiline
               value={data?.title}
@@ -212,10 +205,79 @@ export default function CreateIdeaCardPage() {
             display: "flex",
             alignItems: "center",
             marginTop: "12px",
-            paddingLeft: "3.6rem",
+            paddingLeft: "0.6rem",
             paddingRight: "0.5rem",
           }}
         >
+          {/* Rectangular Container for Google search bar and upload button  */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              borderRadius: '10px',
+              width: '305px',
+              height: '253px',
+              border: '1px solid #a4a4a4',
+              backgroundColor: '#ededed',
+              margin: 'auto',
+            }}
+          >
+            {/* Upload button */}
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                borderRadius: '50%',
+                width: '25px',
+                height: '25px',
+                backgroundColor: '#a6a6a6',
+                marginLeft: '-30px',
+                marginTop: '10px',
+                marginRight: '10px',
+              }}
+            >
+              <IconButton onClick={handleButtonClick} style={{ color: 'white' }}>
+                <FileUploadOutlinedIcon />
+              </IconButton>
+            </div>
+            {/* Google Search box */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                backgroundColor: '#f2f2f2',
+                width: '216px',
+                height: '28px',
+                borderRadius: '5px',
+                border: '1px solid #a4a4a4',
+                marginTop: '10px',
+                paddingLeft: '10px',
+                paddingRight: '10px',
+              }}
+            >
+              <TextField
+                fullWidth
+                size="small"
+                variant="standard"
+                placeholder="Search Google Image"
+                InputProps={{
+                  disableUnderline: true,
+                  endAdornment: (
+                    <IconButton edge="end">
+                      <SearchIcon />
+                    </IconButton>
+                  ),
+                }}
+              />
+            </div>
+            {/* Text */}
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '120px', position: 'absolute' }}>
+              <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#a6a6a6' }}>Search and select an Image</span>
+            </div>
+          </div>
+
+
           {data.picture_link && (
             <img
               src={data.picture_link}
