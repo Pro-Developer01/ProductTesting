@@ -54,15 +54,5 @@
 
 
 
-.NewIdeaButton:active {
-  background: #ff6600 !important;
-}
 
-.NewIdeaButton:active span {
-  color: white !important;
-}
-
-.NewIdeaButton:active .material-symbols-outlined {
-  color: white !important;
-}
 
