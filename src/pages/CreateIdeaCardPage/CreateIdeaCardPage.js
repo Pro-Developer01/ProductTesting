@@ -216,11 +216,12 @@ export default function CreateIdeaCardPage() {
               flexDirection: 'row',
               justifyContent: 'center',
               borderRadius: '10px',
-              width: '305px',
+              width: '420px',
               height: '253px',
               border: '1px solid #a4a4a4',
               backgroundColor: '#ededed',
-              margin: 'auto',
+              marginLeft: '45px',
+              marginRight: '10px',
             }}
           >
             {/* Upload button */}
@@ -232,7 +233,7 @@ export default function CreateIdeaCardPage() {
                 width: '25px',
                 height: '25px',
                 backgroundColor: '#a6a6a6',
-                marginLeft: '-30px',
+                marginLeft: '-87px',
                 marginTop: '10px',
                 marginRight: '10px',
               }}
@@ -247,7 +248,7 @@ export default function CreateIdeaCardPage() {
                 display: 'flex',
                 alignItems: 'center',
                 backgroundColor: '#f2f2f2',
-                width: '216px',
+                width: '270px',
                 height: '28px',
                 borderRadius: '5px',
                 border: '1px solid #a4a4a4',
