@@ -108,12 +108,13 @@ const IdeaOptions = ({ text, icon }) => {
     };
     
     const [identifyIdeaClicked, setIdentifyIdeaClicked] = useState(false);
-    const [ButtonClicked, setButtonClicked] = useState(false);
+    const [ButtonClicked,setButtonClicked]=useState(false);   
+    const [ButtonStyle, setButtonStyle] = useState({});
     const clickHandler = (type) => {
         console.log(type, type === 'Create idea');
         if (type === 'Create idea') {
             setOpen(true)
-            setButtonClicked(true);
+           
         }
         else if (type === 'Identify idea') {
             dispatch(updateIdeacardData(dummyData))
@@ -121,7 +122,23 @@ const IdeaOptions = ({ text, icon }) => {
             setButtonClicked(true);
         }
     }
-    const ButtonStyle = ButtonClicked ? { backgroundColor: '#fc6606', color: 'white'  } : {};
+    useEffect(() => {
+        if (text === 'Create idea') {
+            if (open) {
+                setButtonStyle({ backgroundColor: '#fc6606', color: 'white' })
+            } else {
+                setButtonStyle({})
+            }
+        }
+        else if (text === 'Identify idea') {
+            if (ButtonClicked) {
+                setButtonStyle({ backgroundColor: '#fc6606', color: 'white' });
+            } else {
+                setButtonStyle({});
+              }
+             }
+    }, [open, text, ButtonClicked])
+    
     
     return (
         <>
