@@ -106,23 +106,40 @@ const IdeaOptions = ({ text, icon }) => {
             },
         },
     };
+    
+    const [identifyIdeaClicked, setIdentifyIdeaClicked] = useState(false);
+    const [ButtonClicked, setButtonClicked] = useState(false);
     const clickHandler = (type) => {
         console.log(type, type === 'Create idea');
         if (type === 'Create idea') {
             setOpen(true)
+            setButtonClicked(true);
         }
         else if (type === 'Identify idea') {
             dispatch(updateIdeacardData(dummyData))
+            setIdentifyIdeaClicked(true);
+            setButtonClicked(true);
         }
     }
+    const ButtonStyle = ButtonClicked ? { backgroundColor: '#fc6606', color: 'white'  } : {};
+    
     return (
         <>
             <button
                 className="link IdeaOptions"
                 // id={isOpen ? "active" : "activeCollapsible"}
                 // id= "IdeaOptions"
+                style={ButtonStyle} 
                 onClick={() => clickHandler(text)}
-            >
+            >  {identifyIdeaClicked && (                             
+                <style>
+                  {`
+                    ::selection {
+                      background-color: #FFDAC1;
+                    }
+                  `}
+                </style>
+                 )}
                 <AnimatePresence>
                     <motion.div
                         variants={showAnimation}
