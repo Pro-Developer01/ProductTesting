@@ -76,6 +76,7 @@ export default function NewIdeaButton() {
 
 const IdeaOptions = ({ text, icon }) => {
     const [open, setOpen] = React.useState(false);
+    const [buttonState, setButtonState] = useState(null);
     const labelId = getLabelId('KEYWORDS')
     let dummyData = {
         "book_id": "630d2b9510cf9a1ca419ae5b",
@@ -108,37 +109,39 @@ const IdeaOptions = ({ text, icon }) => {
         },
     };
 
-    const [identifyIdeaClicked, setIdentifyIdeaClicked] = useState(false);
-    const [ButtonClicked, setButtonClicked] = useState(false);
-    const [ButtonStyle, setButtonStyle] = useState({});
-    const clickHandler = (type) => {
-        console.log(type, type === 'Create idea');
-        if (type === 'Create idea') {
-            setOpen(true)
-
+    const buttonStateHandler = () => {
+        if (buttonState) {
+            if (buttonState === 'Create idea') {
+                setOpen(true)
+            }
+            else if (buttonState === 'Identify idea') {
+                dispatch(updatePersistentDrawer('identify Ideacard'))
+                setOpen(false)
+            }
         }
-        else if (type === 'Identify idea') {
-            dispatch(updatePersistentDrawer('identify Ideacard'))
-            setIdentifyIdeaClicked(true);
-            setButtonClicked(true);
+        else {
+            dispatch(updatePersistentDrawer(null))
+            setOpen(false)
         }
     }
+
+    const clickHandler = (type) => {
+        if (type === buttonState) {
+            setButtonState(null)
+        }
+        else {
+            setButtonState(type)
+        }
+    }
+
     useEffect(() => {
-        if (text === 'Create idea') {
-            if (open) {
-                setButtonStyle({ backgroundColor: '#fc6606', color: 'white' })
-            } else {
-                setButtonStyle({})
-            }
-        }
-        else if (text === 'Identify idea') {
-            if (ButtonClicked) {
-                setButtonStyle({ backgroundColor: '#fc6606', color: 'white' });
-            } else {
-                setButtonStyle({});
-            }
-        }
-    }, [open, text, ButtonClicked])
+        buttonStateHandler()
+    }, [buttonState])
+
+    useEffect(() => {
+        if (!open)
+            setButtonState(open)
+    }, [open])
 
 
     return (
@@ -147,9 +150,9 @@ const IdeaOptions = ({ text, icon }) => {
                 className="link IdeaOptions"
                 // id={isOpen ? "active" : "activeCollapsible"}
                 // id= "IdeaOptions"
-                style={ButtonStyle}
+                style={buttonState === text ? { backgroundColor: '#fc6606', color: 'white' } : null}
                 onClick={() => clickHandler(text)}
-            >  {identifyIdeaClicked && (
+            >  {buttonState === 'Identify idea' && (
                 <style>
                     {`
                     ::selection {
