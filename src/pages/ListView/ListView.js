@@ -205,7 +205,7 @@ function ListView(props) {
                                         className="highlightDiv"
                                     >
                                         <SquareIcon fontSize={'small'} />
-                                        <span>
+                                        <span data-start={highlight.start} data-book_id={highlight.book_id} id={highlight._id}>
                                             {highlight.context}
                                         </span>
                                     </div>

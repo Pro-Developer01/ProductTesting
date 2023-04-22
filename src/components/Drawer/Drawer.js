@@ -9,6 +9,7 @@ import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArro
 import { updateIdeacardData } from "../../Utils/Features/IdeacardSlice";
 import CreateIdeaCardPage from "../../pages/CreateIdeaCardPage/CreateIdeaCardPage";
 import { updatePersistentDrawer } from "../../Utils/Features/persistentDrawerSlice";
+import { updateIdentifyIdeaCardData } from "../../Utils/Features/IdentifyIdeaCardSlice";
 
 const drawerWidth = 590;
 const clossDoubleArrowStyle = {
@@ -82,6 +83,7 @@ export default function PersistentDrawerRight({ childrenx }) {
             dispatch(updateIdeacardData(null))
         }
         else if (dataType === 'identify Ideacard') {
+            dispatch(updateIdentifyIdeaCardData(null))
         }
         dispatch(updatePersistentDrawer(null))
     };

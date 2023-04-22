@@ -9,10 +9,6 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import { TextField, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
-import Avatar from "@mui/material/Avatar";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
 import Stack from "@mui/material/Stack";
 import { CreateIdeaCardAccordian, IdeaCardAccordian } from "../../components/AccordianCollections/AccordianCollections";
 import { styled } from "@mui/material/styles";
@@ -25,13 +21,15 @@ import {
   getLabelId,
   getIdeacardIcons,
 } from "../../helperFunctions/getIdeacardIcons";
-import { useSelector } from "react-redux";
 import axios from "axios";
 import { apiRoot } from "../../helperFunctions/apiRoot";
+import { useSelector, useDispatch } from 'react-redux'
+import { updatePersistentDrawer } from "../../Utils/Features/persistentDrawerSlice";
+
 
 let dummyData = {
   "book_id": "630d2b9510cf9a1ca419ae5b",
-  "label_id": "630e53a89935150cf9f3c9e7",
+  "label_id": getLabelId('KEYWORDS'),
   "highlight_id": "345345345345",
   "title": "",
   "my_notes": [],
@@ -75,6 +73,8 @@ export default function CreateIdeaCardPage() {
     // Handle button click event here
     console.log('Button clicked');
   };
+  let identifyIdeaCard = useSelector((state) => state.IdentifyIdeaCardReducer.value);
+  const dispatch = useDispatch()
 
 
   const [data, setData] = useState(dummyData);
@@ -143,6 +143,12 @@ export default function CreateIdeaCardPage() {
       clearTimeout(timer)
     }
   }, [data]);
+  useEffect(() => {
+    if (identifyIdeaCard) {
+      setData(identifyIdeaCard)
+      // dispatch(updatePersistentDrawer('identify Ideacard'))
+    }
+  }, [identifyIdeaCard]);
 
   return (
 
