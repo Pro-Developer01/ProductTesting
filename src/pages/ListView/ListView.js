@@ -22,6 +22,7 @@ import Breadcum from "../../components/Breadcum/Breadcum";
 import TriangleRight, { TriangleRightOutlined } from "../../Assets/triangleRight";
 import { updateLevelCounter } from "../../Utils/Features/levelCounterSlice";
 import listViewDatax from './listData.json'
+import { updatePersistentDrawer } from "../../Utils/Features/persistentDrawerSlice";
 
 // let book = {
 //     asin: "B01N5AX61W",
@@ -59,16 +60,21 @@ const ideacardIconStyling = {
 
 const IdeacardDivComponent = ({ data, setOpen }) => {
     const ideacardData = useSelector((state) => state.ideacardReducer.value)
+    const dataType = useSelector((state) => state.persistentDrawerReducer.value)
     const dispatch = useDispatch();
     const clickHandler = () => {
-        if (!ideacardData || ideacardData?._id !== data?._id)
+        if (!ideacardData || ideacardData?._id !== data?._id) {
             dispatch(updateIdeacardData(data));
-        else
+            dispatch(updatePersistentDrawer('ideaCard'));
+        }
+        else {
+            dispatch(updatePersistentDrawer(null));
             dispatch(updateIdeacardData(null));
+        }
     }
     useEffect(() => {
-        setOpen(ideacardData)
-    }, [ideacardData])
+        setOpen(dataType)
+    }, [dataType])
     return (
         <li
             className={`ideacardDiv ideacard-${data.label_id}`}
