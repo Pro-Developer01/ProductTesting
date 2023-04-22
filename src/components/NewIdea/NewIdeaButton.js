@@ -11,6 +11,7 @@ import { updateIdeacardData } from "../../Utils/Features/IdeacardSlice";
 import {
     getLabelId
 } from "../../helperFunctions/getIdeacardIcons";
+import { updatePersistentDrawer } from "../../Utils/Features/persistentDrawerSlice";
 
 const style = {
     position: "absolute",
@@ -106,18 +107,18 @@ const IdeaOptions = ({ text, icon }) => {
             },
         },
     };
-    
+
     const [identifyIdeaClicked, setIdentifyIdeaClicked] = useState(false);
-    const [ButtonClicked,setButtonClicked]=useState(false);   
+    const [ButtonClicked, setButtonClicked] = useState(false);
     const [ButtonStyle, setButtonStyle] = useState({});
     const clickHandler = (type) => {
         console.log(type, type === 'Create idea');
         if (type === 'Create idea') {
             setOpen(true)
-           
+
         }
         else if (type === 'Identify idea') {
-            dispatch(updateIdeacardData(dummyData))
+            dispatch(updatePersistentDrawer('identify Ideacard'))
             setIdentifyIdeaClicked(true);
             setButtonClicked(true);
         }
@@ -135,28 +136,28 @@ const IdeaOptions = ({ text, icon }) => {
                 setButtonStyle({ backgroundColor: '#fc6606', color: 'white' });
             } else {
                 setButtonStyle({});
-              }
-             }
+            }
+        }
     }, [open, text, ButtonClicked])
-    
-    
+
+
     return (
         <>
             <button
                 className="link IdeaOptions"
                 // id={isOpen ? "active" : "activeCollapsible"}
                 // id= "IdeaOptions"
-                style={ButtonStyle} 
+                style={ButtonStyle}
                 onClick={() => clickHandler(text)}
-            >  {identifyIdeaClicked && (                             
+            >  {identifyIdeaClicked && (
                 <style>
-                  {`
+                    {`
                     ::selection {
                       background-color: #FFDAC1;
                     }
                   `}
                 </style>
-                 )}
+            )}
                 <AnimatePresence>
                     <motion.div
                         variants={showAnimation}
