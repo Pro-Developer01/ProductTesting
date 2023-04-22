@@ -12,6 +12,7 @@ import {
     getLabelId
 } from "../../helperFunctions/getIdeacardIcons";
 import { updatePersistentDrawer } from "../../Utils/Features/persistentDrawerSlice";
+import { updateIdentifyIdeaCardData } from "../../Utils/Features/IdentifyIdeaCardSlice";
 
 const style = {
     position: "absolute",
@@ -109,21 +110,33 @@ const IdeaOptions = ({ text, icon }) => {
         },
     };
 
-    const buttonStateHandler = () => {
-        if (buttonState) {
-            if (buttonState === 'Create idea') {
-                setOpen(true)
+    const handleEnter = (event) => {
+        if (event.keyCode === 13 && window.getSelection().toString().length > 0) {
+            const selection = window.getSelection();
+            const title = selection.toString()
+            const itemSelf = selection.anchorNode.parentElement
+            const start = itemSelf.dataset.start;
+            const book_id = itemSelf.dataset.book_id;
+            const highlight_id = selection.anchorNode.parentElement.id;
+            const ideacardObj = {
+                book_id,
+                "label_id": getLabelId('KEYWORDS'),
+                highlight_id,
+                title,
+                start,
+                "my_notes": [],
+                "picture_link": "",
+                "rating": 0,
+                "tags": [],
+                "level": 0,
+                "end": null
             }
-            else if (buttonState === 'Identify idea') {
-                dispatch(updatePersistentDrawer('identify Ideacard'))
-                setOpen(false)
-            }
+            dispatch(updateIdentifyIdeaCardData(ideacardObj));
+            dispatch(updatePersistentDrawer('identify Ideacard'))
+            console.log("selectedText", ideacardObj);
         }
-        else {
-            dispatch(updatePersistentDrawer(null))
-            setOpen(false)
-        }
-    }
+    };
+
 
     const clickHandler = (type) => {
         if (type === buttonState) {
@@ -134,11 +147,38 @@ const IdeaOptions = ({ text, icon }) => {
         }
     }
 
+
+    const buttonStateHandler = () => { //this func will run after clickhandler
+        if (buttonState) {
+            if (buttonState === 'Create idea') {
+                setOpen(true)
+            }
+            else if (buttonState === 'Identify idea') {
+                document.addEventListener("keydown", handleEnter);
+                setOpen(false)
+            }
+        }
+        else {
+            dispatch(updatePersistentDrawer(null))
+            dispatch(updateIdentifyIdeaCardData(null));
+            setOpen(false)
+            document.removeEventListener("keydown", handleEnter);
+        }
+    }
+
+
+
+    useEffect(() => {
+        return () => {
+            console.log('removed')
+            document.removeEventListener("keydown", handleEnter);
+        };
+    }, [])
     useEffect(() => {
         buttonStateHandler()
     }, [buttonState])
 
-    useEffect(() => {
+    useEffect(() => { //for create ideacard drawer only
         if (!open)
             setButtonState(open)
     }, [open])
