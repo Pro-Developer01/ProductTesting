@@ -8,6 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { updateIdeacardData } from "../../Utils/Features/IdeacardSlice";
 import CreateIdeaCardPage from "../../pages/CreateIdeaCardPage/CreateIdeaCardPage";
+import { updatePersistentDrawer } from "../../Utils/Features/persistentDrawerSlice";
 
 const drawerWidth = 590;
 const clossDoubleArrowStyle = {
@@ -56,18 +57,41 @@ export default function PersistentDrawerRight({ childrenx }) {
     const theme = useTheme();
     // const [open, setOpen] = React.useState(false);
     const ideacardData = useSelector((state) => state.ideacardReducer.value)
+    const dataType = useSelector((state) => state.persistentDrawerReducer.value)
     const dispatch = useDispatch();
+    console.log('ideacardData', ideacardData);
+    console.log('dataType', dataType);
+    const dataTypeChangeHandler = () => {
+        if (dataType) {
+            if (dataType === 'ideaCard') {
+                return <IdeaCardPage />
+
+            }
+            else if (dataType === 'identify Ideacard') {
+                return <CreateIdeaCardPage />
+            }
+        }
+    }
     // const handleDrawerOpen = () => {
     //     setOpen(true);
     // };
 
-    // const handleDrawerClose = () => {
-    //     setOpen(false);
-    // };
+    const handleDrawerClose = () => {
+        if (dataType === 'ideaCard') {
+
+            dispatch(updateIdeacardData(null))
+        }
+        else if (dataType === 'identify Ideacard') {
+        }
+        dispatch(updatePersistentDrawer(null))
+    };
+    // React.useEffect(() => {
+
+    // }, [dataType])
 
     return (
         <Box sx={{ display: "flex", height: '100%' }}>
-            <Main open={ideacardData}>{childrenx}</Main>
+            <Main open={dataType}>{childrenx}</Main>
             <Drawer
                 sx={{
                     width: 573,
@@ -81,19 +105,19 @@ export default function PersistentDrawerRight({ childrenx }) {
                 }}
                 variant="persistent"
                 anchor="right"
-                open={ideacardData}
+                open={dataType}
             >
                 <KeyboardDoubleArrowRightIcon
                     fontSize="medium"
                     style={clossDoubleArrowStyle}
-                    onClick={() => dispatch(updateIdeacardData(null))}
+                    onClick={handleDrawerClose}
                 />
                 <CloseIcon
                     fontSize="medium"
                     style={closeCrossButtonStyle}
-                    onClick={() => dispatch(updateIdeacardData(null))}
+                    onClick={handleDrawerClose}
                 />
-                <IdeaCardPage />
+                {dataTypeChangeHandler()}
             </Drawer>
         </Box>
     );
