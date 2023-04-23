@@ -20,12 +20,18 @@ import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import CloseIcon from "@mui/icons-material/Close";
 import "../../pages/MyLibrary/MyLibrary.css";
+import AnchorIcon from '@mui/icons-material/Anchor';
+// import { ReactComponent as Identify } from "../../Assets/Identify.svg";
 
 const iconStyling = {
     color: "#FF6600",
     width: 22,
     height: 22,
 };
+const anchorIconStyle = {
+    backgroundColor: 'var(--primaryColor)', borderRadius: '33px', color: 'white', width: 20,
+    height: 20, padding: '2px'
+}
 const MyNotesTextField = styled(TextField)(({ theme }) => ({
     width: "100%",
     "& .MuiInputBase": {
@@ -255,6 +261,8 @@ const MyNotes = ({ myNotesData }) => {
                             style={inputFeildStyle}
                             onKeyDown={handleKeyDown}
                         />
+                        {/* <Identify /> */}
+
                     </div>
                 )}
             </AccordionDetails>
@@ -288,6 +296,28 @@ const MyNotes = ({ myNotesData }) => {
                     &nbsp; Claim/Answer
                 </MenuItem>
             </Menu>
+        </>
+    );
+};
+const LinkedHighlights = ({ highlightId }) => {
+    return (
+        <>
+            <AccordionDetails>
+                <div
+                    style={{ display: "flex", gap: "8px", marginBottom: "15px" }}
+                >
+                    <span
+                        style={{ height: "fit-content", padding: "5px 0" }}
+                    >
+                        <AnchorIcon sx={anchorIconStyle} />
+                    </span>
+
+                    <span>
+                        {document.getElementById(highlightId)?.outerText}
+                    </span>
+                </div>
+            </AccordionDetails>
+
         </>
     );
 };
@@ -696,7 +726,7 @@ export function IdeaCardAccordian({ data }) {
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                 >
-                    LINKED HIGHLIGHTS
+                    RECOMMENDED BY
                 </AccordionSummary>
                 <Recommendation recommendationString={recommendation} />
             </Accordion>
@@ -743,9 +773,19 @@ export function CreateIdeaCardAccordian({ data }) {
                 >
                     MY NOTES
                 </AccordionSummary>
-                <MyNotes />
+                <MyNotes myNotesData={data?.my_notes} />
             </Accordion>
-
+            {/* //LINKED HIGHLIGHTS */}
+            {data?.highlight_id && <Accordion elevation={0} sx={accordianBorder} defaultExpanded={true}>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    LINKED HIGHLIGHTS
+                </AccordionSummary>
+                <LinkedHighlights highlightId={data?.highlight_id} />
+            </Accordion>}
             {/* //Topic */}
             <Accordion elevation={0} sx={accordianBorder} defaultExpanded={true}>
                 <AccordionSummary
@@ -755,23 +795,13 @@ export function CreateIdeaCardAccordian({ data }) {
                 >
                     TOPICS
                 </AccordionSummary>
-                <Topics />
+                <Topics tagData={data?.tags} />
             </Accordion>
 
-            {/* //LINKED HIGHLIGHTS */}
-            <Accordion elevation={0} sx={accordianBorder} defaultExpanded={true}>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                >
-                    LINKED HIGHLIGHTS
-                </AccordionSummary>
-                <Recommendation />
-            </Accordion>
+
 
             {/* //BOOK STRUCTURE */}
-            <Accordion elevation={0} sx={accordianBorder} defaultExpanded={true}>
+            {data?.highlight_id && <Accordion elevation={0} sx={accordianBorder} defaultExpanded={true}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -782,7 +812,7 @@ export function CreateIdeaCardAccordian({ data }) {
                 <AccordionDetails>
                     <p>to be done later</p>
                 </AccordionDetails>
-            </Accordion>
+            </Accordion>}
 
             {/* //LINK STRUCTURE */}
             <Accordion elevation={0} sx={accordianBorder} defaultExpanded={true}>

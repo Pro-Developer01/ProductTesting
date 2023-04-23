@@ -30,7 +30,7 @@ import { updatePersistentDrawer } from "../../Utils/Features/persistentDrawerSli
 let dummyData = {
   "book_id": "630d2b9510cf9a1ca419ae5b",
   "label_id": getLabelId('KEYWORDS'),
-  "highlight_id": "345345345345",
+  "highlight_id": "",
   "title": "",
   "my_notes": [],
   "picture_link": "",
@@ -75,7 +75,6 @@ export default function CreateIdeaCardPage() {
   };
   let identifyIdeaCard = useSelector((state) => state.IdentifyIdeaCardReducer.value);
   const dispatch = useDispatch()
-
 
   const [data, setData] = useState(dummyData);
   const currentLocation = window.location.pathname;
@@ -143,6 +142,7 @@ export default function CreateIdeaCardPage() {
       clearTimeout(timer)
     }
   }, [data]);
+
   useEffect(() => {
     if (identifyIdeaCard) {
       setData(identifyIdeaCard)
@@ -323,7 +323,7 @@ export default function CreateIdeaCardPage() {
         </div>
         <hr style={{ border: "1px solid var(--borderColors)" }} />
         <div className="otherAccordians">
-          <CreateIdeaCardAccordian />
+          <CreateIdeaCardAccordian data={data} />
         </div>
       </div>
       {/* } */}

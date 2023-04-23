@@ -43,6 +43,10 @@ svg:hover {
   padding: 0px 8px;
   padding-top: 4px;
   padding-bottom: 2px;
+  cursor: pointer;
+}
+.ideacardDiv span {
+  cursor: pointer;
 }
 
 .highlightDiv {
@@ -54,6 +58,9 @@ svg:hover {
 .highlightDiv svg {
   font-size: 0.5rem;
   margin-top: 5px;
+}
+.highlightLi {
+  cursor: default !important;
 }
 #lastItemDot:hover {
   background: transparent;
