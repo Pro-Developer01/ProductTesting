@@ -211,7 +211,7 @@ const IdeaOptions = ({ text, icon }) => {
                     >
                         {text}
                     </motion.div>
-                    <span className="material-symbols-outlined">{icon}</span>
+                    {buttonState === 'Identify idea' ? <img src="../../Assets/Identify.svg" style={{ width: '27px' }} alt="newIdeaCard" /> : <span className="material-symbols-outlined">{icon}</span>}
                 </AnimatePresence>
             </button>
 
