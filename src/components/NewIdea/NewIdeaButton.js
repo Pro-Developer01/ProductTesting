@@ -147,6 +147,21 @@ const IdeaOptions = ({ text, icon }) => {
         }
     }
 
+    const setCursorClass = () => {
+        const allItems = document.querySelectorAll('.highlightLi');
+        for (let i = 0; i < allItems.length; i++) {
+            allItems[i].classList.add('customCursor');
+            allItems[i].children[0].children[1].classList.add('customCursor')
+        }
+    }
+
+    const removeCursorClass = () => {
+        const allItems = document.querySelectorAll('.highlightLi');
+        for (let i = 0; i < allItems.length; i++) {
+            allItems[i].classList.remove('customCursor');
+            allItems[i].children[0].children[1].classList.remove('customCursor')
+        }
+    }
 
     const buttonStateHandler = () => { //this func will run after clickhandler
         if (buttonState) {
@@ -155,6 +170,7 @@ const IdeaOptions = ({ text, icon }) => {
             }
             else if (buttonState === 'Identify idea') {
                 document.addEventListener("keydown", handleEnter);
+                setCursorClass();
                 setOpen(false)
             }
         }
@@ -162,6 +178,7 @@ const IdeaOptions = ({ text, icon }) => {
             dispatch(updatePersistentDrawer(null))
             dispatch(updateIdentifyIdeaCardData(null));
             setOpen(false)
+            removeCursorClass();
             document.removeEventListener("keydown", handleEnter);
         }
     }
@@ -211,7 +228,7 @@ const IdeaOptions = ({ text, icon }) => {
                     >
                         {text}
                     </motion.div>
-                    {buttonState === 'Identify idea' ? <img src="../../Assets/Identify.svg" style={{ width: '27px' }} alt="newIdeaCard" /> : <span className="material-symbols-outlined">{icon}</span>}
+                    {text === 'Identify idea' ? <img src="../../Assets/Identify.svg" style={{ width: '27px' }} alt="newIdeaCard" /> : <span className="material-symbols-outlined">{icon}</span>}
                 </AnimatePresence>
             </button>
 
