@@ -13,6 +13,8 @@ import {
 } from "../../helperFunctions/getIdeacardIcons";
 import { updatePersistentDrawer } from "../../Utils/Features/persistentDrawerSlice";
 import { updateIdentifyIdeaCardData } from "../../Utils/Features/IdentifyIdeaCardSlice";
+import CloseIcon from "@mui/icons-material/Close";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
 const style = {
     position: "absolute",
@@ -25,6 +27,8 @@ const style = {
     boxShadow: 24,
     p: 4,
 };
+
+
 
 export default function NewIdeaButton() {
     // const open = useState(false)[0]
@@ -136,9 +140,9 @@ const IdeaOptions = ({ text, icon }) => {
             console.log("selectedText", ideacardObj);
         }
     };
+    
 
-
-    const clickHandler = (type) => {
+   const clickHandler = (type) => {
         if (type === buttonState) {
             setButtonState(null)
         }
@@ -183,7 +187,31 @@ const IdeaOptions = ({ text, icon }) => {
         }
     }
 
+    const clossDoubleArrowStyle = {
+        background: "var(--white)",
+        borderRadius: "33px",
+        border: "1px solid var(--borderColors)",
+        position: "fixed",
+        top: "38px",
+        right: "32.8rem",
+        cursor: "pointer",
+        color: "var(--fontColor)",
+    };
+    const closeCrossButtonStyle = {
+        borderRadius: "33px",
+        position: "fixed",
+        top: "25px",
+        right: "25px",
+        zIndex: 13,
+        cursor: "pointer",
+        color: "var(--fontColor)",
+    };
 
+    const Close = () => {
+        dispatch(updatePersistentDrawer(null))
+        dispatch(updateIdentifyIdeaCardData(null));
+        setOpen(false); // dispatch the action when the button is clicked
+      };
 
     useEffect(() => {
         return () => {
@@ -234,6 +262,16 @@ const IdeaOptions = ({ text, icon }) => {
 
             <Drawer anchor={"right"} open={open} onClose={() => setOpen(false)}>
                 <div>
+                    <KeyboardDoubleArrowRightIcon
+                    fontSize="medium"
+                    style={clossDoubleArrowStyle}
+                    onClick={Close}
+                    />
+                   <CloseIcon
+                    fontSize="medium"
+                    style={closeCrossButtonStyle}
+                    onClick={Close}
+                    />
                     <CreateIdeaCardPage />
                 </div>
             </Drawer>
