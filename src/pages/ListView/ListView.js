@@ -199,13 +199,13 @@ function ListView(props) {
                                 {highlight.context ? <ChaptersLi
                                     key={highlight._id}
                                     id={`highlight-${highlight.position}`}
-                                    className="highlightLi"
+                                    className="highlightLi "
                                 >
                                     <div
                                         className="highlightDiv"
                                     >
                                         <SquareIcon fontSize={'small'} />
-                                        <span data-start={highlight.start} data-book_id={highlight.book_id} id={highlight._id}>
+                                        <span data-start={highlight.start} data-book_id={highlight.book_id} id={highlight._id} className="highlightSpan ">
                                             {highlight.context}
                                         </span>
                                     </div>
