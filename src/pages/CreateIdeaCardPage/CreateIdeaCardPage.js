@@ -28,9 +28,9 @@ import { updatePersistentDrawer } from "../../Utils/Features/persistentDrawerSli
 
 
 let dummyData = {
-  "book_id": "630d2b9510cf9a1ca419ae5b",
+  "book_id": "dsds",
   "label_id": getLabelId('KEYWORDS'),
-  "highlight_id": "",
+  "highlight_id": "ddsd",
   "title": "",
   "my_notes": [],
   "picture_link": "",
@@ -69,14 +69,14 @@ const socialButtonsStyle = { color: "darkgrey" };
 
 export default function CreateIdeaCardPage() {
   // const ideacardData = useSelector((state) => state.ideacardReducer.value);
-  const handleButtonClick = () => {
-    // Handle button click event here
-    console.log('Button clicked');
-  };
+
   let identifyIdeaCard = useSelector((state) => state.IdentifyIdeaCardReducer.value);
   const dispatch = useDispatch()
+  const token = localStorage.getItem("token");
 
   const [data, setData] = useState(dummyData);
+  const [title, setTitle] = useState(dummyData.title);
+  const [isIcCreatedYet, setIsIcCreatedYet] = useState(null);
   const currentLocation = window.location.pathname;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [timer, setTimer] = React.useState(null);
@@ -96,13 +96,16 @@ export default function CreateIdeaCardPage() {
     setData(tempNotes);
   };
 
-  const handleDataChange = (event) => {
+  const handleDataChange = () => {
     const tempNotes = JSON.parse(JSON.stringify(data));
-    tempNotes.title = event.target.value;
+    tempNotes.title = title;
     setData(tempNotes);
   }
+  const handleButtonClick = () => {
+    // Handle button click event here
+    console.log('Button clicked');
+  };
   const postIdeaCardData = () => {
-    const token = localStorage.getItem("token");
     axios
       .post(
         `${apiRoot.endpoint}/api/ideas/store`,
@@ -116,14 +119,37 @@ export default function CreateIdeaCardPage() {
       )
       .then((res) => {
         console.log("posted ideacard Successfully", res);
-        // setLoading(false);
+        console.log("posted ideacard Successfully", res.data.data);
+        setIsIcCreatedYet(res.data.data)
       })
       .catch((err) => {
         console.log("err", err);
-        // loginAuths()
-        // setTimeout(() => {
-        //     alert('Token or UserId is Invalid Please Reload!')
-        // }, 4000)
+      });
+  }
+  const updateIdeaCardData = () => {
+    const updatedData = JSON.parse(JSON.stringify(data))
+    delete updatedData.book_id
+    delete updatedData.highlight_id
+    delete updatedData.start
+    delete updatedData.end
+    delete updatedData.label_id
+    console.log('updatedData', updatedData);
+    axios
+      .put(
+        `${apiRoot.endpoint}/api/ideas/update?_id=${isIcCreatedYet}`,
+        updatedData,
+        {
+          headers: {
+            authorization: token,
+          },
+        },
+
+      )
+      .then((res) => {
+        console.log("updated ideacard Successfully", res);
+      })
+      .catch((err) => {
+        console.log("err", err);
       });
   }
 
@@ -131,12 +157,17 @@ export default function CreateIdeaCardPage() {
     if (timer)
       clearTimeout(timer);
 
-    setTimer(setTimeout(() => { postIdeaCardData(); }, 500))
+    setTimer(setTimeout(() => { updateIdeaCardData(); }, 5))
   }
 
   useEffect(() => {
     if (data.title) {
-      debaouceApi();
+      if (!isIcCreatedYet) {
+        postIdeaCardData()
+      }
+      else {
+        debaouceApi();
+      }
     }
     else if (!data.title && timer) {
       clearTimeout(timer)
@@ -146,7 +177,7 @@ export default function CreateIdeaCardPage() {
   useEffect(() => {
     if (identifyIdeaCard) {
       setData(identifyIdeaCard)
-      // dispatch(updatePersistentDrawer('identify Ideacard'))
+      setTitle(identifyIdeaCard?.title)
     }
   }, [identifyIdeaCard]);
 
@@ -187,20 +218,16 @@ export default function CreateIdeaCardPage() {
                 handleClick(e);
                 e.stopPropagation();
               }}
-            // style={{
-            //   height: "fit-content",
-            //   display: "inline-block",
-            //   marginTop: "17px",
-            // }}
             >
               {getIdeacardIcons(getLabelId('KEYWORDS'), "large")}
             </span>
 
             <EditableTextField
               multiline
-              value={data?.title}
+              value={title}
               placeholder="Enter Title"
-              onChange={(e) => handleDataChange(e)}
+              onChange={(e) => setTitle(e.target.value)}
+              onBlur={handleDataChange}
               variant="standard"
             />
           </Stack>
