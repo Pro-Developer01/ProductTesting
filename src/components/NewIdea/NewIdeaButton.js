@@ -140,9 +140,9 @@ const IdeaOptions = ({ text, icon }) => {
             console.log("selectedText", ideacardObj);
         }
     };
-    
 
-   const clickHandler = (type) => {
+
+    const clickHandler = (type) => {
         if (type === buttonState) {
             setButtonState(null)
         }
@@ -191,16 +191,16 @@ const IdeaOptions = ({ text, icon }) => {
         background: "var(--white)",
         borderRadius: "33px",
         border: "1px solid var(--borderColors)",
-        position: "fixed",
-        top: "38px",
-        right: "32.8rem",
+        position: "relative",
+        top: "8px",
+        right: "-0.5rem",
         cursor: "pointer",
         color: "var(--fontColor)",
     };
     const closeCrossButtonStyle = {
         borderRadius: "33px",
         position: "fixed",
-        top: "25px",
+        top: "46px",
         right: "25px",
         zIndex: 13,
         cursor: "pointer",
@@ -208,10 +208,8 @@ const IdeaOptions = ({ text, icon }) => {
     };
 
     const Close = () => {
-        dispatch(updatePersistentDrawer(null))
-        dispatch(updateIdentifyIdeaCardData(null));
-        setOpen(false); // dispatch the action when the button is clicked
-      };
+        setOpen(false);
+    };
 
     useEffect(() => {
         return () => {
@@ -260,20 +258,18 @@ const IdeaOptions = ({ text, icon }) => {
                 </AnimatePresence>
             </button>
 
-            <Drawer anchor={"right"} open={open} onClose={() => setOpen(false)}>
-                <div>
-                    <KeyboardDoubleArrowRightIcon
+            <Drawer anchor={"right"} open={open} onClose={Close}>
+                <KeyboardDoubleArrowRightIcon
                     fontSize="medium"
                     style={clossDoubleArrowStyle}
                     onClick={Close}
-                    />
-                   <CloseIcon
+                />
+                <CloseIcon
                     fontSize="medium"
                     style={closeCrossButtonStyle}
                     onClick={Close}
-                    />
-                    <CreateIdeaCardPage />
-                </div>
+                />
+                <CreateIdeaCardPage />
             </Drawer>
         </>
     );
