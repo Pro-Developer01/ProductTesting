@@ -45,7 +45,7 @@ const MenuItemStyles = {
   borderRadius: "30px",
 };
 const EditableTextField = styled(TextField)(({ theme }) => ({
-  width: "100%",
+  width: "78%",
   "& .MuiInputBase": {
     padding: 0,
   },
