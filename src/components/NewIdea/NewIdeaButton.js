@@ -15,6 +15,8 @@ import { updatePersistentDrawer } from "../../Utils/Features/persistentDrawerSli
 import { updateIdentifyIdeaCardData } from "../../Utils/Features/IdentifyIdeaCardSlice";
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import Identify from "../../Assets/Identify";
+import Identify_White from "../../Assets/Identify_White";
 
 const style = {
     position: "absolute",
@@ -28,7 +30,25 @@ const style = {
     p: 4,
 };
 
-
+const clossDoubleArrowStyle = {
+    background: "var(--white)",
+    borderRadius: "33px",
+    border: "1px solid var(--borderColors)",
+    position: "relative",
+    top: "8px",
+    right: "-0.5rem",
+    cursor: "pointer",
+    color: "var(--fontColor)",
+};
+const closeCrossButtonStyle = {
+    borderRadius: "33px",
+    position: "fixed",
+    top: "46px",
+    right: "25px",
+    zIndex: 13,
+    cursor: "pointer",
+    color: "var(--fontColor)",
+};
 
 export default function NewIdeaButton() {
     // const open = useState(false)[0]
@@ -79,23 +99,13 @@ export default function NewIdeaButton() {
     );
 }
 
+
+
 const IdeaOptions = ({ text, icon }) => {
     const [open, setOpen] = React.useState(false);
     const [buttonState, setButtonState] = useState(null);
     const labelId = getLabelId('KEYWORDS')
-    let dummyData = {
-        "book_id": "630d2b9510cf9a1ca419ae5b",
-        "label_id": labelId,
-        "highlight_id": "345345345345",
-        "title": "",
-        "my_notes": [],
-        "picture_link": "",
-        "rating": 0,
-        "tags": [],
-        "level": 0,
-        "start": 578072,
-        "end": 578146
-    };
+
     const dispatch = useDispatch()
     const showAnimation = {
         hidden: {
@@ -187,26 +197,6 @@ const IdeaOptions = ({ text, icon }) => {
         }
     }
 
-    const clossDoubleArrowStyle = {
-        background: "var(--white)",
-        borderRadius: "33px",
-        border: "1px solid var(--borderColors)",
-        position: "relative",
-        top: "8px",
-        right: "-0.5rem",
-        cursor: "pointer",
-        color: "var(--fontColor)",
-    };
-    const closeCrossButtonStyle = {
-        borderRadius: "33px",
-        position: "fixed",
-        top: "46px",
-        right: "25px",
-        zIndex: 13,
-        cursor: "pointer",
-        color: "var(--fontColor)",
-    };
-
     const Close = () => {
         setOpen(false);
     };
@@ -254,7 +244,9 @@ const IdeaOptions = ({ text, icon }) => {
                     >
                         {text}
                     </motion.div>
-                    {text === 'Identify idea' ? <img src="../../Assets/Identify.svg" style={{ width: '27px' }} alt="newIdeaCard" /> : <span className="material-symbols-outlined">{icon}</span>}
+                    {text === 'Identify idea' ? buttonState !== text ? <Identify /> : <Identify_White />
+                        // {text === 'Identify idea' ? <img src="../../Assets/Identify.svg" style={{ width: '27px' }} alt="newIdeaCard" />
+                        : <span className="material-symbols-outlined">{icon}</span>}
                 </AnimatePresence>
             </button>
 

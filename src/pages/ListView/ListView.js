@@ -196,6 +196,13 @@ function ListView(props) {
                     <ChaptersUl className="d-none highlightUl">
                         {item.highlights.map((highlight, i) => (
                             <>
+                                {highlight.idea_cards?.length ?
+                                    highlight.idea_cards.map((ideacards, index) => {
+                                        return (<IdeacardDivComponent
+                                            data={ideacards}
+                                            setOpen={setOpen}
+                                        />)
+                                    }) : null}
                                 {highlight.context ? <ChaptersLi
                                     key={highlight._id}
                                     id={`highlight-${highlight.position}`}
@@ -210,13 +217,7 @@ function ListView(props) {
                                         </span>
                                     </div>
                                 </ChaptersLi> : null}
-                                {highlight.idea_cards?.length ?
-                                    highlight.idea_cards.map((ideacards, index) => {
-                                        return (<IdeacardDivComponent
-                                            data={ideacards}
-                                            setOpen={setOpen}
-                                        />)
-                                    }) : null}
+
                             </>
                         ))}
                     </ChaptersUl>
@@ -366,7 +367,7 @@ function ListView(props) {
                                     <Breadcum state={state} />
 
                                     {bookMetaData && <BookDetails book={bookMetaData} open={open} resizableWidth={resizableWidth} setResizableWidth={setResizableWidth} />}
-                                    <CardStrucutureBook>
+                                    <CardStrucutureBook className="listViewParent">
                                         {listViewData?.data?.length ? (
                                             <ChaptersUl style={{ margin: "0", border: "none" }}>
                                                 {listViewData?.data?.map((item, index) => {

@@ -10,20 +10,20 @@
 	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
 	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
 ]>
-<svg version="1.1" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100"
-	 style="enable-background:new 0 0 100 100;" xml:space="preserve">
+<svg version="1.1" id="Layer_1" xmlnsX="&ns_extend;" xmlnsI="&ns_ai;" xmlnsGraph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100"
+	 style="enable-background:new 0 0 100 100;" xmlSpace="preserve">
 <style type="text/css">
 	.st0{fill:none;stroke:#A2A1A1;stroke-width:5;stroke-miterlimit:10;}
 </style>
 <switch>
 	<foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
-		<i:pgfRef  xlink:href="#adobe_illustrator_pgf">
-		</i:pgfRef>
+		<iPgfRef  xlinkHref="#adobe_illustrator_pgf">
+		</iPgfRef>
 	</foreignObject>
-	<g i:extraneous="self">
+	<g iExtraneous="self">
 		
-			<image style="display:none;overflow:visible;" width="156" height="144" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJwAAACSCAYAAACwsqM9AAAACXBIWXMAABLDAAASwwFyLQTKAAAA
+			<image style="display:none;overflow:visible;" width="156" height="144" xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJwAAACSCAYAAACwsqM9AAAACXBIWXMAABLDAAASwwFyLQTKAAAA
 GXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAI45JREFUeNrsnXd0HNW9x++d2V01
 GxuDi9xLKKYlhDS6KSExCeURkEDyrooNCjbgkJfk5L3kHR/+eeedJIANNkSgstZaBtvBDsEJkEIN
 EBsDgdCNDTYuwRRbLpJW2pl53+/OrNkolr1zd1faleaeczVFe6fc+5nf73fb7wrhBS94wQsDNUgv
