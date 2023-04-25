@@ -250,7 +250,8 @@ const IdeaOptions = ({ text, icon }) => {
                 </AnimatePresence>
             </button>
 
-            <Drawer anchor={"right"} open={open} onClose={Close}>
+            <Drawer anchor={"right"} open={open} onClose={Close} 
+             PaperProps={{ style: { backgroundColor: "transparent", boxShadow: "none" } }}> {/*Making the drawer background transparent*/}
                 <KeyboardDoubleArrowRightIcon
                     fontSize="medium"
                     style={clossDoubleArrowStyle}

@@ -197,7 +197,7 @@ export default function CreateIdeaCardPage() {
           padding: "0.5rem 0",
           paddingTop: "0",
           marginTop: "10px",
-        }}
+          }}
       >
         <div className="ideacard-Title">
           {/* //CardHeaderTitle */}
@@ -236,7 +236,7 @@ export default function CreateIdeaCardPage() {
         <div
           style={{
             display: "flex",
-            alignItems: "center",
+            //alignItems: "center",
             marginTop: "12px",
             paddingLeft: "0.6rem",
             paddingRight: "0.5rem",
@@ -247,9 +247,9 @@ export default function CreateIdeaCardPage() {
             style={{
               display: 'flex',
               flexDirection: 'row',
-              justifyContent: 'center',
+              //justifyContent: 'center',
               borderRadius: '10px',
-              width: '420px',
+              width: '100%', //Adjustable
               height: '253px',
               border: '1px solid #a4a4a4',
               backgroundColor: '#ededed',
@@ -257,6 +257,13 @@ export default function CreateIdeaCardPage() {
               marginRight: '10px',
             }}
           >
+       <div style={{
+                display: 'flex',
+                
+                width: '100%',
+                
+              }}
+                 >     
             {/* Upload button */}
             <div
               style={{
@@ -266,7 +273,7 @@ export default function CreateIdeaCardPage() {
                 width: '25px',
                 height: '25px',
                 backgroundColor: '#a6a6a6',
-                marginLeft: '-87px',
+                marginLeft: '2%',//Adjustable
                 marginTop: '10px',
                 marginRight: '10px',
               }}
@@ -281,7 +288,7 @@ export default function CreateIdeaCardPage() {
                 display: 'flex',
                 alignItems: 'center',
                 backgroundColor: '#f2f2f2',
-                width: '270px',
+                width: '80%',  //Adjustable
                 height: '28px',
                 borderRadius: '5px',
                 border: '1px solid #a4a4a4',
@@ -305,12 +312,14 @@ export default function CreateIdeaCardPage() {
                 }}
               />
             </div>
+        </div>
+            <div style={{ display: 'flex', width:'150px' }}></div> {/* Transparent container to adjust create ideacard width */}
             {/* Text */}
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '120px', position: 'absolute' }}>
+            <div style={{ display: 'flex', marginTop: '120px', position: 'absolute',marginLeft: '25%',marginRight: '25%', }}> {/*Adjustable margins*/}
               <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#a6a6a6' }}>Search and select an Image</span>
             </div>
-          </div>
-
+            </div>  
+         
 
           {data.picture_link && (
             <img
