@@ -60,8 +60,6 @@ export default function PersistentDrawerRight({ childrenx }) {
     const ideacardData = useSelector((state) => state.ideacardReducer.value)
     const dataType = useSelector((state) => state.persistentDrawerReducer.value)
     const dispatch = useDispatch();
-    console.log('ideacardData', ideacardData);
-    console.log('dataType', dataType);
     const dataTypeChangeHandler = () => {
         if (dataType) {
             if (dataType === 'ideaCard') {
@@ -79,7 +77,6 @@ export default function PersistentDrawerRight({ childrenx }) {
 
     const handleDrawerClose = () => {
         if (dataType === 'ideaCard') {
-
             dispatch(updateIdeacardData(null))
         }
         else if (dataType === 'identify Ideacard') {

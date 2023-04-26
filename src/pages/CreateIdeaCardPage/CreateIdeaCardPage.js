@@ -211,7 +211,6 @@ export default function CreateIdeaCardPage() {
           margin: "0 0 0 0.7rem",
           padding: "0.5rem 0",
           paddingTop: "0",
-          marginTop: "10px",
         }}
       >
         <div className="ideacard-Title">

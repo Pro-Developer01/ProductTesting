@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./NewIdea.css";
 import { AnimatePresence, motion } from "framer-motion";
 import Drawer from "@mui/material/Drawer";
@@ -35,7 +35,7 @@ const clossDoubleArrowStyle = {
     borderRadius: "33px",
     border: "1px solid var(--borderColors)",
     position: "relative",
-    top: "8px",
+    top: "-3px",
     right: "-0.5rem",
     cursor: "pointer",
     color: "var(--fontColor)",
@@ -43,7 +43,7 @@ const clossDoubleArrowStyle = {
 const closeCrossButtonStyle = {
     borderRadius: "33px",
     position: "fixed",
-    top: "46px",
+    top: "34px",
     right: "25px",
     zIndex: 13,
     cursor: "pointer",
@@ -53,7 +53,7 @@ const closeCrossButtonStyle = {
 export default function NewIdeaButton() {
     // const open = useState(false)[0]
     // const setOpen = useState(false)[1]
-    const [openOptions, setopenOptions] = useState(false);
+    const [openOptions, setopenOptions] = React.useState(false);
     let showIdentifyIC = highlightTester();
     const currentLocation = window.location.pathname;
     useEffect(() => {
@@ -93,10 +93,14 @@ export default function NewIdeaButton() {
 
 
 const IdeaOptions = ({ text, icon, setopenOptions }) => {
-    const [open, setOpen] = React.useState(false);
-    const [buttonState, setButtonState] = useState(null);
 
+    const [open, setOpen] = React.useState(false);
+    const [buttonState, setButtonState] = React.useState(null);
+    const [count, setCount] = React.useState(false);
+
+    const IdentifyIdeaCardData = useSelector((state) => state.IdentifyIdeaCardReducer.value)
     const dispatch = useDispatch()
+
     const showAnimation = {
         hidden: {
             width: 0,
@@ -129,6 +133,24 @@ const IdeaOptions = ({ text, icon, setopenOptions }) => {
             allItems[i].children[0].children[1].classList.remove('customCursor')
         }
     }
+    const handleEnter = (event) => {
+        if (event.keyCode === 13 && window.getSelection().toString().length > 0) {
+            console.log('Enter is pressed');
+            identifyICCreater()
+        }
+    };
+    const handleEscGlobal = (event) => {
+        if (event.keyCode === 27) { // esc clicked
+            if (!count) {
+                setButtonState(false)
+                setopenOptions(false);
+            }
+            else {
+                window.getSelection().removeAllRanges();
+            }
+        }
+
+    };
 
     const identifyICCreater = () => {
         const userId = localStorage.getItem("userId");
@@ -156,8 +178,7 @@ const IdeaOptions = ({ text, icon, setopenOptions }) => {
             removeCursorClass();
             dispatch(updateIdentifyIdeaCardData(ideacardObj));
             dispatch(updatePersistentDrawer('identify Ideacard'))
-            document.removeEventListener("keydown", handleEnter);
-            document.removeEventListener('click', handleTextClick);
+            window.removeEventListener("keydown", handleEnter);
             console.log("selectedText", ideacardObj);
         }
     }
@@ -170,14 +191,6 @@ const IdeaOptions = ({ text, icon, setopenOptions }) => {
         }
     };
 
-    const handleEnter = (event) => {
-        if (event.keyCode === 13 && window.getSelection().toString().length > 0) {
-            console.log('Enter is pressed');
-            identifyICCreater()
-        }
-    };
-
-
     const clickHandler = (type) => {
         if (type === buttonState) {
             setButtonState(null)
@@ -187,15 +200,15 @@ const IdeaOptions = ({ text, icon, setopenOptions }) => {
         }
     }
 
-
-
     const buttonStateHandler = () => { //this func will run after clickhandler
         if (buttonState) {
             if (buttonState === 'Create idea') {
                 setOpen(true)
             }
             else if (buttonState === 'Identify idea') {
-                document.addEventListener("keydown", handleEnter);
+                setCount(true)
+                window.addEventListener("keydown", handleEnter);
+                // window.addEventListener('click', handleTextClick);
                 setCursorClass();
                 setOpen(false)
             }
@@ -206,7 +219,8 @@ const IdeaOptions = ({ text, icon, setopenOptions }) => {
             dispatch(updateIdentifyIdeaCardData(null));
             setOpen(false)
             removeCursorClass();
-            document.removeEventListener("keydown", handleEnter);
+            window.getSelection().removeAllRanges();
+            window.removeEventListener("keydown", handleEnter);
         }
     }
 
@@ -216,23 +230,12 @@ const IdeaOptions = ({ text, icon, setopenOptions }) => {
     };
 
     useEffect(() => {
-        const handleEsc = (event) => {
-            if (event.keyCode === 27) { // esc clicked
-                console.log("Close");
-                setButtonState(false)
-                setopenOptions(false);
-            }
-        };
-        window.addEventListener("keydown", handleEsc);
-        document.addEventListener('click', handleTextClick);
-        return () => {
-        };
+
+        window.addEventListener("keydown", handleEscGlobal);
 
         return () => {
             console.log('removed')
-            window.removeEventListener("keydown", handleEsc);
-
-
+            window.removeEventListener("keydown", handleEscGlobal);
         };
     }, [])
 
@@ -244,6 +247,12 @@ const IdeaOptions = ({ text, icon, setopenOptions }) => {
         if (!open)
             setButtonState(open)
     }, [open])
+
+    useEffect(() => { //for Identify ideacard drawer only
+        if (!IdentifyIdeaCardData) {
+            setButtonState(IdentifyIdeaCardData)
+        }
+    }, [IdentifyIdeaCardData])
 
 
     return (
@@ -280,7 +289,11 @@ const IdeaOptions = ({ text, icon, setopenOptions }) => {
             </button>
 
             <Drawer anchor={"right"} open={open} onClose={Close}
-                PaperProps={{ style: { backgroundColor: "transparent", boxShadow: "none" } }}> {/*Making the drawer background transparent*/}
+                PaperProps={{
+                    style: {
+                        backgroundColor: "transparent", boxShadow: "none", paddingTop: '4px'
+                    }
+                }}> {/*Making the drawer background transparent*/}
                 <KeyboardDoubleArrowRightIcon
                     fontSize="medium"
                     style={clossDoubleArrowStyle}
