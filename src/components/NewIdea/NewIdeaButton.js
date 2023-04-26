@@ -120,6 +120,8 @@ const IdeaOptions = ({ text, icon, setopenOptions }) => {
 
     const setCursorClass = () => {
         const allItems = document.querySelectorAll('.highlightLi');
+        const dashboard = document.querySelector('#dashboard');
+        dashboard.classList.add('cursoreChangeAll');
         for (let i = 0; i < allItems.length; i++) {
             allItems[i].classList.add('customCursor');
             allItems[i].children[0].children[1].classList.add('customCursor')
@@ -128,6 +130,8 @@ const IdeaOptions = ({ text, icon, setopenOptions }) => {
 
     const removeCursorClass = () => {
         const allItems = document.querySelectorAll('.highlightLi');
+        const dashboard = document.querySelector('#dashboard');
+        dashboard.classList.remove('cursoreChangeAll');
         for (let i = 0; i < allItems.length; i++) {
             allItems[i].classList.remove('customCursor');
             allItems[i].children[0].children[1].classList.remove('customCursor')
