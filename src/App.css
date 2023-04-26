@@ -320,3 +320,7 @@ span {
   user-select: text;
   cursor: text;
 }
+
+.cursoreChangeAll {
+  cursor: url("../public/Assets/identify_orange_cn.svg"), auto !important;
+}

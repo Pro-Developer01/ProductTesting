@@ -9,7 +9,7 @@ import BookView from '../bookView/BookView';
 
 export default function DashBoard() {
   return (
-    <div style={{ width: '100%' }}>
+    <div style={{ width: '100%' }} id='dashboard' >
       <Routes>
         <Route path="/library" element={<MyLibrary />} />
         {/* <Route path="/ideacard" element={<IdeaCardPage />} /> */}
