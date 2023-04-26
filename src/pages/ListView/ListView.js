@@ -22,6 +22,8 @@ import Breadcum from "../../components/Breadcum/Breadcum";
 import TriangleRight, { TriangleRightOutlined } from "../../Assets/triangleRight";
 import { updateLevelCounter } from "../../Utils/Features/levelCounterSlice";
 import listViewDatax from './listData.json'
+import { updatePersistentDrawer } from "../../Utils/Features/persistentDrawerSlice";
+import { updateFetchListviewState } from "../../Utils/Features/fetchListviewSlice";
 
 // let book = {
 //     asin: "B01N5AX61W",
@@ -59,16 +61,21 @@ const ideacardIconStyling = {
 
 const IdeacardDivComponent = ({ data, setOpen }) => {
     const ideacardData = useSelector((state) => state.ideacardReducer.value)
+    const dataType = useSelector((state) => state.persistentDrawerReducer.value)
     const dispatch = useDispatch();
     const clickHandler = () => {
-        if (!ideacardData || ideacardData?._id !== data?._id)
+        if (!ideacardData || ideacardData?._id !== data?._id) {
             dispatch(updateIdeacardData(data));
-        else
+            dispatch(updatePersistentDrawer('ideaCard'));
+        }
+        else {
+            dispatch(updatePersistentDrawer(null));
             dispatch(updateIdeacardData(null));
+        }
     }
     useEffect(() => {
-        setOpen(ideacardData)
-    }, [ideacardData])
+        setOpen(dataType)
+    }, [dataType])
     return (
         <li
             className={`ideacardDiv ideacard-${data.label_id}`}
@@ -87,6 +94,8 @@ const IdeacardDivComponent = ({ data, setOpen }) => {
 
 function ListView(props) {
     /* STATES */
+    let fetchListview = useSelector((state) => state.fetchListviewReducer.value);
+
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
     const [resizableWidth, setResizableWidth] = useState(527);
@@ -98,7 +107,6 @@ function ListView(props) {
     const dispatch = useDispatch()
 
     let { state } = useLocation();
-    console.log(state);
 
     const callForLevelCounter = (levelCounter) => {
         if (levelCounter > maxCount) {
@@ -110,7 +118,6 @@ function ListView(props) {
     const fetchListViewData = () => {
         const token = localStorage.getItem("token");
         const userId = localStorage.getItem("userId");
-        console.log("token, userId", token, userId);
         axios
             .get(
                 `${apiRoot.endpoint}/api/content/highlights?user_id=${userId}&book_id=${state?.bookId}`,
@@ -123,7 +130,6 @@ function ListView(props) {
             .then((res) => {
                 console.log("res, ", res.data.data[0]);
                 const datax = res.data.data[0];
-                console.log("Listview, ", datax?.data.length);
                 setListViewData(res.data.data[0]);
                 setLoading(false);
             })
@@ -147,7 +153,6 @@ function ListView(props) {
     /* FUNCTION RECURSIVE TO SHOW ALL SUBCHAPTERS */
     const getContentRecursive = (item, levelCount) => {
         callForLevelCounter(levelCount);
-        console.log(levelCount);
         return (
             <>
                 {item.entries?.length ? (
@@ -190,20 +195,6 @@ function ListView(props) {
                     <ChaptersUl className="d-none highlightUl">
                         {item.highlights.map((highlight, i) => (
                             <>
-                                {highlight.context ? <ChaptersLi
-                                    key={highlight._id}
-                                    id={`highlight-${highlight.position}`}
-                                    className="highlightLi"
-                                >
-                                    <div
-                                        className="highlightDiv"
-                                    >
-                                        <SquareIcon fontSize={'small'} />
-                                        <span>
-                                            {highlight.context}
-                                        </span>
-                                    </div>
-                                </ChaptersLi> : null}
                                 {highlight.idea_cards?.length ?
                                     highlight.idea_cards.map((ideacards, index) => {
                                         return (<IdeacardDivComponent
@@ -211,6 +202,21 @@ function ListView(props) {
                                             setOpen={setOpen}
                                         />)
                                     }) : null}
+                                {highlight.context ? <ChaptersLi
+                                    key={highlight._id}
+                                    id={`highlight-${highlight.position}`}
+                                    className="highlightLi "
+                                >
+                                    <div
+                                        className="highlightDiv"
+                                    >
+                                        <SquareIcon fontSize={'small'} />
+                                        <span data-start={highlight.start} data-book_id={highlight.book_id} id={highlight._id} className="highlightSpan ">
+                                            {highlight.context}
+                                        </span>
+                                    </div>
+                                </ChaptersLi> : null}
+
                             </>
                         ))}
                     </ChaptersUl>
@@ -249,24 +255,6 @@ function ListView(props) {
             }
         }
     }
-    const displayNoneHandlerForAll = (ulChilds) => {
-        const childNodes = ulChilds.childNodes;
-        for (var i = 0; i < childNodes.length; ++i) {
-            let item = childNodes[i].id
-            console.log('childNodes[i]', item.split('chapters-')[1]);
-
-            if (item && item.tagName === 'UL') {
-                if (item.value.indexOf("d-none") != -1) {
-                    item.classList.remove("d-none");
-                } else {
-                    item.classList.add("d-none");
-                }
-
-            }
-
-
-        }
-    }
     /* FUNCTION TO OPEN OR CLOSE SUBCHAPTERS */
 
     const openOrCloseChapters = (index, doubleClickAction) => {
@@ -303,40 +291,23 @@ function ListView(props) {
         }
     }
 
-    /* FUNCTION TO GET THE EXACT ARROW CARET */
-    const getExactCaret = (index) => {
-        if (!loading) {
-            const element = document.querySelectorAll(`#chapters-${index} > ul `);
-            for (var i = 0; i < element.length; ++i) {
-                let item = element[i].classList;
-                console.log(item);
-                if (item) {
-                    if (item.value.indexOf("d-none") != -1) {
-                        console.log("to aqui");
-                        return true;
-                    } else {
-                        console.log("to aqui");
-                        return false;
-                    }
-                }
-            }
-        }
-    };
-
     useEffect(() => {
         // console.log('listViewData', listViewDatax)
         // setListViewData(listViewDatax.data[0])
         fetchListViewData();
     }, []);
     useEffect(() => {
-        console.log('maxCount', maxCount);
+        if (fetchListview) {
+            fetchListViewData();
+            dispatch(updateFetchListviewState(false))
+        }
+    }, [fetchListview]);
+    useEffect(() => {
         dispatch(updateLevelCounter(maxCount));
-
     }, [maxCount]);
     useEffect(() => {
         if (listViewData?.book) {
             setBookMetaData(listViewData?.book[0]);
-            console.log("book", bookMetaData);
         }
     }, [listViewData]);
 
@@ -360,7 +331,7 @@ function ListView(props) {
                                     <Breadcum state={state} />
 
                                     {bookMetaData && <BookDetails book={bookMetaData} open={open} resizableWidth={resizableWidth} setResizableWidth={setResizableWidth} />}
-                                    <CardStrucutureBook>
+                                    <CardStrucutureBook className="listViewParent">
                                         {listViewData?.data?.length ? (
                                             <ChaptersUl style={{ margin: "0", border: "none" }}>
                                                 {listViewData?.data?.map((item, index) => {

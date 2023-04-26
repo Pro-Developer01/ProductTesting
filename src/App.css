@@ -315,3 +315,8 @@ input::placeholder {
   text-overflow: ellipsis;
   width: 100%;
 }
+
+span {
+  user-select: text;
+  cursor: text;
+}

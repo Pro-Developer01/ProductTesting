@@ -6,6 +6,7 @@ import {
   dynamicBulletHandler,
   getLabelId,
 } from "../helperFunctions/getIdeacardIcons";
+import highlightTester from "../helperFunctions/highlightTester";
 
 const routes = [
   {
@@ -107,7 +108,6 @@ const ShowMenu = () => {
     stateCheckerLoop();
     collectSelectedIdeas(routes[1].subRoutes);
   };
-
   const selectHandler = () => {
     if (selectState.selectAll) {
       routes[1].subRoutes.forEach((item) => {
@@ -140,7 +140,6 @@ const ShowMenu = () => {
       },
     },
   };
-
   const showAnimation = {
     hidden: {
       width: 0,
@@ -160,7 +159,7 @@ const ShowMenu = () => {
 
   //ClickHandlers
   const showMenuClickHandler = (menuItem, id) => {
-    if (menuItem === "Highlights") {
+    if (menuItem === "Highlights" && highlightTester()) {
       const liChilds = document.querySelectorAll(".highlightLi");
       const highlightButton = document.querySelector(`#${id}`);
       setHighlightState(!highlightState);
@@ -193,9 +192,11 @@ const ShowMenu = () => {
     }));
     routes[1].subRoutes = stateFullAllIcons;
 
-    const highlightButton = document.querySelector(`#Highlights-0`);
-    highlightButton.classList.remove("link");
-    highlightButton.classList.add("activeState");
+    if (highlightTester()) {
+      const highlightButton = document.querySelector(`#Highlights-0`);
+      highlightButton.classList.remove("link");
+      highlightButton.classList.add("activeState");
+    }
   }, []);
   return (
     <div className="NavigationMenu">
