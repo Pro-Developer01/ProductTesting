@@ -25,6 +25,7 @@ import axios from "axios";
 import { apiRoot } from "../../helperFunctions/apiRoot";
 import { useSelector, useDispatch } from 'react-redux'
 import { updatePersistentDrawer } from "../../Utils/Features/persistentDrawerSlice";
+import { updateFetchListviewState } from "../../Utils/Features/fetchListviewSlice";
 
 
 let dummyData = {
@@ -77,7 +78,7 @@ export default function CreateIdeaCardPage() {
 
   const [data, setData] = useState(dummyData);
   const [title, setTitle] = useState(dummyData.title);
-  const [isIcCreatedYet, setIsIcCreatedYet] = useState(null);
+  const [isIcCreatedYet, setIsIcCreatedYet] = useState(1);
   const currentLocation = window.location.pathname;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [timer, setTimer] = React.useState(null);
@@ -103,6 +104,13 @@ export default function CreateIdeaCardPage() {
     tempNotes.user_id = userId;
     setData(tempNotes);
   }
+
+  const handleTextFieldKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleDataChange()
+    }
+  };
   const handleButtonClick = () => {
     // Handle button click event here
     console.log('Button clicked');
@@ -123,6 +131,7 @@ export default function CreateIdeaCardPage() {
         console.log("posted ideacard Successfully", res);
         console.log("posted ideacard Successfully", res.data.data);
         setIsIcCreatedYet(res.data.data)
+        dispatch(updateFetchListviewState(true))
       })
       .catch((err) => {
         console.log("err", err);
@@ -150,6 +159,7 @@ export default function CreateIdeaCardPage() {
       )
       .then((res) => {
         console.log("updated ideacard Successfully", res);
+        dispatch(updateFetchListviewState(true))
       })
       .catch((err) => {
         console.log("err", err);
@@ -165,7 +175,9 @@ export default function CreateIdeaCardPage() {
 
   useEffect(() => {
     if (data.title) {
-      if (!isIcCreatedYet) {
+      if (isIcCreatedYet === 1) {
+        setIsIcCreatedYet(2);
+        console.log('postIdeaCardData called');
         postIdeaCardData()
       }
       else {
@@ -231,6 +243,7 @@ export default function CreateIdeaCardPage() {
               placeholder="Enter Title"
               onChange={(e) => setTitle(e.target.value)}
               onBlur={handleDataChange}
+              onKeyDown={handleTextFieldKeyDown}
               variant="standard"
             />
           </Stack>
