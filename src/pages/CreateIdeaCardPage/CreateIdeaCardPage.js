@@ -28,9 +28,9 @@ import { updatePersistentDrawer } from "../../Utils/Features/persistentDrawerSli
 
 
 let dummyData = {
-  "book_id": "dsds",
+  "book_id": null,
   "label_id": getLabelId('KEYWORDS'),
-  "highlight_id": "ddsd",
+  "highlight_id": null,
   "title": "",
   "my_notes": [],
   "picture_link": "",
@@ -73,6 +73,7 @@ export default function CreateIdeaCardPage() {
   let identifyIdeaCard = useSelector((state) => state.IdentifyIdeaCardReducer.value);
   const dispatch = useDispatch()
   const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
 
   const [data, setData] = useState(dummyData);
   const [title, setTitle] = useState(dummyData.title);
@@ -99,6 +100,7 @@ export default function CreateIdeaCardPage() {
   const handleDataChange = () => {
     const tempNotes = JSON.parse(JSON.stringify(data));
     tempNotes.title = title;
+    tempNotes.user_id = userId;
     setData(tempNotes);
   }
   const handleButtonClick = () => {
@@ -133,6 +135,7 @@ export default function CreateIdeaCardPage() {
     delete updatedData.start
     delete updatedData.end
     delete updatedData.label_id
+    delete updatedData.user_id
     console.log('updatedData', updatedData);
     axios
       .put(
@@ -197,7 +200,7 @@ export default function CreateIdeaCardPage() {
           padding: "0.5rem 0",
           paddingTop: "0",
           marginTop: "10px",
-          }}
+        }}
       >
         <div className="ideacard-Title">
           {/* //CardHeaderTitle */}
@@ -257,69 +260,69 @@ export default function CreateIdeaCardPage() {
               marginRight: '10px',
             }}
           >
-       <div style={{
-                display: 'flex',
-                
-                width: '100%',
-                
-              }}
-                 >     
-            {/* Upload button */}
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                borderRadius: '50%',
-                width: '25px',
-                height: '25px',
-                backgroundColor: '#a6a6a6',
-                marginLeft: '2%',//Adjustable
-                marginTop: '10px',
-                marginRight: '10px',
-              }}
+            <div style={{
+              display: 'flex',
+
+              width: '100%',
+
+            }}
             >
-              <IconButton onClick={handleButtonClick} style={{ color: 'white' }}>
-                <FileUploadOutlinedIcon />
-              </IconButton>
-            </div>
-            {/* Google Search box */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                backgroundColor: '#f2f2f2',
-                width: '80%',  //Adjustable
-                height: '28px',
-                borderRadius: '5px',
-                border: '1px solid #a4a4a4',
-                marginTop: '10px',
-                paddingLeft: '10px',
-                paddingRight: '10px',
-              }}
-            >
-              <TextField
-                fullWidth
-                size="small"
-                variant="standard"
-                placeholder="Search Google Image"
-                InputProps={{
-                  disableUnderline: true,
-                  endAdornment: (
-                    <IconButton edge="end">
-                      <SearchIcon />
-                    </IconButton>
-                  ),
+              {/* Upload button */}
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  borderRadius: '50%',
+                  width: '25px',
+                  height: '25px',
+                  backgroundColor: '#a6a6a6',
+                  marginLeft: '2%',//Adjustable
+                  marginTop: '10px',
+                  marginRight: '10px',
                 }}
-              />
+              >
+                <IconButton onClick={handleButtonClick} style={{ color: 'white' }}>
+                  <FileUploadOutlinedIcon />
+                </IconButton>
+              </div>
+              {/* Google Search box */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  backgroundColor: '#f2f2f2',
+                  width: '80%',  //Adjustable
+                  height: '28px',
+                  borderRadius: '5px',
+                  border: '1px solid #a4a4a4',
+                  marginTop: '10px',
+                  paddingLeft: '10px',
+                  paddingRight: '10px',
+                }}
+              >
+                <TextField
+                  fullWidth
+                  size="small"
+                  variant="standard"
+                  placeholder="Search Google Image"
+                  InputProps={{
+                    disableUnderline: true,
+                    endAdornment: (
+                      <IconButton edge="end">
+                        <SearchIcon />
+                      </IconButton>
+                    ),
+                  }}
+                />
+              </div>
             </div>
-        </div>
-            <div style={{ display: 'flex', width:'150px' }}></div> {/* Transparent container to adjust create ideacard width */}
+            <div style={{ display: 'flex', width: '150px' }}></div> {/* Transparent container to adjust create ideacard width */}
             {/* Text */}
-            <div style={{ display: 'flex', marginTop: '120px', position: 'absolute',marginLeft: '25%',marginRight: '25%', }}> {/*Adjustable margins*/}
+            <div style={{ display: 'flex', marginTop: '120px', position: 'absolute', marginLeft: '25%', marginRight: '25%', }}> {/*Adjustable margins*/}
               <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#a6a6a6' }}>Search and select an Image</span>
             </div>
-            </div>  
-         
+          </div>
+
 
           {data.picture_link && (
             <img

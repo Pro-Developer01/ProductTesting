@@ -57,17 +57,7 @@ export default function NewIdeaButton() {
     let showIdentifyIC = highlightTester();
     const currentLocation = window.location.pathname;
     useEffect(() => {
-        const handleEsc = (event) => {
-            if (event.keyCode === 27) {
-                console.log("Close");
-                setopenOptions(false);
-            }
-        };
-        window.addEventListener("keydown", handleEsc);
 
-        return () => {
-            window.removeEventListener("keydown", handleEsc);
-        };
     }, []);
     useEffect(() => {
         showIdentifyIC = highlightTester();
@@ -81,10 +71,11 @@ export default function NewIdeaButton() {
                 <div className="NewIdeaPosition">
                     {openOptions && (
                         <>
-                            <IdeaOptions text={"Create idea"} icon={"tips_and_updates"} />
+                            <IdeaOptions text={"Create idea"} icon={"tips_and_updates"} setopenOptions={setopenOptions} />
                             {showIdentifyIC && <IdeaOptions
                                 text={"Identify idea"}
                                 icon={"drive_file_rename_outline"}
+                                setopenOptions={setopenOptions}
                             />}
                         </>
                     )}
@@ -101,10 +92,9 @@ export default function NewIdeaButton() {
 
 
 
-const IdeaOptions = ({ text, icon }) => {
+const IdeaOptions = ({ text, icon, setopenOptions }) => {
     const [open, setOpen] = React.useState(false);
     const [buttonState, setButtonState] = useState(null);
-    const labelId = getLabelId('KEYWORDS')
 
     const dispatch = useDispatch()
     const showAnimation = {
@@ -124,43 +114,6 @@ const IdeaOptions = ({ text, icon }) => {
         },
     };
 
-    const handleEnter = (event) => {
-        if (event.keyCode === 13 && window.getSelection().toString().length > 0) {
-            const selection = window.getSelection();
-            const title = selection.toString()
-            const itemSelf = selection.anchorNode.parentElement
-            const start = itemSelf.dataset.start;
-            const book_id = itemSelf.dataset.book_id;
-            const highlight_id = selection.anchorNode.parentElement.id;
-            const ideacardObj = {
-                book_id,
-                "label_id": getLabelId('KEYWORDS'),
-                highlight_id,
-                title,
-                start,
-                "my_notes": [],
-                "picture_link": "",
-                "rating": 0,
-                "tags": [],
-                "level": 0,
-                "end": null
-            }
-            dispatch(updateIdentifyIdeaCardData(ideacardObj));
-            dispatch(updatePersistentDrawer('identify Ideacard'))
-            console.log("selectedText", ideacardObj);
-        }
-    };
-
-
-    const clickHandler = (type) => {
-        if (type === buttonState) {
-            setButtonState(null)
-        }
-        else {
-            setButtonState(type)
-        }
-    }
-
     const setCursorClass = () => {
         const allItems = document.querySelectorAll('.highlightLi');
         for (let i = 0; i < allItems.length; i++) {
@@ -177,6 +130,65 @@ const IdeaOptions = ({ text, icon }) => {
         }
     }
 
+    const identifyICCreater = () => {
+        const userId = localStorage.getItem("userId");
+        const selection = window.getSelection();
+        const title = selection.toString()
+        const itemSelf = selection.anchorNode.parentElement
+        const start = itemSelf.dataset.start;
+        const book_id = itemSelf.dataset.book_id;
+        const highlight_id = selection.anchorNode.parentElement.id;
+        const ideacardObj = {
+            book_id,
+            "label_id": getLabelId('KEYWORDS'),
+            highlight_id,
+            title,
+            start,
+            "user_id": userId,
+            "my_notes": [],
+            "picture_link": "",
+            "rating": 0,
+            "tags": [],
+            "level": 0,
+            "end": null
+        }
+        if (highlight_id.length && start.length) {
+            removeCursorClass();
+            dispatch(updateIdentifyIdeaCardData(ideacardObj));
+            dispatch(updatePersistentDrawer('identify Ideacard'))
+            document.removeEventListener("keydown", handleEnter);
+            document.removeEventListener('click', handleTextClick);
+            console.log("selectedText", ideacardObj);
+        }
+    }
+
+    const handleTextClick = (event) => {
+        const selectedText = window.getSelection().toString();
+        if (selectedText.length > 0 && event.target === document.getSelection().anchorNode.parentNode) {
+            console.log('Selected text: ' + selectedText);
+            identifyICCreater()
+        }
+    };
+
+    const handleEnter = (event) => {
+        if (event.keyCode === 13 && window.getSelection().toString().length > 0) {
+            console.log('Enter is pressed');
+            identifyICCreater()
+        }
+    };
+
+
+    const clickHandler = (type) => {
+        if (type === buttonState) {
+            setButtonState(null)
+        }
+        else {
+            setButtonState(type)
+        }
+    }
+
+
+
     const buttonStateHandler = () => { //this func will run after clickhandler
         if (buttonState) {
             if (buttonState === 'Create idea') {
@@ -189,6 +201,7 @@ const IdeaOptions = ({ text, icon }) => {
             }
         }
         else {
+            console.log("buttonState null runned", buttonState);
             dispatch(updatePersistentDrawer(null))
             dispatch(updateIdentifyIdeaCardData(null));
             setOpen(false)
@@ -199,14 +212,30 @@ const IdeaOptions = ({ text, icon }) => {
 
     const Close = () => {
         setOpen(false);
+        setopenOptions(false);
     };
 
     useEffect(() => {
+        const handleEsc = (event) => {
+            if (event.keyCode === 27) { // esc clicked
+                console.log("Close");
+                setButtonState(false)
+                setopenOptions(false);
+            }
+        };
+        window.addEventListener("keydown", handleEsc);
+        document.addEventListener('click', handleTextClick);
+        return () => {
+        };
+
         return () => {
             console.log('removed')
-            document.removeEventListener("keydown", handleEnter);
+            window.removeEventListener("keydown", handleEsc);
+
+
         };
     }, [])
+
     useEffect(() => {
         buttonStateHandler()
     }, [buttonState])
@@ -250,8 +279,8 @@ const IdeaOptions = ({ text, icon }) => {
                 </AnimatePresence>
             </button>
 
-            <Drawer anchor={"right"} open={open} onClose={Close} 
-             PaperProps={{ style: { backgroundColor: "transparent", boxShadow: "none" } }}> {/*Making the drawer background transparent*/}
+            <Drawer anchor={"right"} open={open} onClose={Close}
+                PaperProps={{ style: { backgroundColor: "transparent", boxShadow: "none" } }}> {/*Making the drawer background transparent*/}
                 <KeyboardDoubleArrowRightIcon
                     fontSize="medium"
                     style={clossDoubleArrowStyle}

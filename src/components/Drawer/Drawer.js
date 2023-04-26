@@ -25,7 +25,7 @@ const clossDoubleArrowStyle = {
 const closeCrossButtonStyle = {
     borderRadius: "33px",
     position: "fixed",
-    top: "82px",
+    top: "73px",
     right: "32px",
     zIndex: 13,
     cursor: "pointer",
