@@ -33,6 +33,10 @@
   background: lightgray;
   border-radius: 33px;
 }
+.listViewParent span {
+  user-select: text;
+  cursor: text;
+}
 .ideacardDiv {
   display: flex;
   gap: 7px;
@@ -56,7 +60,7 @@
   color: black;
 }
 .customCursor {
-  cursor: url("../../../public/Assets/identify_orange_cn.svg"), auto !important;
+  cursor: url("../../../public/Assets/markerIcon.svg"), auto !important;
 }
 
 .highlightDiv svg {
