@@ -8,7 +8,20 @@ import DashBoard from "./pages/DashBoard/DashBoard";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import loginAuths from "./helperFunctions/logingFunction";
 import fetchIdeacardIcons from "./helperFunctions/getIdeacardIcons";
+import LoginPage from "./pages/Login/Signup/LoginPage";
 /*Shreyash is in the code now*/
+
+const signUp = {
+  heading: 'Create DeepRead account',
+  page: 'signUp',
+  alternate: 'Sign in'
+
+}
+const login = {
+  heading: 'Sign in',
+  page: 'login',
+  alternate: 'Create DeepRead account'
+}
 const theme = createTheme({
   typography: {
     fontFamily: [
@@ -42,6 +55,8 @@ function App() {
             <SideBar />
             <Routes>
               <Route path="/*" element={<DashBoard />} />
+              <Route path="/login" element={<LoginPage content={login} />} />
+              <Route path="/register" element={<LoginPage content={signUp} />} />
               <Route path="*" element={<> not found</>} />
             </Routes>
           </Router>

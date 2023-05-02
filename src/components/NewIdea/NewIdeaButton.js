@@ -17,6 +17,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import Identify from "../../Assets/Identify";
 import Identify_White from "../../Assets/Identify_White";
+import Marker from "../../Assets/Marker";
 
 const style = {
     position: "absolute",
@@ -309,7 +310,7 @@ const IdeaOptions = ({ text, icon, setopenOptions }) => {
                         {text}
                     </motion.div>
                     {text === 'Identify idea' ? buttonState !== text ? <Identify /> : <Identify_White />
-                        // {text === 'Identify idea' ? <img src="../../Assets/Identify.svg" style={{ width: '27px' }} alt="newIdeaCard" />
+                        // {text === 'Identify idea' ? <Marker />
                         : <span className="material-symbols-outlined">{icon}</span>}
                 </AnimatePresence>
             </button>
