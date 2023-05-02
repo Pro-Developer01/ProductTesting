@@ -137,19 +137,42 @@ const IdeaOptions = ({ text, icon, setopenOptions }) => {
             allItems[i].children[0].children[1].classList.remove('customCursor')
         }
     }
+    const handleTextPopup = (event) => {
+        const selection = window.getSelection().toString().trim();
+        if (selection !== '') {
+            const popup = document.createElement('div');
+            popup.className = 'popup';
+            popup.textContent = 'Press ENTER to Create Ideacard';
+            document.body.appendChild(popup);
+
+            const range = window.getSelection().getRangeAt(0);
+            const rect = range.getBoundingClientRect();
+            popup.style.top = `${rect.bottom - 53}px`;
+            popup.style.left = ((rect.left + rect.right) / 2 - 88) + 'px';
+        };
+    }
+    const removePopup = () => {
+        const popupElement = document.querySelector('.popup');
+        popupElement.parentNode.removeChild(popupElement);
+
+    }
     const handleEnter = (event) => {
         if (event.keyCode === 13 && window.getSelection().toString().length > 0) {
             console.log('Enter is pressed');
             identifyICCreater()
         }
+        removePopup()
     };
+    console.log('count', count);
     const handleEscGlobal = (event) => {
         if (event.keyCode === 27) { // esc clicked
             if (!count) {
+                console.log('count first', count);
                 setButtonState(false)
                 setopenOptions(false);
             }
             else {
+                console.log('count else', count);
                 window.getSelection().removeAllRanges();
             }
         }
@@ -183,17 +206,13 @@ const IdeaOptions = ({ text, icon, setopenOptions }) => {
             dispatch(updateIdentifyIdeaCardData(ideacardObj));
             dispatch(updatePersistentDrawer('identify Ideacard'))
             window.removeEventListener("keydown", handleEnter);
+            window.removeEventListener("mouseup", handleTextPopup);
+            window.removeEventListener('mousedown', removePopup);
             console.log("selectedText", ideacardObj);
         }
     }
 
-    const handleTextClick = (event) => {
-        const selectedText = window.getSelection().toString();
-        if (selectedText.length > 0 && event.target === document.getSelection().anchorNode.parentNode) {
-            console.log('Selected text: ' + selectedText);
-            identifyICCreater()
-        }
-    };
+
 
     const clickHandler = (type) => {
         if (type === buttonState) {
@@ -212,7 +231,8 @@ const IdeaOptions = ({ text, icon, setopenOptions }) => {
             else if (buttonState === 'Identify idea') {
                 setCount(true)
                 window.addEventListener("keydown", handleEnter);
-                // window.addEventListener('click', handleTextClick);
+                window.addEventListener('mouseup', handleTextPopup);
+                window.addEventListener('mousedown', removePopup);
                 setCursorClass();
                 setOpen(false)
             }
@@ -225,6 +245,8 @@ const IdeaOptions = ({ text, icon, setopenOptions }) => {
             removeCursorClass();
             window.getSelection().removeAllRanges();
             window.removeEventListener("keydown", handleEnter);
+            window.removeEventListener('mousedown', removePopup);
+
         }
     }
 

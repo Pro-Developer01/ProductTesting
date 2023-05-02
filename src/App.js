@@ -37,7 +37,6 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-
         <div className="rootContainer">
           <Router>
             <SideBar />
