@@ -272,7 +272,20 @@ main {
 }
 
 /* //Global Css */
-
+.Sub-heading {
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--fontColor);
+}
+.xtra-small {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--fontColor);
+}
+.bold {
+  font-weight: bold;
+  color: var(--fontColor);
+}
 /* //Scrollbar Css */
 /* width */
 ::-webkit-scrollbar {
@@ -317,7 +330,7 @@ input::placeholder {
 }
 
 .cursoreChangeAll {
-  cursor: url("../public/Assets/markerIcon.svg"), auto !important;
+  cursor: url("../public/Assets/MarkerWithPointer_xs.svg"), auto !important;
 }
 
 .popup {

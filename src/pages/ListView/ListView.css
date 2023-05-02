@@ -60,7 +60,7 @@
   color: black;
 }
 .customCursor {
-  cursor: url("../../../public/Assets/markerIcon.svg"), auto !important;
+  cursor: url("../../../public/Assets/MarkerWithPointer_xs.svg"), auto !important;
 }
 
 .highlightDiv svg {
