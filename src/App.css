@@ -286,6 +286,9 @@ main {
   font-weight: bold;
   color: var(--fontColor);
 }
+.cursor-pointer {
+  cursor: pointer;
+}
 /* //Scrollbar Css */
 /* width */
 ::-webkit-scrollbar {

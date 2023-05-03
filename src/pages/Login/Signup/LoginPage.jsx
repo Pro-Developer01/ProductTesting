@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import "./LoginPage.css";
 import { Link } from "react-router-dom";
 import MyCheckbox from "../../../helperFunctions/checkbox";
 
 const LoginPage = ({ content }) => {
   const { heading, page, alternate } = content;
+  const [showPassword, setShowPassword] = useState(false);
   const handleLogin = (e) => {
     e.preventDefault();
     // Perform login logic here
@@ -31,12 +32,17 @@ const LoginPage = ({ content }) => {
           <div>
             <form onSubmit={handleLogin}>
               <div className="form-inputs">
-                <label>
+                <label htmlFor="email">
                   {" "}
                   <span className="bold">Email</span> or{" "}
                   <span className="bold">Username</span>
                 </label>
-                <input type="text" placeholder="Enter your email" required />
+                <input
+                  type="text"
+                  placeholder="Enter your email"
+                  name="email"
+                  required
+                />
                 {page === "signUp" && (
                   <>
                     <label>
@@ -50,10 +56,15 @@ const LoginPage = ({ content }) => {
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   <span className="bold">Password</span>{" "}
-                  <span className="xtra-small">show</span>{" "}
+                  <span
+                    className="xtra-small cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    show
+                  </span>{" "}
                 </label>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   required
                 />
@@ -61,7 +72,8 @@ const LoginPage = ({ content }) => {
 
               <div className="form-footer">
                 <div className="stay-signed-in">
-                  <MyCheckbox label="Stay signed in"/>              <p className="forgot-password xtra-small">
+                  <MyCheckbox label="Stay signed in" />{" "}
+                  <p className="forgot-password xtra-small">
                     <a href="/ForgotPassword">Forgot your Password ? </a>
                   </p>
                 </div>
@@ -99,11 +111,19 @@ const LoginPage = ({ content }) => {
 
               <div className="third-party-login">
                 <button className="google-login-button">
-                <img className="button-icon" src={require("../../../Assets/google logo.jpg")} alt="Google Icon" />
+                  <img
+                    className="button-icon"
+                    src={require("../../../Assets/google logo.jpg")}
+                    alt="Google Icon"
+                  />
                   <strong>Sign in with Google </strong>
                 </button>
                 <button className="amazon-login-button">
-                <img className="button-icon" src={require("../../../Assets/amazon logo.jpg")}  alt="Amazon Icon" />
+                  <img
+                    className="button-icon"
+                    src={require("../../../Assets/amazon logo.jpg")}
+                    alt="Amazon Icon"
+                  />
                   <strong>Sign in with Amazon</strong>
                 </button>
               </div>
