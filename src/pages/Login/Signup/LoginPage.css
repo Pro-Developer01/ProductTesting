@@ -24,13 +24,13 @@
 h1 {
   /* margin-bottom: 2px; */
   font-family: "Bell MT", sans-serif;
-  font-size: 5rem;
+  font-size: 4rem;
   /* font-weight: bolder; */
 }
 
 h2 {
   font-family: "Calibri", sans-serif;
-  font-size: 3rem;
+  font-size: 2rem;
   /* font-weight: lighter;
   margin-top: 20px; */
 }
@@ -55,7 +55,7 @@ h2 {
   /* margin-bottom: 20px; */
   display: flex;
   flex-flow: column;
-  gap: 2rem;
+  gap: 1.2rem;
 }
 
 /* .login-form h2 {
@@ -99,15 +99,6 @@ h2 {
   align-items: center;
   justify-content: space-between;
 }
-.stay-signed-in label {
-  margin-left: 5px;
-  /* margin-right: 200px; */
-}
-
-.stay-signed-in input[type="checkbox"]:checked::before {
-  background-color: #ff6404;
-  border-color: #ff6404;
-}
 
 .forgot-password {
   /* font-size: 12px;
@@ -128,7 +119,7 @@ h2 {
   margin-right: 55px;
 } */
 
-button {
+.login-form button {
   /* width: 85%; */
   padding: 10px;
   background-color: #ff6404;
@@ -139,10 +130,23 @@ button {
   /* margin-bottom: 10px;
   margin-left: 30px; */
   font-size: 1rem;
+  opacity: 0.8;
+}
+.login-form button:hover {
+  opacity: 0.9;
+}
+.login-form button:active {
+  opacity: 1;
 }
 
 .create-account-button {
-  background-color: #5a8cc8;
+  background-color: #5a8cc8 !important;
+  transition: background-color 0.3s ease; /* Add transition for smooth effect */
+  cursor: pointer;
+}
+
+.create-account-button:hover {
+  background-color: #4381cd !important; /* Add desired background color on hover */
 }
 
 .small-or {
@@ -196,4 +200,35 @@ button {
 
 .third-party-login button {
   background-color: #717171;
+}
+
+.google-login-button,
+.amazon-login-button {
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease; /* Add transition for smooth effect */
+  cursor: pointer; /* Add cursor pointer for better user interaction */
+}
+
+.button-icon {
+  height: 25px;
+  margin-right: 10px;
+  border-radius: 4px;
+}
+
+.google-login-button strong,
+.amazon-login-button strong {
+  margin-left: 15%;
+}
+
+.google-login-button:hover,
+.amazon-login-button:hover {
+  background-color: #575757; /* Add desired background color on hover */
+}
+
+.google-login-button:active,
+.amazon-login-button:active {
+  background-color: #000000; /* Add desired background color on click */
 }
