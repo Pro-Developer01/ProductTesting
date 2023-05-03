@@ -1,6 +1,7 @@
 import React from "react";
 import "./LoginPage.css";
 import { Link } from "react-router-dom";
+import MyCheckbox from "../../../helperFunctions/checkbox";
 
 const LoginPage = ({ content }) => {
   const { heading, page, alternate } = content;
@@ -60,11 +61,7 @@ const LoginPage = ({ content }) => {
 
               <div className="form-footer">
                 <div className="stay-signed-in">
-                  <div>
-                    <input type="checkbox" id="stay-signed-in" />
-                    <label htmlFor="stay-signed-in">Stay signed in</label>
-                  </div>
-                  <p className="forgot-password xtra-small">
+                  <MyCheckbox label="Stay signed in"/>              <p className="forgot-password xtra-small">
                     <a href="/ForgotPassword">Forgot your Password ? </a>
                   </p>
                 </div>
@@ -102,9 +99,11 @@ const LoginPage = ({ content }) => {
 
               <div className="third-party-login">
                 <button className="google-login-button">
+                <img className="button-icon" src={require("../../../Assets/google logo.jpg")} alt="Google Icon" />
                   <strong>Sign in with Google </strong>
                 </button>
                 <button className="amazon-login-button">
+                <img className="button-icon" src={require("../../../Assets/amazon logo.jpg")}  alt="Amazon Icon" />
                   <strong>Sign in with Amazon</strong>
                 </button>
               </div>
