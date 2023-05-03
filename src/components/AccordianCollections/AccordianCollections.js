@@ -692,6 +692,11 @@ export default function LibraryAccordian({ metaData }) {
 
 export function IdeaCardAccordian({ data }) {
     console.log("data of Ideacard", data);
+
+    const headingStyle = {
+        marginLeft: -2, // Set left margin to zero
+      };
+
     return (
         <div>
             {/* //Mynotes */}
@@ -700,7 +705,7 @@ export function IdeaCardAccordian({ data }) {
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
-                    sx={{ color: "var(--fontColor)" }}
+                     sx={{ color: "var(--fontColor)", ...headingStyle }} 
                 >
                     MY NOTES
                 </AccordionSummary>
@@ -713,6 +718,7 @@ export function IdeaCardAccordian({ data }) {
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
+                    sx={headingStyle}
                 >
                     TOPICS
                 </AccordionSummary>
@@ -725,6 +731,7 @@ export function IdeaCardAccordian({ data }) {
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
+                    sx={headingStyle}
                 >
                     RECOMMENDED BY
                 </AccordionSummary>
@@ -737,6 +744,7 @@ export function IdeaCardAccordian({ data }) {
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
+                    sx={headingStyle}
                 >
                     BOOK STRUCTURE
                 </AccordionSummary>
@@ -751,6 +759,7 @@ export function IdeaCardAccordian({ data }) {
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
+                    sx={headingStyle}
                 >
                     LINK STRUCTURE
                 </AccordionSummary>
@@ -761,6 +770,9 @@ export function IdeaCardAccordian({ data }) {
 }
 export function CreateIdeaCardAccordian({ data }) {
     // console.log("data of Ideacard", data);
+    const headingStyle = {
+        marginLeft: -2, // Set left margin to zero
+      };
     return (
         <div>
             {/* //Mynotes */}
@@ -769,7 +781,7 @@ export function CreateIdeaCardAccordian({ data }) {
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
-                    sx={{ color: "var(--fontColor)" }}
+                    sx={{ color: "var(--fontColor)", ...headingStyle }} 
                 >
                     MY NOTES
                 </AccordionSummary>
@@ -781,6 +793,7 @@ export function CreateIdeaCardAccordian({ data }) {
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
+                    sx={headingStyle}
                 >
                     LINKED HIGHLIGHTS
                 </AccordionSummary>
@@ -792,6 +805,7 @@ export function CreateIdeaCardAccordian({ data }) {
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
+                    sx={headingStyle}
                 >
                     TOPICS
                 </AccordionSummary>
@@ -806,6 +820,7 @@ export function CreateIdeaCardAccordian({ data }) {
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
+                    sx={headingStyle}
                 >
                     BOOK STRUCTURE
                 </AccordionSummary>
@@ -820,6 +835,7 @@ export function CreateIdeaCardAccordian({ data }) {
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
+                    sx={headingStyle}
                 >
                     LINK STRUCTURE
                 </AccordionSummary>
