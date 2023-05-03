@@ -38,11 +38,14 @@ function BookDetails(props) {
 
   function resize(e) {
     const width = startWidth + e.pageX - startX;
-    setResizableWidth(width);
+    if (width > 527) {
+      setResizableWidth(width);
+    }
   }
 
   function stopResize() {
     document.body.style.cursor = "auto"; // set cursor back to auto
+    window.removeEventListener("mousedown", startResize);
     window.removeEventListener("mousemove", resize);
     window.removeEventListener("mouseup", stopResize);
   }
@@ -85,7 +88,18 @@ function BookDetails(props) {
           onMouseDown={(e) => {
             e.preventDefault();
             document.addEventListener("mousedown", startResize);
+            // startResize();
           }}
+          // onMouseMove={(e) => {
+          //   e.preventDefault();
+          //   // document.addEventListener("mousedown", startResize);
+          //   resize(e);
+          // }}
+          // onMouseUp={(e) => {
+          //   e.preventDefault();
+          //   // document.addEventListener("mousedown", startResize);
+          //   stopResize();
+          // }}
           fontSize="medium"
         />
       )}

@@ -15,7 +15,7 @@ import { styled } from "@mui/material/styles";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import PortraitIcon from "@mui/icons-material/Portrait";
+import DiamondOutlinedIcon from '@mui/icons-material/DiamondOutlined';
 import {
   dynamicBulletHandler,
   getLabelId,
@@ -205,15 +205,38 @@ export default function CreateIdeaCardPage() {
       <div
         style={{
           border: "1px solid var(--borderColors)",
+          borderTop: 'none',
           padding: "7px",
           borderRadius: "12px ",
           background: "white",
-          margin: "0 0 0 0.7rem",
+          margin: "0 0 4.5rem 0.7rem",
           padding: "0.5rem 0",
           paddingTop: "0",
         }}
       >
+
         <div className="ideacard-Title">
+          {/* //Shared by */}
+          <Stack
+            direction="row"
+            justifyContent="left"
+            alignItems="center"
+            spacing={1}
+            mb={1}
+            sx={{ paddingLeft: "3.2rem", paddingRight: "0.5rem" }}
+          >
+            <DiamondOutlinedIcon
+              sx={{ fontSize: "14px", color: "lightslategrey" }}
+            />
+            <span
+              style={{
+                fontSize: "12px",
+                color: "lightslategrey",
+              }}
+            >
+              <b>My own content</b>{" "}
+            </span>
+          </Stack>
           {/* //CardHeaderTitle */}
           <Stack
             direction="row"
@@ -224,13 +247,16 @@ export default function CreateIdeaCardPage() {
             sx={{ paddingLeft: "0.5rem", paddingRight: "0.5rem" }}
           >
             <span
-              id="ideaCardLabels"
+              id="ideaCardLabels-createIdeacard"
               aria-controls={open ? "ideaCardLabelsMenu" : undefined}
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
               onClick={(e) => {
                 handleClick(e);
                 e.stopPropagation();
+              }}
+              style={{
+                marginTop: "-1px",
               }}
             >
               {getIdeacardIcons(getLabelId('KEYWORDS'), "large")}
@@ -244,6 +270,7 @@ export default function CreateIdeaCardPage() {
               onBlur={handleDataChange}
               onKeyDown={handleTextFieldKeyDown}
               variant="standard"
+              autoFocus
             />
           </Stack>
         </div>
@@ -269,7 +296,6 @@ export default function CreateIdeaCardPage() {
               border: '1px solid #a4a4a4',
               backgroundColor: '#ededed',
               marginLeft: '45px',
-              marginRight: '10px',
             }}
           >
             <div style={{
@@ -385,7 +411,7 @@ export default function CreateIdeaCardPage() {
         open={open}
         onClose={() => handleClose()}
         MenuListProps={{
-          "aria-labelledby": "ideaCardLabels",
+          "aria-labelledby": "ideaCardLabels-createIdeacard",
         }}
         anchorOrigin={{
           vertical: "bottom",

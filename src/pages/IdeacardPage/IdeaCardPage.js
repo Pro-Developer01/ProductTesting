@@ -125,10 +125,11 @@ export default function IdeaCardPage() {
           <div
             style={{
               border: "1px solid var(--borderColors)",
+              borderTop: 'none',
               padding: "7px",
               borderRadius: "12px ",
               background: "white",
-              margin: "0 0 0 0.7rem",
+              margin: "0 0 4.5rem 0.7rem",
               padding: "0.5rem 0",
               paddingTop: "0",
             }}
@@ -173,11 +174,9 @@ export default function IdeaCardPage() {
                     handleClick(e);
                     e.stopPropagation();
                   }}
-                // style={{
-                //   height: "fit-content",
-                //   display: "inline-block",
-                //   marginTop: "17px",
-                // }}
+                  style={{
+                    marginTop: "-7px",
+                  }}
                 >
                   {getIdeacardIcons(data.label_id, "large")}
                 </span>
