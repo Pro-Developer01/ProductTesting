@@ -45,7 +45,6 @@ function BookDetails(props) {
 
   function stopResize() {
     document.body.style.cursor = "auto"; // set cursor back to auto
-    window.removeEventListener("mousedown", startResize);
     window.removeEventListener("mousemove", resize);
     window.removeEventListener("mouseup", stopResize);
   }
@@ -87,18 +86,8 @@ function BookDetails(props) {
           style={resizeHandleStyle}
           onMouseDown={(e) => {
             e.preventDefault();
-            document.addEventListener("mousedown", startResize);
-            // startResize();
+            startResize(e)
           }}
-          // onMouseMove={(e) => {
-          //   e.preventDefault();
-          //   // document.addEventListener("mousedown", startResize);
-          //   resize(e);
-          // }}
-          // onMouseUp={() => {
-          //   // document.addEventListener("mousedown", startResize);
-          //   stopResize();
-          // }}
           fontSize="medium"
         />
       )}
