@@ -45,7 +45,7 @@ const closeCrossButtonStyle = {
     borderRadius: "33px",
     position: "fixed",
     top: "34px",
-    right: "25px",
+    right: "11px",
     zIndex: 13,
     cursor: "pointer",
     color: "var(--fontColor)",

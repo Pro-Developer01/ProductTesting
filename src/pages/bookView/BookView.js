@@ -247,7 +247,7 @@ export default function BookView() {
                             border: "1px solid var(--borderColors)",
                             borderRadius: "12px ",
                             background: "white",
-                            padding: "0.7rem",
+                            padding: "0.7rem 0",
                         }}
                     >
                         <Stack direction={"column"} sx={{ width: "100%" }}>
@@ -305,7 +305,7 @@ export default function BookView() {
                                             <h3 >{bookData?.title.length > 98 ? bookData?.title.slice(0, 99) + '...' : bookData?.title}</h3>
                                             {/* </Tooltip> */}
                                             <span className="">By {bookData?.author?.replace(/;/g, ' & ').split(' & ').map(name => name.split(', ').reverse().join(' ')).join(' & ')}
-</span>
+                                            </span>
                                         </div>
 
                                         {/* //Timline */}
@@ -381,7 +381,7 @@ export default function BookView() {
                                         </div>
                                     </Stack>
                                 </Stack>
-                                <div className="fetchStatusIconContainer">
+                                <div className="fetchStatusIconContainer cursor-pointer">
                                     {loadingFullData ? (
                                         <CircularLoading />
                                     ) : metaData.length ? (
@@ -415,8 +415,8 @@ export default function BookView() {
                                     </Stack>
                                 </div>
                             </div>
-                            <hr />
-                            <div>
+                            <hr style={{ border: '1px solid var(--borderColors)' }} />
+                            <div className="otherAccordians" >
                                 <LibraryAccordian metaData={metaData} />
                             </div>
                         </Stack>

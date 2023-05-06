@@ -87,6 +87,49 @@ const linksInfo = [
         content: "Plateau of latent Potential",
     },
 ];
+const linksInfoMenuItems = [
+    {
+        bullet: "up",
+        content: "Parent link",
+        icon: <UpgradeIcon
+            sx={{
+                backgroundColor: "grey",
+                borderRadius: "33px",
+                color: "white",
+                width: 19,
+                height: 19,
+            }}
+        />
+    },
+    {
+        bullet: "down",
+        content: "Child link",
+        icon: <UpgradeIcon
+            sx={{
+                backgroundColor: "grey",
+                borderRadius: "33px",
+                color: "white",
+                width: 19,
+                height: 19,
+                transform: "rotateZ(180deg)",
+            }}
+        />
+    },
+    {
+        bullet: "horizontal",
+        content: "Neutral Link",
+        icon: <HeightIcon
+            sx={{
+                backgroundColor: "grey",
+                borderRadius: "33px",
+                color: "white",
+                width: 19,
+                height: 19,
+                transform: "rotateZ(90deg)",
+            }}
+        />
+    },
+];
 const recommendation = ["Erwin", "Mauro"];
 const accordianBorder = {
     borderTop: "1px solid var(--borderColors)",
@@ -95,6 +138,9 @@ const accordianBorder = {
 const MenuItemStyles = {
     margin: "5px 1px",
     borderRadius: "30px",
+};
+const headingStyle = {
+    marginLeft: -2, // Set left margin to zero
 };
 const MyNotes = ({ myNotesData }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -391,6 +437,7 @@ const LinkStructure = () => {
     const [link, setLink] = useState("");
     const [indexOfBullet, setIndexOfBullet] = useState(0);
     const [linkData, setLinkData] = useState(linksInfo);
+    const [activeBullet, setActiveBullet] = useState('horizontal');
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const inputFeildStyle = {
@@ -515,6 +562,7 @@ const LinkStructure = () => {
                                 onClick={(e) => {
                                     handleClick(e);
                                     setIndexOfBullet(index);
+                                    setActiveBullet(item.bullet)
                                 }}
                                 style={{ height: "fit-content" }}
                             >
@@ -554,44 +602,24 @@ const LinkStructure = () => {
                     horizontal: 28,
                 }}
             >
-                <MenuItem sx={MenuItemStyles} onClick={() => handleClose("horizontal")}>
-                    <HeightIcon
-                        sx={{
-                            backgroundColor: "grey",
-                            borderRadius: "33px",
-                            color: "white",
-                            width: 19,
-                            height: 19,
-                            transform: "rotateZ(90deg)",
-                        }}
-                    />
-                    &nbsp; Neutral Link
-                </MenuItem>
-                <MenuItem sx={MenuItemStyles} onClick={() => handleClose("down")}>
-                    <UpgradeIcon
-                        sx={{
-                            backgroundColor: "grey",
-                            borderRadius: "33px",
-                            color: "white",
-                            width: 19,
-                            height: 19,
-                            transform: "rotateZ(180deg)",
-                        }}
-                    />
-                    &nbsp; Child link
-                </MenuItem>
-                <MenuItem sx={MenuItemStyles} onClick={() => handleClose("up")}>
-                    <UpgradeIcon
-                        sx={{
-                            backgroundColor: "grey",
-                            borderRadius: "33px",
-                            color: "white",
-                            width: 19,
-                            height: 19,
-                        }}
-                    />
-                    &nbsp; Parent link
-                </MenuItem>
+                {linksInfoMenuItems.map((item, key) => (
+                    <MenuItem key={key} sx={MenuItemStyles} onClick={() => handleClose(item.bullet)}>
+
+                        {activeBullet === item.bullet ?
+                            <>
+                                {item.icon}
+                                &nbsp;&nbsp;<strong>{item.content}</strong>
+                            </>
+                            :
+                            <>
+                                <span style={{
+                                    opacity: '0.4', height: '22px'
+                                }}>{item.icon}</span>
+                                &nbsp;  {item.content}
+                            </>}
+
+                    </MenuItem>
+                ))}
             </Menu>
         </>
     );
@@ -635,14 +663,14 @@ const Recommendation = ({ recommendationString }) => {
 
 export default function LibraryAccordian({ metaData }) {
     return (
-        <div>
+        <>
             {/* //Mynotes */}
             <Accordion elevation={0} defaultExpanded={true}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
-                    sx={{ color: "var(--fontColor)" }}
+                    sx={{ color: "var(--fontColor)", ...headingStyle }}
                 >
                     MY NOTES
                 </AccordionSummary>
@@ -655,8 +683,10 @@ export default function LibraryAccordian({ metaData }) {
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
+                    sx={headingStyle}
+
                 >
-                    TOPICS
+                    TAGS
                 </AccordionSummary>
                 <Topics tagData={metaData[0]?.tags} />
             </Accordion>
@@ -667,6 +697,8 @@ export default function LibraryAccordian({ metaData }) {
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
+                    sx={headingStyle}
+
                 >
                     RECOMMENDED BY
                 </AccordionSummary>
@@ -679,6 +711,8 @@ export default function LibraryAccordian({ metaData }) {
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
+                    sx={headingStyle}
+
                 >
                     GRAPH
                 </AccordionSummary>
@@ -686,16 +720,12 @@ export default function LibraryAccordian({ metaData }) {
                     <p>to be done later</p>
                 </AccordionDetails>
             </Accordion>
-        </div>
+        </>
     );
 }
 
 export function IdeaCardAccordian({ data }) {
     console.log("data of Ideacard", data);
-
-    const headingStyle = {
-        marginLeft: -2, // Set left margin to zero
-      };
 
     return (
         <div>
@@ -705,7 +735,7 @@ export function IdeaCardAccordian({ data }) {
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
-                     sx={{ color: "var(--fontColor)", ...headingStyle }} 
+                    sx={{ color: "var(--fontColor)", ...headingStyle }}
                 >
                     MY NOTES
                 </AccordionSummary>
@@ -720,7 +750,7 @@ export function IdeaCardAccordian({ data }) {
                     id="panel1a-header"
                     sx={headingStyle}
                 >
-                    TOPICS
+                    TAGS
                 </AccordionSummary>
                 <Topics tagData={data?.tags} />
             </Accordion>
@@ -770,9 +800,7 @@ export function IdeaCardAccordian({ data }) {
 }
 export function CreateIdeaCardAccordian({ data }) {
     // console.log("data of Ideacard", data);
-    const headingStyle = {
-        marginLeft: -2, // Set left margin to zero
-      };
+
     return (
         <div>
             {/* //Mynotes */}
@@ -781,7 +809,7 @@ export function CreateIdeaCardAccordian({ data }) {
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
-                    sx={{ color: "var(--fontColor)", ...headingStyle }} 
+                    sx={{ color: "var(--fontColor)", ...headingStyle }}
                 >
                     MY NOTES
                 </AccordionSummary>
@@ -807,7 +835,7 @@ export function CreateIdeaCardAccordian({ data }) {
                     id="panel1a-header"
                     sx={headingStyle}
                 >
-                    TOPICS
+                    TAGS
                 </AccordionSummary>
                 <Topics tagData={data?.tags} />
             </Accordion>
