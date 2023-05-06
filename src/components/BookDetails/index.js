@@ -95,8 +95,7 @@ function BookDetails(props) {
           //   // document.addEventListener("mousedown", startResize);
           //   resize(e);
           // }}
-          // onMouseUp={(e) => {
-          //   e.preventDefault();
+          // onMouseUp={() => {
           //   // document.addEventListener("mousedown", startResize);
           //   stopResize();
           // }}

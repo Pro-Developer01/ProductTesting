@@ -57,39 +57,27 @@ const MenuItemStyles = {
   margin: "5px 1px",
   borderRadius: "30px",
 };
-
+const inactiveLabelIconStyle = {
+  backgroundColor: 'var(--greyColor)', borderRadius: '33px', color: 'white', padding: '3px'
+}
 const socialButtonsStyle = { color: "darkgrey" };
-const AccordionSummaryCustom = styled((props) => (
-  <MuiAccordionSummary {...props} />
-))(({ theme }) => ({
-  "& .MuiAccordionSummary-content": {
-    margin: 0,
-  },
-  "&& .Mui-expanded": {
-    margin: 0,
-    marginBottom: "23px",
-  },
-}));
+// const AccordionSummaryCustom = styled((props) => (
+//   <MuiAccordionSummary {...props} />
+// ))(({ theme }) => ({
+//   "& .MuiAccordionSummary-content": {
+//     margin: 0,
+//   },
+//   "&& .Mui-expanded": {
+//     margin: 0,
+//     marginBottom: "23px",
+//   },
+// }));
 
 export default function IdeaCardPage() {
   const ideacardData = useSelector((state) => state.ideacardReducer.value);
   const [data, setData] = useState(ideacardData);
+  const [activeLabel, setActiveLabel] = useState(getLabelId());
   const currentLocation = window.location.pathname;
-  const [breadcrumbs, setBreadcrumbs] = useState([
-    <Link
-      underline="hover"
-      key="1"
-      color="inherit"
-      href={currentLocation}
-      onClick={() => { }}
-    >
-      <Chip
-        avatar={<TipsAndUpdatesIcon />}
-        sx={{ fontWeight: 600 }}
-        label={currentLocation.substring(1)}
-      />
-    </Link>,
-  ]);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const allIcons = JSON.parse(localStorage.getItem("ideacardIcons"));
@@ -100,19 +88,21 @@ export default function IdeaCardPage() {
     setData(tempData);
   };
 
-  const handleClick = (event) => {
+  const handleClick = (event, labelId) => {
     setAnchorEl(event.currentTarget);
+    setActiveLabel(labelId)
   };
   const handleClose = (iconLabelId) => {
     setAnchorEl(null);
     // setIconOption(option);
-    const tempNotes = data;
+    const tempNotes = JSON.parse(JSON.stringify(data));
     console.log("tempNotes", tempNotes);
     tempNotes.label_id = iconLabelId;
     console.log("iconLabelId", iconLabelId);
     setData(tempNotes);
   };
 
+  console.log("activeLabel", activeLabel);
   useEffect(() => {
     setData(ideacardData);
   }, [ideacardData]);
@@ -171,7 +161,7 @@ export default function IdeaCardPage() {
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
                   onClick={(e) => {
-                    handleClick(e);
+                    handleClick(e, data.label_id);
                     e.stopPropagation();
                   }}
                   style={{
@@ -258,8 +248,15 @@ export default function IdeaCardPage() {
                   sx={MenuItemStyles}
                   onClick={() => handleClose(item._id)}
                 >
-                  {dynamicBulletHandler(item.label, "medium")} &nbsp;{" "}
-                  {item.label}
+
+                  {item._id == activeLabel ?
+                    <>
+                      {dynamicBulletHandler(item.label, "medium")} &nbsp;<strong>&nbsp;{item.label}</strong>
+                    </>
+                    :
+                    <>
+                      {dynamicBulletHandler(item.label, "medium", inactiveLabelIconStyle)}&nbsp; &nbsp;{item.label}
+                    </>}
                 </MenuItem>
               );
             })}
