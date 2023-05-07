@@ -166,6 +166,7 @@ export default function IdeaCardPage() {
                   style={{
                     marginTop: "-7px",
                   }}
+                  className="cursor-pointer"
                 >
                   {getIdeacardIcons(data.label_id, "large")}
                 </span>
