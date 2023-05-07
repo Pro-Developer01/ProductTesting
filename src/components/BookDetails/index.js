@@ -25,12 +25,13 @@ const resizeHandleStyle = {
 function BookDetails(props) {
   /* PROPS */
   const { book, open, resizableWidth, setResizableWidth } = props;
+  const initialWidth = document.getElementById('listViewResizable-Container')?.offsetWidth;
   let startX;
   let startWidth;
   /* FUNCTIONS */
   function startResize(e) {
     startX = e.pageX;
-    startWidth = parseInt(resizableWidth);
+    startWidth = parseInt(initialWidth);
     document.body.style.cursor = "col-resize"; // set cursor to col-resize
     window.addEventListener("mousemove", resize);
     window.addEventListener("mouseup", stopResize);
@@ -38,7 +39,7 @@ function BookDetails(props) {
 
   function resize(e) {
     const width = startWidth + e.pageX - startX;
-    if (width > 527) {
+    if (width > 609) {
       setResizableWidth(width);
     }
   }

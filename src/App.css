@@ -297,12 +297,12 @@ main {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: var(--BackgroundColor);
+  /* background: var(--BackgroundColor); */
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: darkgrey;
 }
 
 /* Handle on hover */

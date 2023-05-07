@@ -5,10 +5,10 @@
   flex-direction: column;
   align-items: center;
   padding-top: 0;
-  /* background-color: var(--BackgroundColor); */
+  padding-bottom: 0;
 }
 .feedBoxLayout {
-  width: 50%;
+  width: 48%;
 }
 .libraryLists {
   width: 100%;
@@ -68,7 +68,7 @@
 }
 .ideacard-Title {
   position: sticky;
-  top: 0px;
+  top: -3px;
   background: white;
   z-index: 11;
   padding-top: 0.5rem;

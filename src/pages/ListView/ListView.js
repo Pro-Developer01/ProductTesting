@@ -98,12 +98,11 @@ function ListView(props) {
 
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
-    const [resizableWidth, setResizableWidth] = useState(527);
+    const [resizableWidth, setResizableWidth] = useState(null);
     const [listViewData, setListViewData] = useState({});
     const [bookMetaData, setBookMetaData] = useState({});
     const [maxCount, setMaxCount] = useState(1);
     let levelCount = 1
-    // let levelCount = useSelector((state) => state.levelCounterReducer.value);
     const dispatch = useDispatch()
 
     let { state } = useLocation();
@@ -320,18 +319,22 @@ function ListView(props) {
                 {!loading ? (
                     <>
                         <PersistentDrawerRight
+                            open={open}
+                            resizableWidth={resizableWidth}
                             childrenx={
                                 <div
                                     style={{
-                                        width: open ? "100%" : `${resizableWidth}px`,
+                                        width: open ? "100%" : `${resizableWidth ? resizableWidth + 'px' : '100%'}`,
                                         position: "relative",
-                                        height: '84%'
+                                        height: '100%',
+                                        display: 'flex',
+                                        flexDirection: 'column'
                                     }}
+                                    id="listViewResizable-Container"
                                 >
                                     <Breadcum state={state} />
-
                                     {bookMetaData && <BookDetails book={bookMetaData} open={open} resizableWidth={resizableWidth} setResizableWidth={setResizableWidth} />}
-                                    <CardStrucutureBook className="listViewParent">
+                                    <CardStrucutureBook className="listViewParent"  >
                                         {listViewData?.data?.length ? (
                                             <ChaptersUl style={{ margin: "0", border: "none" }}>
                                                 {listViewData?.data?.map((item, index) => {

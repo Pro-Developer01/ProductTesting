@@ -54,7 +54,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
     })
 );
 
-export default function PersistentDrawerRight({ childrenx }) {
+export default function PersistentDrawerRight({ open, resizableWidth, childrenx }) {
     const theme = useTheme();
     // const [open, setOpen] = React.useState(false);
     const ideacardData = useSelector((state) => state.ideacardReducer.value)
@@ -89,7 +89,10 @@ export default function PersistentDrawerRight({ childrenx }) {
     // }, [dataType])
 
     return (
-        <Box sx={{ display: "flex", height: '100%' }}>
+        <Box sx={{
+            display: "flex", height: '100%', width: open ? "100%" : (resizableWidth ? resizableWidth + 'px' : '48%'),
+
+        }}>
             <Main open={dataType}>{childrenx}</Main>
             <Drawer
                 sx={{
