@@ -21,6 +21,7 @@ import Stack from "@mui/material/Stack";
 import CloseIcon from "@mui/icons-material/Close";
 import "../../pages/MyLibrary/MyLibrary.css";
 import AnchorIcon from '@mui/icons-material/Anchor';
+import Notes from "../../helperFunctions/Notes";
 // import { ReactComponent as Identify } from "../../Assets/Identify.svg";
 
 const iconStyling = {
@@ -742,7 +743,7 @@ export function IdeaCardAccordian({ data }) {
                 >
                     MY NOTES
                 </AccordionSummary>
-                <MyNotes myNotesData={data?.own_thoughts} />
+                <Notes/>
             </Accordion>
 
             {/* //Topic */}
@@ -787,7 +788,7 @@ export function IdeaCardAccordian({ data }) {
             </Accordion>
 
             {/* //LINK STRUCTURE */}
-            <Accordion elevation={0} sx={accordianBorder} defaultExpanded={true}>
+            <Accordion elevation={0}  defaultExpanded={true}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -816,7 +817,7 @@ export function CreateIdeaCardAccordian({ data }) {
                 >
                     MY NOTES
                 </AccordionSummary>
-                <MyNotes myNotesData={data?.my_notes} />
+                <Notes/>
             </Accordion>
             {/* //LINKED HIGHLIGHTS */}
             {data?.highlight_id && <Accordion elevation={0} sx={accordianBorder} defaultExpanded={true}>
