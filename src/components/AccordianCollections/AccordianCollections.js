@@ -28,6 +28,9 @@ const iconStyling = {
     width: 22,
     height: 22,
 };
+const accordianDetailStyling = {
+    padding: 0
+};
 const anchorIconStyle = {
     backgroundColor: 'var(--primaryColor)', borderRadius: '33px', color: 'white', width: 20,
     height: 20, padding: '2px'
@@ -246,7 +249,7 @@ const MyNotes = ({ myNotesData }) => {
     }, [myNotesData]);
     return (
         <>
-            <AccordionDetails>
+            <AccordionDetails sx={accordianDetailStyling}>
                 {notesData?.length ? (
                     <>
                         {notesData.map((item, index) => {
@@ -348,7 +351,7 @@ const MyNotes = ({ myNotesData }) => {
 const LinkedHighlights = ({ highlightId }) => {
     return (
         <>
-            <AccordionDetails>
+            <AccordionDetails sx={accordianDetailStyling}>
                 <div
                     style={{ display: "flex", gap: "8px", marginBottom: "15px" }}
                 >
@@ -395,7 +398,7 @@ const Topics = ({ tagData }) => {
     };
     return (
         <>
-            <AccordionDetails>
+            <AccordionDetails sx={accordianDetailStyling}>
                 {tagsData?.length ? (
                     <>
                         {tagsData.map((item, index) => {
@@ -519,7 +522,7 @@ const LinkStructure = () => {
     };
     return (
         <>
-            <AccordionDetails>
+            <AccordionDetails sx={accordianDetailStyling}>
                 <div style={{ display: "flex", alignItems: "center", gap: "2.7px" }}>
                     {dynamicBulletHandler("horizontal")} &nbsp;
                     <VpnKeySharpIcon
@@ -627,7 +630,7 @@ const LinkStructure = () => {
 const Recommendation = ({ recommendationString }) => {
     return (
         <>
-            <AccordionDetails>
+            <AccordionDetails sx={accordianDetailStyling}>
                 {recommendationString?.length ? (
                     recommendation.map((item, index) => {
                         return (
@@ -716,7 +719,7 @@ export default function LibraryAccordian({ metaData }) {
                 >
                     GRAPH
                 </AccordionSummary>
-                <AccordionDetails>
+                <AccordionDetails sx={accordianDetailStyling}>
                     <p>to be done later</p>
                 </AccordionDetails>
             </Accordion>
@@ -778,7 +781,7 @@ export function IdeaCardAccordian({ data }) {
                 >
                     BOOK STRUCTURE
                 </AccordionSummary>
-                <AccordionDetails>
+                <AccordionDetails sx={accordianDetailStyling}>
                     <p>to be done later</p>
                 </AccordionDetails>
             </Accordion>
@@ -852,7 +855,7 @@ export function CreateIdeaCardAccordian({ data }) {
                 >
                     BOOK STRUCTURE
                 </AccordionSummary>
-                <AccordionDetails>
+                <AccordionDetails sx={accordianDetailStyling}>
                     <p>to be done later</p>
                 </AccordionDetails>
             </Accordion>}

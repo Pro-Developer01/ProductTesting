@@ -66,7 +66,9 @@ const EditableTextField = styled(TextField)(({ theme }) => ({
 }));
 
 const socialButtonsStyle = { color: "darkgrey" };
-
+const inactiveLabelIconStyle = {
+  backgroundColor: 'var(--greyColor)', borderRadius: '33px', color: 'white', padding: '3px'
+}
 
 export default function CreateIdeaCardPage() {
   // const ideacardData = useSelector((state) => state.ideacardReducer.value);
@@ -76,6 +78,7 @@ export default function CreateIdeaCardPage() {
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
 
+  const [activeLabel, setActiveLabel] = useState(getLabelId());
   const [data, setData] = useState(dummyData);
   const [title, setTitle] = useState(dummyData.title);
   const [isIcCreatedYet, setIsIcCreatedYet] = useState(1);
@@ -91,7 +94,7 @@ export default function CreateIdeaCardPage() {
   const handleClose = (iconLabelId) => {
     setAnchorEl(null);
     // setIconOption(option);
-    const tempNotes = data;
+    const tempNotes = JSON.parse(JSON.stringify(data));
     console.log("tempNotes", tempNotes);
     tempNotes.label_id = iconLabelId;
     console.log("iconLabelId", iconLabelId);
@@ -212,6 +215,7 @@ export default function CreateIdeaCardPage() {
           margin: "0 0 4.5rem 0.7rem",
           padding: "0.5rem 0",
           paddingTop: "0",
+          width: '573px'
         }}
       >
 
@@ -254,12 +258,13 @@ export default function CreateIdeaCardPage() {
               onClick={(e) => {
                 handleClick(e);
                 e.stopPropagation();
+                setActiveLabel(getLabelId('KEYWORDS')) //need to be changed
               }}
               style={{
                 marginTop: "-1px",
               }}
             >
-              {getIdeacardIcons(getLabelId('KEYWORDS'), "large")}
+              {getIdeacardIcons(data.label_id, "large")}
             </span>
 
             <EditableTextField
@@ -429,8 +434,15 @@ export default function CreateIdeaCardPage() {
               sx={MenuItemStyles}
               onClick={() => handleClose(item._id)}
             >
-              {dynamicBulletHandler(item.label, "medium")} &nbsp;{" "}
-              {item.label}
+
+              {item._id == activeLabel ?
+                <>
+                  {dynamicBulletHandler(item.label, "medium")} &nbsp;<strong>&nbsp;{item.label}</strong>
+                </>
+                :
+                <>
+                  {dynamicBulletHandler(item.label, "medium", inactiveLabelIconStyle)}&nbsp; &nbsp;{item.label}
+                </>}
             </MenuItem>
           );
         })}

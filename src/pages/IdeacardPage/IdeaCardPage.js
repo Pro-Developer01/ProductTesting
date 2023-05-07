@@ -31,6 +31,7 @@ import {
   getIdeacardIcons,
 } from "../../helperFunctions/getIdeacardIcons";
 import { useSelector } from "react-redux";
+import DiamondOutlinedIcon from '@mui/icons-material/DiamondOutlined';
 
 // let booksData = {
 //   _id: "642325574dc0760034d8f977",
@@ -96,13 +97,10 @@ export default function IdeaCardPage() {
     setAnchorEl(null);
     // setIconOption(option);
     const tempNotes = JSON.parse(JSON.stringify(data));
-    console.log("tempNotes", tempNotes);
     tempNotes.label_id = iconLabelId;
-    console.log("iconLabelId", iconLabelId);
     setData(tempNotes);
   };
 
-  console.log("activeLabel", activeLabel);
   useEffect(() => {
     setData(ideacardData);
   }, [ideacardData]);
@@ -134,7 +132,7 @@ export default function IdeaCardPage() {
                 mb={1}
                 sx={{ paddingLeft: "3.4rem", paddingRight: "0.5rem" }}
               >
-                <PortraitIcon
+                <DiamondOutlinedIcon
                   sx={{ fontSize: "14px", color: "lightslategrey" }}
                 />
                 <span
@@ -143,7 +141,8 @@ export default function IdeaCardPage() {
                     color: "lightslategrey",
                   }}
                 >
-                  Shared By: <b>Mauro Guerini</b>{" "}
+
+                  <b>My own content</b>{" "}
                 </span>
               </Stack>
               {/* //CardHeaderTitle */}
