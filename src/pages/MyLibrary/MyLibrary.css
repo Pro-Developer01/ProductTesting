@@ -68,7 +68,7 @@
 }
 .ideacard-Title {
   position: sticky;
-  top: -3px;
+  top: 0px;
   background: white;
   z-index: 11;
   padding-top: 0.5rem;
