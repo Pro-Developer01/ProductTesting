@@ -26,7 +26,7 @@ const LoginPage = ({ content }) => {
               <Link to={`${page === "signUp" ? "/login" : "/register"}`}>
                 {alternate}
               </Link>{" "}
-              Instead
+              instead
             </span>
           </div>
           <div>
@@ -34,8 +34,10 @@ const LoginPage = ({ content }) => {
               <div className="form-inputs">
                 <label htmlFor="email">
                   {" "}
-                  <span className="bold">Email</span> or{" "}
-                  <span className="bold">Username</span>
+                  <span className="bold">Email</span>
+                  {page !== "signUp" && (
+                    <span className="bold"> or Username</span>
+                  )}
                 </label>
                 <input
                   type="text"
@@ -60,7 +62,7 @@ const LoginPage = ({ content }) => {
                     className="xtra-small cursor-pointer"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    show
+                    {showPassword ? "hide" : "show"}
                   </span>{" "}
                 </label>
                 <input
@@ -80,7 +82,7 @@ const LoginPage = ({ content }) => {
 
                 <button type="submit">
                   {" "}
-                  <strong>Sign In</strong>{" "}
+                  <strong>{heading}</strong>{" "}
                 </button>
                 <p className="small-text">
                   By continuing, you agree to DeepRead’s{" "}

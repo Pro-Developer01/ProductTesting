@@ -9,11 +9,17 @@ const theme = createTheme({
     MuiCheckbox: {
       styleOverrides: {
         root: {
-          color: '#ff6404', // Set desired checked color
+          color: 'var(--primaryColor)', // Set desired checked color
           '&.Mui-checked': {
-            color: '#ff6404', // Set desired checked color
+            color: 'var(--primaryColor)', // Set desired checked color
           },
         },
+        typography: {
+          fontFamily: [
+            "Lato",
+            'sans-serif',
+          ].join(','),
+        }
       },
     },
   },
@@ -36,7 +42,12 @@ const MyCheckbox = ({ label }) => {
           />
         }
         label={
-          <Typography variant="body1" style={{ fontSize: '14px', fontWeight: 'bold' }}>
+          <Typography variant="body1" style={{
+            fontSize: '14px', fontWeight: 'bold', fontFamily: [
+              "Lato",
+              'sans-serif',
+            ].join(','),
+          }}>
             {label}
           </Typography>
         }
