@@ -67,12 +67,18 @@
   font-size: 21px;
 }
 .ideacard-Title {
-  position: sticky;
-  top: 0px;
   background: white;
   z-index: 11;
   padding-top: 0.5rem;
   border-radius: 12px;
-  border-top: 1px solid var(--borderColors);
-  border-left: 1px solid var(--borderColors);
+}
+.ideacardParentContainer {
+  border: 1px solid var(--borderColors);
+  padding: 0px 0px 0.5rem;
+  border-radius: 12px;
+  background: white;
+  margin: 0px 0px 4.1rem 0.7rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }

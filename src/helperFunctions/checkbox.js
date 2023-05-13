@@ -47,6 +47,8 @@ const MyCheckbox = ({ label }) => {
               "Lato",
               'sans-serif',
             ].join(','),
+            color: 'var(--fontColor)'
+
           }}>
             {label}
           </Typography>

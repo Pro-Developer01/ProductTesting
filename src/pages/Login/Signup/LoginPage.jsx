@@ -84,8 +84,8 @@ const LoginPage = ({ content }) => {
                   {" "}
                   <strong>{heading}</strong>{" "}
                 </button>
-                <p className="small-text">
-                  By continuing, you agree to DeepRead’s{" "}
+                <p className="small-text" style={{ color: "var(--fontColor)" }}>
+                  <span>By continuing, you agree to DeepRead’s </span>
                   <a href="https://app.websitepolicies.com/policies/view/AhYljQDq">
                     Conditions of Use
                   </a>{" "}
