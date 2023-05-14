@@ -21,18 +21,15 @@
   height: auto;
 }
 
-h1 {
-  /* margin-bottom: 2px; */
+.login-page h1 {
   font-family: "Bell MT", sans-serif;
   font-size: 4rem;
-  /* font-weight: bolder; */
 }
 
-h2 {
+.login-page h2 {
   font-family: "Calibri", sans-serif;
-  font-size: 2.5rem;
-  /* font-weight: lighter;
-  margin-top: 20px; */
+  font-size: 2.2rem;
+  margin-top: -24px;
 }
 
 .login-form-section {
@@ -45,43 +42,21 @@ h2 {
 
 .login-form {
   width: 70%;
-  /* height: 80%; */
   padding: 29px 67px;
   background-color: #fff;
   border-radius: 10px;
-  /* border: 1px solid #ccc; */
   align-items: left;
-  /* justify-content: left; */
-  /* margin-bottom: 20px; */
   display: flex;
   flex-flow: column;
   gap: 1.2rem;
 }
 
-/* .login-form h2 {
-  margin-bottom: 20px;
-  margin-left: 30px;
-}
-
-.login-form label {
-  display: block;
-  margin-bottom: 5px;
-  margin-left: 30px;
-} */
-
 .login-form input {
-  /* width: 80%; */
   padding: 10px;
-  /* margin-bottom: 10px; */
-  /* margin-left: 30px; */
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #f9f9f9;
 }
-
-/* .password-input {
-  position: relative;
-} */
 
 .show-password-button {
   position: absolute;
@@ -100,23 +75,11 @@ h2 {
   justify-content: space-between;
 }
 
-.forgot-password {
-  /* font-size: 12px;
-  color: #888;
-  margin-right: 30px; */
-}
 /* .small-text {
   font-size: 12px;
   color: #888;
   margin-top: 5px;
   margin-left: 30px;
-} */
-
-/* .new-account-instead {
-  font-size: 12px;
-  color: #888;
-
-  margin-right: 55px;
 } */
 
 .login-form button {
@@ -127,16 +90,14 @@ h2 {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  /* margin-bottom: 10px;
-  margin-left: 30px; */
   font-size: 1rem;
   opacity: 0.8;
 }
 .login-form button:hover {
-  opacity: 0.9;
+  background-color: #ea5f00;
 }
 .login-form button:active {
-  opacity: 1;
+  background-color: #c44f00;
 }
 
 .create-account-button {
@@ -147,6 +108,9 @@ h2 {
 
 .create-account-button:hover {
   background-color: #4381cd !important; /* Add desired background color on hover */
+}
+.create-account-button:active {
+  background-color: #1f69c3 !important; /* Add desired background color on hover */
 }
 
 .small-or {
@@ -165,7 +129,6 @@ h2 {
 .form-inputs {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   gap: 0.8rem;
 }
 
@@ -227,10 +190,14 @@ h2 {
 
 .google-login-button:hover,
 .amazon-login-button:hover {
-  background-color: #575757; /* Add desired background color on hover */
+  background-color: #575757 !important; /* Add desired background color on hover */
 }
 
 .google-login-button:active,
 .amazon-login-button:active {
-  background-color: #000000; /* Add desired background color on click */
+  background-color: #000000 !important; /* Add desired background color on click */
+}
+
+.login-page a:hover {
+  text-decoration: underline;
 }

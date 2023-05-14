@@ -15,7 +15,11 @@ const LoginPage = ({ content }) => {
     <div className="login-page">
       <div className="logo-section">
         <img src={require("../../../Assets/LogoHalf.png")} alt="Logo" />
-        <h1>DeepRead.com</h1>
+        <img
+          src={require("../../../Assets/DeepreadText.png")}
+          style={{ width: "450px" }}
+        />
+
         <h2>Leverage your reading</h2>
       </div>
       <div className="login-form-section">
@@ -84,7 +88,10 @@ const LoginPage = ({ content }) => {
                   {" "}
                   <strong>{heading}</strong>{" "}
                 </button>
-                <p className="small-text" style={{ color: "var(--fontColor)" }}>
+                <p
+                  className="small-text"
+                  style={{ color: "var(--fontColor)", fontSize: "14px" }}
+                >
                   <span>By continuing, you agree to DeepRead’s </span>
                   <a href="https://app.websitepolicies.com/policies/view/AhYljQDq">
                     Conditions of Use
