@@ -6,25 +6,12 @@ import ChatBubbleOutline from "@mui/icons-material/ChatBubbleOutline";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import Avatar from "@mui/material/Avatar";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
+
 import Stack from "@mui/material/Stack";
 import { IdeaCardAccordian } from "../../components/AccordianCollections/AccordianCollections";
-import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
-import Chip from "@mui/material/Chip";
-import { styled } from "@mui/material/styles";
-import MuiAccordionSummary, {
-  AccordionSummaryProps,
-} from "@mui/material/AccordionSummary";
+
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import PortraitIcon from "@mui/icons-material/Portrait";
 import {
   dynamicBulletHandler,
   getLabelId,
@@ -62,17 +49,6 @@ const inactiveLabelIconStyle = {
   backgroundColor: 'var(--greyColor)', borderRadius: '33px', color: 'white', padding: '3px'
 }
 const socialButtonsStyle = { color: "darkgrey" };
-// const AccordionSummaryCustom = styled((props) => (
-//   <MuiAccordionSummary {...props} />
-// ))(({ theme }) => ({
-//   "& .MuiAccordionSummary-content": {
-//     margin: 0,
-//   },
-//   "&& .Mui-expanded": {
-//     margin: 0,
-//     marginBottom: "23px",
-//   },
-// }));
 
 export default function IdeaCardPage() {
   const ideacardData = useSelector((state) => state.ideacardReducer.value);
@@ -110,18 +86,7 @@ export default function IdeaCardPage() {
       {data && (
         <>
           {" "}
-          <div
-            style={{
-              border: "1px solid var(--borderColors)",
-              borderTop: 'none',
-              padding: "7px",
-              borderRadius: "12px ",
-              background: "white",
-              margin: "0 0 4.5rem 0.7rem",
-              padding: "0.5rem 0",
-              paddingTop: "0",
-            }}
-          >
+          <div className="ideacardParentContainer" >
             <div className="ideacard-Title">
               {/* //Shared by */}
               <Stack
@@ -166,61 +131,66 @@ export default function IdeaCardPage() {
                   style={{
                     marginTop: "-7px",
                   }}
+                  className="cursor-pointer"
                 >
                   {getIdeacardIcons(data.label_id, "large")}
                 </span>
                 <h3> {data.title?.length > 253 ? data.title?.slice(0, 253) + '...' : data.title}</h3>
               </Stack>
             </div>
-            {/* //Graphics */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginTop: "12px",
-                paddingLeft: "3.6rem",
-                paddingRight: "0.5rem",
-              }}
-            >
-              {data.picture_link && (
-                <img
-                  src={data.picture_link}
-                  alt={data.title}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: "12px ",
-                  }}
-                />
-              )}
-            </div>
 
-            {/* //SocialButtons */}
+            <div style={{ overflow: ' scroll' }}>
 
-            <div
-              className="reactionButtonsContainer"
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-              style={{ paddingLeft: "3.4rem", paddingRight: "0.5rem" }}
-            >
-              <div className="socialButtons">
-                <Stack direction="row" spacing={3}>
-                  <FavoriteBorder sx={{ color: "var(--primaryColor)" }} />
-                  <ChatBubbleOutline sx={socialButtonsStyle} />
-                  <ShareIcon sx={socialButtonsStyle} />
-                </Stack>
+              {/* //Graphics */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: "12px",
+                  paddingLeft: "3.6rem",
+                  paddingRight: "0.5rem",
+                }}
+              >
+                {data.picture_link && (
+                  <img
+                    src={data.picture_link}
+                    alt={data.title}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      borderRadius: "12px ",
+                    }}
+                  />
+                )}
               </div>
-              <div className="bookmarkButtons">
-                <Stack direction="row" spacing={3}>
-                  <BookmarkBorderIcon sx={socialButtonsStyle} />
-                  <MoreVertIcon sx={socialButtonsStyle} />
-                </Stack>
+
+              {/* //SocialButtons */}
+
+              <div
+                className="reactionButtonsContainer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                style={{ paddingLeft: "3.4rem", paddingRight: "0.5rem" }}
+              >
+                <div className="socialButtons">
+                  <Stack direction="row" spacing={3}>
+                    <FavoriteBorder sx={{ color: "var(--primaryColor)" }} />
+                    <ChatBubbleOutline sx={socialButtonsStyle} />
+                    <ShareIcon sx={socialButtonsStyle} />
+                  </Stack>
+                </div>
+                <div className="bookmarkButtons">
+                  <Stack direction="row" spacing={3}>
+                    <BookmarkBorderIcon sx={socialButtonsStyle} />
+                    <MoreVertIcon sx={socialButtonsStyle} />
+                  </Stack>
+                </div>
               </div>
-            </div>
-            <hr style={{ border: "1px solid var(--borderColors)" }} />
-            <div className="otherAccordians">
-              <IdeaCardAccordian data={data} />
+              <hr style={{ border: "1px solid var(--borderColors)" }} />
+              <div className="otherAccordians">
+                <IdeaCardAccordian data={data} />
+              </div>
             </div>
           </div>
           <Menu

@@ -71,10 +71,6 @@ export default function PersistentDrawerRight({ open, resizableWidth, childrenx 
             }
         }
     }
-    // const handleDrawerOpen = () => {
-    //     setOpen(true);
-    // };
-
     const handleDrawerClose = () => {
         if (dataType === 'ideaCard') {
             dispatch(updateIdeacardData(null))
@@ -84,9 +80,6 @@ export default function PersistentDrawerRight({ open, resizableWidth, childrenx 
         }
         dispatch(updatePersistentDrawer(null))
     };
-    // React.useEffect(() => {
-
-    // }, [dataType])
 
     return (
         <Box sx={{
