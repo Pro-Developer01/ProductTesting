@@ -21,14 +21,15 @@
   height: auto;
 }
 
-h1 {
+.login-page h1 {
   font-family: "Bell MT", sans-serif;
   font-size: 4rem;
 }
 
-h2 {
+.login-page h2 {
   font-family: "Calibri", sans-serif;
-  font-size: 2.5rem;
+  font-size: 2.2rem;
+  margin-top: -24px;
 }
 
 .login-form-section {
@@ -93,10 +94,10 @@ h2 {
   opacity: 0.8;
 }
 .login-form button:hover {
-  background-color: #EA5F00;
+  background-color: #ea5f00;
 }
 .login-form button:active {
-  background-color: #C44F00;
+  background-color: #c44f00;
 }
 
 .create-account-button {
@@ -107,6 +108,9 @@ h2 {
 
 .create-account-button:hover {
   background-color: #4381cd !important; /* Add desired background color on hover */
+}
+.create-account-button:active {
+  background-color: #1f69c3 !important; /* Add desired background color on hover */
 }
 
 .small-or {
@@ -186,10 +190,14 @@ h2 {
 
 .google-login-button:hover,
 .amazon-login-button:hover {
-  background-color: #575757 !important;/* Add desired background color on hover */
+  background-color: #575757 !important; /* Add desired background color on hover */
 }
 
 .google-login-button:active,
 .amazon-login-button:active {
-  background-color: #000000 !important;/* Add desired background color on click */
+  background-color: #000000 !important; /* Add desired background color on click */
+}
+
+.login-page a:hover {
+  text-decoration: underline;
 }
