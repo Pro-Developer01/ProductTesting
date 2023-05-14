@@ -133,10 +133,10 @@ h2 {
   opacity: 0.8;
 }
 .login-form button:hover {
-  opacity: 0.9;
+  background-color: #EA5F00;
 }
 .login-form button:active {
-  opacity: 1;
+  background-color: #C44F00;
 }
 
 .create-account-button {
@@ -227,10 +227,10 @@ h2 {
 
 .google-login-button:hover,
 .amazon-login-button:hover {
-  background-color: #575757; /* Add desired background color on hover */
+  background-color: #575757 !important;/* Add desired background color on hover */
 }
 
 .google-login-button:active,
 .amazon-login-button:active {
-  background-color: #000000; /* Add desired background color on click */
+  background-color: #000000 !important;/* Add desired background color on click */
 }
