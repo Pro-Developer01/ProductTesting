@@ -288,7 +288,7 @@ const IdeaOptions = ({ text, icon, setopenOptions }) => {
                 className="link IdeaOptions"
                 // id={isOpen ? "active" : "activeCollapsible"}
                 // id= "IdeaOptions"
-                style={buttonState === text ? { backgroundColor: '#fc6606', color: 'white' } : null}
+                style={buttonState === text ? { backgroundColor: 'var(--primaryColor)', color: 'white' } : null}
                 onClick={() => clickHandler(text)}
             >  {buttonState === 'Identify idea' && (
                 <style>

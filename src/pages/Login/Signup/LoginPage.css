@@ -37,7 +37,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ff6404;
+  background-color: var(--primaryColor);
 }
 
 .login-form {
@@ -102,7 +102,7 @@
 
 .create-account-button {
   background-color: #5a8cc8 !important;
-  transition: var(--background-color) 0.3s ease; /* Add transition for smooth effect */
+  transition: background-color 0.3s ease; /* Add transition for smooth effect */
   cursor: pointer;
 }
 
@@ -123,7 +123,7 @@
 .container-login {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
 }
 
 .form-inputs {
@@ -173,7 +173,7 @@
   border-radius: 4px;
   padding: 6.6px 10px 6.6px 6.6px !important;
   gap: 19px;
-  transition: var(--background-color) 0.3s ease; /* Add transition for smooth effect */
+  transition: background-color 0.3s ease; /* Add transition for smooth effect */
   cursor: pointer; /* Add cursor pointer for better user interaction */
 }
 
