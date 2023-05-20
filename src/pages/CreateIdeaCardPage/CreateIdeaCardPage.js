@@ -290,81 +290,56 @@ export default function CreateIdeaCardPage() {
           }}
         >
           {/* Rectangular Container for Google search bar and upload button  */}
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              //justifyContent: 'center',
-              borderRadius: '10px',
-              width: '100%', //Adjustable
-              height: '253px',
-              border: '1px solid #a4a4a4',
-              backgroundColor: '#ededed',
-              marginLeft: '45px',
-            }}
-          >
-            <div style={{
-              display: 'flex',
-
-              width: '100%',
-
-            }}
-            >
-              {/* Upload button */}
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  borderRadius: '50%',
-                  width: '25px',
-                  height: '25px',
-                  backgroundColor: '#a6a6a6',
-                  marginLeft: '2%',//Adjustable
-                  marginTop: '10px',
-                  marginRight: '10px',
-                }}
-              >
-                <IconButton onClick={handleButtonClick} style={{ color: 'white' }}>
-                  <FileUploadOutlinedIcon />
-                </IconButton>
-              </div>
-              {/* Google Search box */}
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  backgroundColor: '#f2f2f2',
-                  width: '80%',  //Adjustable
-                  height: '28px',
-                  borderRadius: '5px',
-                  border: '1px solid #a4a4a4',
-                  marginTop: '10px',
-                  paddingLeft: '10px',
-                  paddingRight: '10px',
-                }}
-              >
-                <TextField
-                  fullWidth
-                  size="small"
-                  variant="standard"
-                  placeholder="Search Google Image"
-                  InputProps={{
-                    disableUnderline: true,
-                    endAdornment: (
-                      <IconButton edge="end">
-                        <SearchIcon />
-                      </IconButton>
-                    ),
-                  }}
-                />
-              </div>
+          <div style={{ display: 'flex', flexDirection: 'column', 
+                        borderRadius: '10px',
+                        width: '100%', //Adjustable
+                        height: '253px',
+                        border: '1px solid #a4a4a4',
+                        backgroundColor: '#ededed',
+                        marginLeft: '45px', }} >
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                  <div style={{ display: 'flex',
+                              justifyContent: 'center',
+                              borderRadius: '50%',
+                              width: '25px',
+                              height: '25px',
+                              backgroundColor: '#a6a6a6',
+                              marginLeft: '2%',//Adjustable
+                              marginTop: '10px',
+                              marginRight: '10px',/* Styles for the first inner div */ }}>
+                              <IconButton onClick={handleButtonClick} style={{ color: 'white' }}>
+                              <FileUploadOutlinedIcon />
+                              </IconButton>
+                  </div>
+                  <div style={{ display: 'flex',
+                              alignItems: 'center',
+                              backgroundColor: '#f2f2f2',
+                              width: '80%',  //Adjustable
+                              height: '28px',
+                              borderRadius: '5px',
+                              border: '1px solid #a4a4a4',
+                              marginTop: '10px',
+                              paddingLeft: '10px',
+                              paddingRight: '10px',/* Styles for the second inner div */ }}>
+                                <TextField
+                                fullWidth
+                                size="small"
+                                variant="standard"
+                                placeholder="Search Google Image"
+                                InputProps={{
+                                  disableUnderline: true,
+                                  endAdornment: (
+                                    <IconButton edge="end">
+                                      <SearchIcon />
+                                    </IconButton>
+                                  ),
+                                }}/>
+                 </div>
+               </div>
+             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                 <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#a6a6a6' }}>Search and select an Image</span>
             </div>
-            <div style={{ display: 'flex', width: '150px' }}></div> {/* Transparent container to adjust create ideacard width */}
-            {/* Text */}
-            <div style={{ display: 'flex', marginTop: '120px', position: 'absolute', marginLeft: '25%', marginRight: '25%', }}> {/*Adjustable margins*/}
-              <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#a6a6a6' }}>Search and select an Image</span>
-            </div>
-          </div>
+    </div>
 
 
           {data.picture_link && (
