@@ -212,14 +212,15 @@ export default function CreateIdeaCardPage() {
           padding: "7px",
           borderRadius: "12px ",
           background: "white",
-          margin: "0 0 4.5rem 0.7rem",
+          margin: "0 0 0 0.7rem",
           padding: "0.5rem 0",
           paddingTop: "0",
-          width: '573px'
+          width: '573px',
+          overflow: 'auto'
         }}
       >
 
-        <div className="ideacard-Title">
+        <div className="ideacard-Title" style={{ position: 'sticky', top: 0 }}>
           {/* //Shared by */}
           <Stack
             direction="row"
