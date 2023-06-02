@@ -318,7 +318,7 @@ const IdeaOptions = ({ text, icon, setopenOptions }) => {
             <Drawer anchor={"right"} open={open} onClose={Close}
                 PaperProps={{
                     style: {
-                        backgroundColor: "transparent", boxShadow: "none", paddingTop: '4px'
+                        backgroundColor: "transparent", boxShadow: "none", paddingTop: '4px', overflow: 'hidden'
                     }
                 }}> {/*Making the drawer background transparent*/}
                 <KeyboardDoubleArrowRightIcon
